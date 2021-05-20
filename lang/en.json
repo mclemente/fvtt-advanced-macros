@@ -1,0 +1,4 @@
+{
+    "FURNACE.MACROS.runAsGM": "Execute Macro As GM",
+    "FURNACE.MACROS.runAsGMTooltip": "This will cause the macro to be executed by the GM user when players execute it.<br/>For security reasons, only applies to GM created macros with no other owners"
+}

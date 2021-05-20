@@ -1,0 +1,45 @@
+{
+  "name": "advanced-macros",
+  "title": "Advanced Macros",
+  "description": "Use handlebars templating, recursive macro calls and call macros with arguments or directly from chat.",
+  "author": "KaKaRoTo",
+  "authors": [],
+  "url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
+  "flags": {},
+  "version": "1.0.0",
+  "minimumCoreVersion": "0.8.5",
+  "compatibleCoreVersion": "0.8.6",
+  "scripts": [
+    "libs/hljs/highlight.pack.js",
+    "Patches/Patches.js",
+    "Macros.js",
+    "QoL/Macros.js"
+  ],
+  "esmodules": [],
+  "styles": [
+    "Macros.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "packs": [
+    {
+      "name": "macros",
+      "label": "Advanced Macros",
+      "path": "packs/macros.db",
+      "private": false,
+      "entity": "Macro"
+    }
+  ],
+  "system": [],
+  "dependencies": [],
+  "socket": true,
+  "manifest": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.json",
+  "download": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.zip",
+  "protected": false,
+  "coreTranslation": false
+}
