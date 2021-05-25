@@ -85,9 +85,9 @@ class FurnaceMacros {
                 return sendResponse("Invalid user");
             if (macro.data.type !== "script")
                 return sendResponse("Invalid macro type");
-            if (!user.can())
+            if (!user.can("MACRO_SCRIPT"))
                 return sendResponse(`You are not allowed to use JavaScript macros.`);
-            if (!macro.getFlag("furnace", "runAsGM") || !macro.canRunAsGM)
+            if (!macro.getFlag("advanced-macros", "runAsGM") || !macro.canRunAsGM)
                 return sendResponse(`You are not authorized to run this macro as the GM.`);
 
             const context = FurnaceMacros.getTemplateContext(message.args, message.context);
@@ -155,7 +155,7 @@ class FurnaceMacros {
     canRunAsGM() {
         const author = game.users.get(this.data.author);
         const permissions = duplicate(this.data.permission) || {};
-        game.users.entities.forEach(user => {
+        game.users.contents.forEach(user => {
             if (user.id === this.data.author || user.isGM)
                 delete permissions[user.id];
         })
@@ -181,9 +181,9 @@ class FurnaceMacros {
             }
         }
         if (this.data.type === "script") {
-            if (!game.user.can())
+            if (!game.user.can("MACRO_SCRIPT"))
                 return ui.notifications.warn(`You are not allowed to use JavaScript macros.`);
-            if (this.getFlag("furnace", "runAsGM") && this.canRunAsGM && !game.user.isGM)
+            if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM)
                 return game.furnaceMacros.executeMacroAsGM(this, context);
             return this.callScriptFunction(context);
         }
@@ -216,7 +216,7 @@ class FurnaceMacros {
 
     // request execution of macro as a GM
     async executeMacroAsGM(macro, context) {
-        const activeGMs = game.users.entities.filter(u => u.isGM && u.active);
+        const activeGMs = game.users.contents.filter(u => u.isGM && u.active);
         if (activeGMs.length === 0) {
             ui.notifications.error(`There are no connected GMs to run the macro ${macro.name} in the GM context.`);
             return "";
@@ -350,7 +350,7 @@ class FurnaceMacros {
         if (form.length === 0) form = html;
         // Add runAsGM checkbox
         if (game.user.isGM) {
-            const runAsGM = obj.object.getFlag("furnace", "runAsGM");
+            const runAsGM = obj.object.getFlag("advanced-macros", "runAsGM");
             const canRunAsGM = obj.object.canRunAsGM;
             const typeGroup = form.find("select[name=type]").parent(".form-group");
             const gmDiv = $(`
