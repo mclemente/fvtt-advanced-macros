@@ -309,7 +309,7 @@ class FurnaceMacros {
         });
 
         if (hasMacros) {
-            mergeObject(data, { "flags.furnace.macros.template": data.content })
+            mergeObject(data, { "flags.advanced-macros.macros.template": data.content })
             // Macros were found; We need to await and cancel this message if async
             if (hasAsyncMacros) {
                 Promise.all(content).then((lines) => {
@@ -357,7 +357,7 @@ class FurnaceMacros {
                 <div class="furnace-macro-run-as-gm form-group"> 
                     <label class="form-group">
                         <span>${game.i18n.localize("FURNACE.MACROS.runAsGM")}</span>
-                        <input type="checkbox" name="flags.furnace.runAsGM" data-dtype="Boolean" ${runAsGM ? "checked" : ""} ${!canRunAsGM ? "disabled" : ""}/>
+                        <input type="checkbox" name="flags.advanced-macros.runAsGM" data-dtype="Boolean" ${runAsGM ? "checked" : ""} ${!canRunAsGM ? "disabled" : ""}/>
                     </label>
                 </div>
             `)
