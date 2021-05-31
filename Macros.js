@@ -35,7 +35,7 @@ class FurnaceMacros {
         Object.defineProperty(Macro.prototype, "canRunAsGM", { get: this.canRunAsGM });
     }
     ready() {
-        game.socket.on("module.furnace", this._onSocketMessage.bind(this));
+        game.socket.on("module.advanced-macros", this._onSocketMessage.bind(this));
     }
     uniqueID() {
         return `${game.user.id}-${Date.now()}-${randomID()}`;
@@ -52,7 +52,7 @@ class FurnaceMacros {
             if (!game.user.isGM) return;
             const electionId = this.uniqueID();
             this._GMElectionIds.push(electionId);
-            game.socket.emit("module.furnace", {
+            game.socket.emit("module.advanced-macros", {
                 action: "GMElectionID",
                 requestId: message.requestId,
                 electionId
@@ -74,7 +74,7 @@ class FurnaceMacros {
 
             const macro = game.macros.get(message.macroId);
             const user = game.users.get(message.userId);
-            const sendResponse = (error = null, result = null) => game.socket.emit("module.furnace", {
+            const sendResponse = (error = null, result = null) => game.socket.emit("module.advanced-macros", {
                 action: "GMMacroResult",
                 requestId: message.requestId,
                 error
@@ -225,7 +225,7 @@ class FurnaceMacros {
         const electionResponse = await new Promise((resolve, reject) => {
             const requestId = this.uniqueID();
             this._requestResolvers[requestId] = resolve;
-            game.socket.emit("module.furnace", {
+            game.socket.emit("module.advanced-macros", {
                 action: "ElectGMExecutor",
                 requestId
             })
@@ -238,7 +238,7 @@ class FurnaceMacros {
         const executeResponse = await new Promise((resolve, reject) => {
             const requestId = this.uniqueID();
             this._requestResolvers[requestId] = resolve;
-            game.socket.emit("module.furnace", {
+            game.socket.emit("module.advanced-macros", {
                 action: "GMExecuteMacro",
                 requestId,
                 electionId: electionResponse,
