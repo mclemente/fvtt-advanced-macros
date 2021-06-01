@@ -6,11 +6,12 @@
   "authors": [],
   "url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
   "flags": {},
-  "version": "1.4",
+  "version": "1.5",
   "minimumCoreVersion": "0.8.5",
   "compatibleCoreVersion": "0.8.6",
   "scripts": [
     "libs/hljs/highlight.pack.js",
+    "libs/tokenizer.min.js",
     "Patches/Patches.js",
     "Macros.js",
     "QoL/Macros.js"

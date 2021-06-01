@@ -264,7 +264,7 @@ class FurnaceMacros {
             return executeResponse.result;
     }
 
-    preCreateChatMessage(data, options, userId) {
+    preCreateChatMessage(chatMessage, data, options, userId) {
         if (data.content === undefined || data.content.length == 0) return;
 
         let content = data.content || "";
@@ -292,7 +292,7 @@ class FurnaceMacros {
                     if (!command) command = token;
                     else args.push(token);
                 })
-                const macro = game.macros.entities.find(macro => macro.name === command);
+                const macro = game.macros.contents.find(macro => macro.name === command);
                 if (macro) {
                     hasMacros = true;
                     const result = macro.renderContent(...args);
