@@ -12,9 +12,8 @@
   "scripts": [
     "libs/hljs/highlight.pack.js",
     "libs/tokenizer.min.js",
-    "Patches/Patches.js",
+    "module/Patches.js",
     "Macros.js",
-    "QoL/Macros.js"
   ],
   "esmodules": [],
   "styles": [
