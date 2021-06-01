@@ -115,8 +115,8 @@ class FurnaceMacros {
             scene: canvas.scene,
             args,
             speaker: {},
-            actor: args.actor,
-            token: args.token,
+            actor: null,
+            token: null,
             character: null
         };
         if (remoteContext) {
@@ -264,7 +264,7 @@ class FurnaceMacros {
             return executeResponse.result;
     }
 
-    preCreateChatMessage(chatMessage, data, options, userId) {
+    async preCreateChatMessage(chatMessage, data, options, userId) {
         if (data.content === undefined || data.content.length == 0) return;
 
         let content = data.content || "";
@@ -275,6 +275,7 @@ class FurnaceMacros {
             const context = FurnaceMacros.getTemplateContext();
             const compiled = Handlebars.compile(content);
             content = compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
+            chatMessage.data.update({"content": content});
             if (content.trim().length === 0) return false;
         }
         if (content.trim().startsWith("<")) return true;
