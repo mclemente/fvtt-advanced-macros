@@ -18,7 +18,9 @@
     width: 100%;
     height: 100%;
 }
-
+.macro-sheet .form-group.command textarea::selection {
+  text-shadow: 0 0 white;
+}
 .macro-sheet .form-group.command .furnace-macro-expand {
     position: absolute;
     top: 0px;
