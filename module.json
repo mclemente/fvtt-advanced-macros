@@ -17,7 +17,8 @@
   ],
   "esmodules": [],
   "styles": [
-    "Macros.css"
+    "Macros.css",
+    "libs/hljs/styles/github-gist.css"
   ],
   "languages": [
     {
