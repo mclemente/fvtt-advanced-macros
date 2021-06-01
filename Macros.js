@@ -115,8 +115,8 @@ class FurnaceMacros {
             scene: canvas.scene,
             args,
             speaker: {},
-            actor: null,
-            token: null,
+            actor: args.actor,
+            token: args.token,
             character: null
         };
         if (remoteContext) {
@@ -140,8 +140,8 @@ class FurnaceMacros {
                 context.character = game.actors.get(remoteContext.characterId) || null;
         } else {
             context.speaker = ChatMessage.getSpeaker();
-            context.actor = game.actors.get(context.speaker.actor);
-            context.token = canvas.tokens.get(context.speaker.token);
+            if (!context.actor) context.actor = game.actors.get(context.speaker.actor);
+            if (!context.token) context.token = canvas.tokens.get(context.speaker.token);
             context.character = game.user.character;
         }
         return context;

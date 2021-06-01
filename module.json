@@ -6,7 +6,7 @@
   "authors": [],
   "url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
   "flags": {},
-  "version": "1.3",
+  "version": "1.4",
   "minimumCoreVersion": "0.8.5",
   "compatibleCoreVersion": "0.8.6",
   "scripts": [
