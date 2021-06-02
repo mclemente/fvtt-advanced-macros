@@ -138,10 +138,11 @@ class FurnaceMacros {
 			}
 			if (remoteContext.characterId)
 				context.character = game.actors.get(remoteContext.characterId) || null;
-		} else {
+		}
+		else {
 			context.speaker = ChatMessage.getSpeaker();
-			context.actor = typeof args === "object" ? args.actor : game.actors.get(context.speaker.actor);
-			context.token = typeof args === "object" ? args.token : canvas.tokens.get(context.speaker.token);
+			context.actor = (typeof args[0] === "object") ? args[0].actor : game.actors.get(context.speaker.actor);
+			context.token = (typeof args[0] === "object") ? args[0].token : canvas.tokens.get(context.speaker.token);
 			context.character = game.user.character;
 		}
 		return context;
