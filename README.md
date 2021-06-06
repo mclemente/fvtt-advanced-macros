@@ -1,5 +1,7 @@
 # Advanced Macros
 
+![Advanced Macros](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FLeague-of-Foundry-Developers%2Fleague-repo-status%2Fshields-endpoint%2Fadvanced-macros.json)
+
 With Advanced Macros, a "Run Macro" button will appear in macro configuration windows to allow you to quickly test your macro and see its results. Do note that if you use an asynchronous macro which never resolves, you may end up with a macro in an invalid state if you end up cancelling the changes.
 
 Check out the Macros compendium for some useful macros that showcase the advanced macros system as well as provide additional features.
