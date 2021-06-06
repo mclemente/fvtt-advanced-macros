@@ -28,7 +28,7 @@ class FurnaceMacros {
 		game.furnaceMacros = this;
 		game.macros = this;
 
-		Hooks.on('preCreateChatMessage', this.preCreateChatMessage.bind(this))
+		// Hooks.on('preCreateChatMessage', this.preCreateChatMessage.bind(this))
 		FurnacePatching.replaceMethod(Macro, "execute", this.executeMacro)
 		Macro.prototype.renderContent = this.renderMacro;
 		Macro.prototype.callScriptFunction = this.callScriptMacroFunction;
