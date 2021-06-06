@@ -45,5 +45,6 @@ jobs:
         username: ${{ secrets.FOUNDRY_ADMIN_USER }}
         password: ${{ secrets.FOUNDRY_ADMIN_PW }}
         module-id: 1189
-        manifest-url: https://github.com/${{ github.repository }}/releases/download/${{ env.RELEASE_VERSION }}/module.json
+        manifest-url: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json
         manifest-file: ./module.json
+        changelog-url: https://github.com/${{ github.repository }}/releases/${{ github.event.release.tag_name }}
