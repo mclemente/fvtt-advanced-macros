@@ -28,7 +28,7 @@ class FurnaceMacros {
 		game.furnaceMacros = this;
 		game.macros = this;
 
-		// Hooks.on('preCreateChatMessage', this.preCreateChatMessage.bind(this))
+		Hooks.on('preCreateChatMessage', this.preCreateChatMessage.bind(this))
 		FurnacePatching.replaceMethod(Macro, "execute", this.executeMacro)
 		Macro.prototype.renderContent = this.renderMacro;
 		Macro.prototype.callScriptFunction = this.callScriptMacroFunction;
@@ -164,9 +164,8 @@ class FurnaceMacros {
 	}
 
 	callScriptMacroFunction(context) {
-		const asyncFunction = this.data.command.includes("await") ? "async" : "";
 		return (new Function(`"use strict";
-			return (${asyncFunction} function ({speaker, actor, token, character, args, scene}={}) {
+			return (async function ({speaker, actor, token, character, args, scene}={}) {
 				${this.data.command}
 				});`))().call(this, context);
 	}
@@ -265,73 +264,57 @@ class FurnaceMacros {
 			return executeResponse.result;
 	}
 
-	async preCreateChatMessage(chatMessage, data, options, userId) {
+	preCreateChatMessage(chatMessage, data, options, userId) {
 		if (data.content === undefined || data.content.length == 0) return;
 
 		let content = data.content || "";
 		let tokenizer = null;
-		let hasAsyncMacros = false;
 		let hasMacros = false;
-		if (content.includes("{{")) {
-			const context = FurnaceMacros.getTemplateContext();
-			const compiled = Handlebars.compile(content);
-			content = compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
-			chatMessage.data.update({"content": content});
-			if (content.trim().length === 0) return false;
-		}
-		if (content.trim().startsWith("<")) return true;
-		content = content.replace(/\n/gm, "<br>");
-		content = content.split("<br>").map(line => {
-			if (line.startsWith("/")) {
-				// Ensure tokenizer, but don't consider dash as a token delimiter
-				if (!tokenizer)
-					tokenizer = new TokenizeThis({
-						shouldTokenize: ['(', ')', ',', '*', '/', '%', '+', '=', '!=', '!', '<', '>', '<=', '>=', '^']
-					});
-				let command = null;
-				let args = [];
-				tokenizer.tokenize(line.substr(1), (token) => {
-					if (!command) command = token;
-					else args.push(token);
-				})
-				const macro = game.macros.contents.find(macro => macro.name === command);
-				if (macro) {
-					hasMacros = true;
-					const result = macro.renderContent(...args);
-					if (result instanceof Promise) {
-						hasAsyncMacros = true;
-						return result;
-					}
-					if (typeof (result) !== "string")
-						return "";
-					return result.trim();
-				}
+		if (!chatMessage.isRoll) {
+			if (content.includes("{{")) {
+				const context = FurnaceMacros.getTemplateContext();
+				const compiled = Handlebars.compile(content);
+				content = compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
+				chatMessage.data.update({"content": content});
+				if (content.trim().length === 0) return false;
 			}
-			return line.trim();
-		});
+			if (content.trim().startsWith("<")) return true;
+			content = content.replace(/\n/gm, "<br>");
+			content = content.split("<br>").map(line => {
+				if (line.startsWith("/")) {
+					// Ensure tokenizer, but don't consider dash as a token delimiter
+					if (!tokenizer)
+						tokenizer = new TokenizeThis({
+							shouldTokenize: ['(', ')', ',', '*', '/', '%', '+', '=', '!=', '!', '<', '>', '<=', '>=', '^']
+						});
+					let command = null;
+					let args = [];
+					tokenizer.tokenize(line.substr(1), (token) => {
+						if (!command) command = token;
+						else args.push(token);
+					})
+					const macro = game.macros.contents.find(macro => macro.name === command);
+					if (macro) {
+						hasMacros = true;
+						const result = macro.renderContent(...args);
+						if (typeof (result) !== "string")
+							return "";
+						return result.trim();
+					}
+				}
+				return line.trim();
+			});
 
-		if (hasMacros) {
-			mergeObject(data, { "flags.advanced-macros.macros.template": data.content })
-			// Macros were found; We need to await and cancel this message if async
-			if (hasAsyncMacros) {
-				Promise.all(content).then((lines) => {
-					data.content = lines.join("\n").trim().replace(/\n/gm, "<br>");
-					if (data.content !== undefined && data.content.length > 0)
-						ChatMessage.create(data, options)
-				}).catch(err => {
-					ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
-					console.error(err);
-				});
-				return false;
-			} else {
+			if (hasMacros) {
+				mergeObject(data, { "flags.advanced-macros.macros.template": data.content })
 				// If non-async, then still, recreate it so we can do recursive macro calls
 				data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
 				if (data.content !== undefined && data.content.length > 0)
 					ChatMessage.create(data, options)
 				return false;
 			}
+			data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
 		}
-		data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
 		return true;
 	}
 
