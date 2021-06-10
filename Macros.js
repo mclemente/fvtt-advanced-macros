@@ -141,8 +141,8 @@ class FurnaceMacros {
 		}
 		else {
 			context.speaker = ChatMessage.getSpeaker();
-			context.actor = (typeof args[0] === "object") ? args[0].actor : game.actors.get(context.speaker.actor);
-			context.token = (typeof args[0] === "object") ? args[0].token : canvas.tokens.get(context.speaker.token);
+			context.actor = (args && typeof args[0] === "object") ? args[0].actor : game.actors.get(context.speaker.actor);
+			context.token = (args && typeof args[0] === "object") ? args[0].token : canvas.tokens.get(context.speaker.token);
 			context.character = game.user.character;
 		}
 		return context;
