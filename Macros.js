@@ -27,6 +27,15 @@ class FurnaceMacros {
 	init() {
 		game.furnaceMacros = this;
 		game.macros = this;
+		
+		game.settings.register("advanced-macros", "highlight", {
+			name: game.i18n.localize("FURNACE.MACROS.highlight.name"),
+			hint: game.i18n.localize("FURNACE.MACROS.highlight.hint"),
+			scope: "client",
+			config: true,
+			type: Boolean,
+			default: true
+		});
 
 		Hooks.on('preCreateChatMessage', this.preCreateChatMessage.bind(this))
 		FurnacePatching.replaceMethod(Macro, "execute", this.executeMacro)
@@ -356,23 +365,26 @@ class FurnaceMacros {
 					tooltip.remove();
 			});
 		}
-		// Add syntax highlighting
-		const textarea = form.find("textarea");
-		const div = $(`
-		<div class="furnace-macro-command form-group">
-			<pre><code class="furnace-macro-syntax-highlight"></code></pre>
-			<div class="furnace-macro-expand"><i class="fas fa-expand-alt"></i></div>
-		</div>
-		`)
-		const code = div.find("code");
-		div.insertBefore(textarea);
-		div.prepend(textarea);
-		const refreshHighlight = this._highlightMacroCode.bind(this, form, textarea, code);
-		textarea.on('input', refreshHighlight);
-		textarea.on('scroll', (ev) => code.parent().scrollTop(textarea.scrollTop()));
-		form.find("select[name=type]").on('change', refreshHighlight);
-		div.find(".furnace-macro-expand").on('click', (ev) => div.toggleClass("fullscreen"));
-		refreshHighlight();
+
+		if (!!game.settings.get("advanced-macros", "highlight")) {
+			// Add syntax highlighting
+			const textarea = form.find("textarea");
+			const div = $(`
+			<div class="furnace-macro-command form-group">
+				<pre><code class="furnace-macro-syntax-highlight"></code></pre>
+				<div class="furnace-macro-expand"><i class="fas fa-expand-alt"></i></div>
+			</div>
+			`)
+			const code = div.find("code");
+			div.insertBefore(textarea);
+			div.prepend(textarea);
+			const refreshHighlight = this._highlightMacroCode.bind(this, form, textarea, code);
+			textarea.on('input', refreshHighlight);
+			textarea.on('scroll', (ev) => code.parent().scrollTop(textarea.scrollTop()));
+			form.find("select[name=type]").on('change', refreshHighlight);
+			div.find(".furnace-macro-expand").on('click', (ev) => div.toggleClass("fullscreen"));
+			refreshHighlight();
+		}
 	}
 }
 
