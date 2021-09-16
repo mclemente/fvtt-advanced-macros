@@ -301,7 +301,31 @@ class FurnaceMacros {
 				mergeObject(data, { "flags.advanced-macros.macros.template": data.content });
 				// If non-async, then still, recreate it so we can do recursive macro calls
 				data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
-				if (data.content !== undefined && data.content.length > 0) ChatMessage.create(data, options);
+				if (data.content !== undefined && data.content.length > 0) {
+					data.content = data.content.trim();
+
+					let [command, match] = ChatLog.parse(data.content);
+					// Special handlers for no command
+					if (command === "invalid") throw new Error(game.i18n.format("CHAT.InvalidCommand", { command: match[1] }));
+					else if (command === "none") command = data.speaker.token ? "ic" : "ooc";
+
+					// Process message data based on the identified command type
+					const createOptions = {};
+					switch (command) {
+						case "whisper":
+						case "reply":
+						case "gm":
+						case "players":
+							ChatLog.prototype._processWhisperCommand(command, match, data, createOptions);
+							break;
+						case "ic":
+						case "emote":
+						case "ooc":
+							ChatLog.prototype._processChatCommand(command, match, data, createOptions);
+							break;
+					}
+					ChatMessage.create(data, createOptions);
+				}
 				return false;
 			}
 			data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
