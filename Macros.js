@@ -160,8 +160,9 @@ class FurnaceMacros {
 	}
 
 	callScriptMacroFunction(context) {
+		const asyncFunction = this.data.command.includes("await") ? "async" : "";
 		return new Function(`"use strict";
-			return (async function ({speaker, actor, token, character, args, scene}={}) {
+			return (${asyncFunction} function ({speaker, actor, token, character, args, scene}={}) {
 				${this.data.command}
 				});`)().call(this, context);
 	}
