@@ -2,43 +2,40 @@ class FurnaceMacros {
 	constructor() {
 		let helpers = {
 			macro: (name, ...args) => {
-				const macro = game.macros.contents.find(macro => macro.name === name);
+				const macro = game.macros.contents.find((macro) => macro.name === name);
 				if (!macro) return "";
 				const result = macro.renderContent(...args);
-				if (typeof (result) !== "string")
-					return "";
+				if (typeof result !== "string") return "";
 				return result;
-			}
-		}
-		Handlebars.registerHelper(helpers)
+			},
+		};
+		Handlebars.registerHelper(helpers);
 
 		this._GMElectionIds = [];
 		this._requestResolvers = {};
-		Hooks.on('init', this.init.bind(this));
+		Hooks.on("init", this.init.bind(this));
 		Hooks.once("ready", this.ready.bind(this));
-		Hooks.on('renderMacroConfig', this.renderMacroConfig.bind(this))
+		Hooks.on("renderMacroConfig", this.renderMacroConfig.bind(this));
 		// On 0.6.5, unknown commands throw an error which breaks posting macros from chat box
 		const parse = FurnacePatching.patchFunction(ChatLog.parse, 24, `"invalid": /^(\\/[^\\s]+)/, // Any other message starting with a slash command is invalid`, "");
-		if (parse)
-			ChatLog.parse = parse;
-
+		if (parse) ChatLog.parse = parse;
 	}
 
 	init() {
 		game.furnaceMacros = this;
 		game.macros = this;
-		
+
 		game.settings.register("advanced-macros", "highlight", {
 			name: game.i18n.localize("FURNACE.MACROS.highlight.name"),
 			hint: game.i18n.localize("FURNACE.MACROS.highlight.hint"),
 			scope: "client",
 			config: true,
 			type: Boolean,
-			default: true
+			default: true,
 		});
 
-		Hooks.on('preCreateChatMessage', this.preCreateChatMessage.bind(this))
-		FurnacePatching.replaceMethod(Macro, "execute", this.executeMacro)
+		Hooks.on("preCreateChatMessage", this.preCreateChatMessage.bind(this));
+		FurnacePatching.replaceMethod(Macro, "execute", this.executeMacro);
 		Macro.prototype.renderContent = this.renderMacro;
 		Macro.prototype.callScriptFunction = this.callScriptMacroFunction;
 		Object.defineProperty(Macro.prototype, "canRunAsGM", { get: this.canRunAsGM });
@@ -64,11 +61,11 @@ class FurnaceMacros {
 			game.socket.emit("module.advanced-macros", {
 				action: "GMElectionID",
 				requestId: message.requestId,
-				electionId
+				electionId,
 			});
 			// Delete the election ID in case we were not chosen after 10s, to avoid a memleak
 			setTimeout(() => {
-				this._GMElectionIds = this._GMElectionIds.filter(id => id !== electionId);
+				this._GMElectionIds = this._GMElectionIds.filter((id) => id !== electionId);
 			}, 10000);
 		} else if (message.action === "GMElectionID") {
 			const resolve = this._requestResolvers[message.requestId];
@@ -79,25 +76,21 @@ class FurnaceMacros {
 		} else if (message.action === "GMExecuteMacro") {
 			if (!game.user.isGM) return;
 			if (!this._GMElectionIds.includes(message.electionId)) return;
-			this._GMElectionIds = this._GMElectionIds.filter(id => id !== message.electionId);
+			this._GMElectionIds = this._GMElectionIds.filter((id) => id !== message.electionId);
 
 			const macro = game.macros.get(message.macroId);
 			const user = game.users.get(message.userId);
-			const sendResponse = (error = null, result = null) => game.socket.emit("module.advanced-macros", {
-				action: "GMMacroResult",
-				requestId: message.requestId,
-				error
-			});
-			if (!macro)
-				return sendResponse("Cannot find macro");
-			if (!user)
-				return sendResponse("Invalid user");
-			if (macro.data.type !== "script")
-				return sendResponse("Invalid macro type");
-			if (!user.can("MACRO_SCRIPT"))
-				return sendResponse(`You are not allowed to use JavaScript macros.`);
-			if (!macro.getFlag("advanced-macros", "runAsGM") || !macro.canRunAsGM)
-				return sendResponse(`You are not authorized to run this macro as the GM.`);
+			const sendResponse = (error = null, result = null) =>
+				game.socket.emit("module.advanced-macros", {
+					action: "GMMacroResult",
+					requestId: message.requestId,
+					error,
+				});
+			if (!macro) return sendResponse("Cannot find macro");
+			if (!user) return sendResponse("Invalid user");
+			if (macro.data.type !== "script") return sendResponse("Invalid macro type");
+			if (!user.can("MACRO_SCRIPT")) return sendResponse(`You are not allowed to use JavaScript macros.`);
+			if (!macro.getFlag("advanced-macros", "runAsGM") || !macro.canRunAsGM) return sendResponse(`You are not authorized to run this macro as the GM.`);
 
 			const context = FurnaceMacros.getTemplateContext(message.args, message.context);
 			try {
@@ -126,32 +119,27 @@ class FurnaceMacros {
 			speaker: {},
 			actor: null,
 			token: null,
-			character: null
+			character: null,
 		};
 		if (remoteContext) {
 			// Set the context based on the remote context, and make sure data is valid and the remote
 			// has a token/actor selected.
 			context.speaker = remoteContext.speaker || {};
-			if (remoteContext.actorId)
-				context.actor = game.actors.get(remoteContext.actorId) || null;
-			if (remoteContext.sceneId)
-				context.scene = game.scenes.get(remoteContext.sceneId) || canvas.scene;
+			if (remoteContext.actorId) context.actor = game.actors.get(remoteContext.actorId) || null;
+			if (remoteContext.sceneId) context.scene = game.scenes.get(remoteContext.sceneId) || canvas.scene;
 			if (remoteContext.tokenId) {
 				if (canvas.scene.id === context.scene.id) {
 					context.token = canvas.tokens.get(remoteContext.tokenId) || null;
 				} else {
 					const tokenData = context.scene.getEmbeddedEntity("Token", remoteContext.tokenId);
-					if (tokenData)
-						context.token = new Token(tokenData, context.scene);
+					if (tokenData) context.token = new Token(tokenData, context.scene);
 				}
 			}
-			if (remoteContext.characterId)
-				context.character = game.actors.get(remoteContext.characterId) || null;
-		}
-		else {
+			if (remoteContext.characterId) context.character = game.actors.get(remoteContext.characterId) || null;
+		} else {
 			context.speaker = ChatMessage.getSpeaker();
-			context.actor = (args && typeof args[0] === "object") ? args[0].actor : game.actors.get(context.speaker.actor);
-			context.token = (args && typeof args[0] === "object") ? args[0].token : canvas.tokens?.get(context.speaker.token);
+			context.actor = args && typeof args[0] === "object" ? args[0].actor : game.actors.get(context.speaker.actor);
+			context.token = args && typeof args[0] === "object" ? args[0].token : canvas.tokens?.get(context.speaker.token);
 			context.character = game.user.character;
 		}
 		return context;
@@ -165,18 +153,17 @@ class FurnaceMacros {
 	canRunAsGM() {
 		const author = game.users.get(this.data.author);
 		const permissions = duplicate(this.data.permission) || {};
-		game.users.contents.forEach(user => {
-			if (user.id === this.data.author || user.isGM)
-				delete permissions[user.id];
-		})
-		return author && author.isGM && Object.values(permissions).every(p => p < CONST.ENTITY_PERMISSIONS.OWNER)
+		game.users.contents.forEach((user) => {
+			if (user.id === this.data.author || user.isGM) delete permissions[user.id];
+		});
+		return author && author.isGM && Object.values(permissions).every((p) => p < CONST.ENTITY_PERMISSIONS.OWNER);
 	}
 
 	callScriptMacroFunction(context) {
-		return (new Function(`"use strict";
+		return new Function(`"use strict";
 			return (async function ({speaker, actor, token, character, args, scene}={}) {
 				${this.data.command}
-				});`))().call(this, context);
+				});`)().call(this, context);
 	}
 
 	renderMacro(...args) {
@@ -184,16 +171,14 @@ class FurnaceMacros {
 		if (this.data.type === "chat") {
 			if (this.data.command.includes("{{")) {
 				const compiled = Handlebars.compile(this.data.command);
-				return compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true })
+				return compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
 			} else {
 				return this.data.command;
 			}
 		}
 		if (this.data.type === "script") {
-			if (!game.user.can("MACRO_SCRIPT"))
-				return ui.notifications.warn(`You are not allowed to use JavaScript macros.`);
-			if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM)
-				return game.furnaceMacros.executeMacroAsGM(this, context);
+			if (!game.user.can("MACRO_SCRIPT")) return ui.notifications.warn(`You are not allowed to use JavaScript macros.`);
+			if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM) return game.furnaceMacros.executeMacroAsGM(this, context);
 			return this.callScriptFunction(context);
 		}
 	}
@@ -202,7 +187,7 @@ class FurnaceMacros {
 		if (this.data.type === "chat") {
 			try {
 				const content = this.renderContent(...args);
-				ui.chat.processMessage(content).catch(err => {
+				ui.chat.processMessage(content).catch((err) => {
 					ui.notifications.error("There was an error in your chat message syntax.");
 					console.error(err);
 				});
@@ -225,7 +210,7 @@ class FurnaceMacros {
 
 	// request execution of macro as a GM
 	async executeMacroAsGM(macro, context) {
-		const activeGMs = game.users.contents.filter(u => u.isGM && u.active);
+		const activeGMs = game.users.contents.filter((u) => u.isGM && u.active);
 		if (activeGMs.length === 0) {
 			ui.notifications.error(`There are no connected GMs to run the macro ${macro.name} in the GM context.`);
 			return "";
@@ -236,13 +221,13 @@ class FurnaceMacros {
 			this._requestResolvers[requestId] = resolve;
 			game.socket.emit("module.advanced-macros", {
 				action: "ElectGMExecutor",
-				requestId
-			})
+				requestId,
+			});
 			setTimeout(() => {
 				delete this._requestResolvers[requestId];
 				reject(new Error("Timed out waiting to elect a GM to execute the macro"));
 			}, 5000);
-		})
+		});
 		// Execute the macro in the first elected GM's
 		const executeResponse = await new Promise((resolve, reject) => {
 			const requestId = this.uniqueID();
@@ -259,18 +244,16 @@ class FurnaceMacros {
 					actorId: context.actor ? context.actor.id : null,
 					sceneId: context.scene ? context.scene.id : null,
 					tokenId: context.token ? context.token.id : null,
-					characterId: context.character ? context.character.id : null
-				}
-			})
+					characterId: context.character ? context.character.id : null,
+				},
+			});
 			setTimeout(() => {
 				delete this._requestResolvers[requestId];
 				reject(new Error("Timed out waiting for the GM to execute the macro"));
 			}, 5000);
-		})
-		if (executeResponse.error)
-			throw new Error(executeResponse.error);
-		else
-			return executeResponse.result;
+		});
+		if (executeResponse.error) throw new Error(executeResponse.error);
+		else return executeResponse.result;
 	}
 
 	preCreateChatMessage(chatMessage, data, options, userId) {
@@ -284,30 +267,29 @@ class FurnaceMacros {
 				const context = FurnaceMacros.getTemplateContext();
 				const compiled = Handlebars.compile(content);
 				content = compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
-				chatMessage.data.update({"content": content});
+				chatMessage.data.update({ content: content });
 				if (content.trim().length === 0) return false;
 			}
 			if (content.trim().startsWith("<")) return true;
 			content = content.replace(/\n/gm, "<br>");
-			content = content.split("<br>").map(line => {
+			content = content.split("<br>").map((line) => {
 				if (line.startsWith("/")) {
 					// Ensure tokenizer, but don't consider dash as a token delimiter
 					if (!tokenizer)
 						tokenizer = new TokenizeThis({
-							shouldTokenize: ['(', ')', ',', '*', '/', '%', '+', '=', '!=', '!', '<', '>', '<=', '>=', '^']
+							shouldTokenize: ["(", ")", ",", "*", "/", "%", "+", "=", "!=", "!", "<", ">", "<=", ">=", "^"],
 						});
 					let command = null;
 					let args = [];
 					tokenizer.tokenize(line.substr(1), (token) => {
 						if (!command) command = token;
 						else args.push(token);
-					})
-					const macro = game.macros.contents.find(macro => macro.name === command);
+					});
+					const macro = game.macros.contents.find((macro) => macro.name === command);
 					if (macro) {
 						hasMacros = true;
 						const result = macro.renderContent(...args);
-						if (typeof (result) !== "string")
-							return "";
+						if (typeof result !== "string") return "";
 						return result.trim();
 					}
 				}
@@ -315,11 +297,10 @@ class FurnaceMacros {
 			});
 
 			if (hasMacros) {
-				mergeObject(data, { "flags.advanced-macros.macros.template": data.content })
+				mergeObject(data, { "flags.advanced-macros.macros.template": data.content });
 				// If non-async, then still, recreate it so we can do recursive macro calls
 				data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
-				if (data.content !== undefined && data.content.length > 0)
-					ChatMessage.create(data, options)
+				if (data.content !== undefined && data.content.length > 0) ChatMessage.create(data, options);
 				return false;
 			}
 			data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
@@ -354,15 +335,13 @@ class FurnaceMacros {
 						<input type="checkbox" name="flags.advanced-macros.runAsGM" data-dtype="Boolean" ${runAsGM ? "checked" : ""} ${!canRunAsGM ? "disabled" : ""}/>
 					</label>
 				</div>
-			`)
+			`);
 			gmDiv.insertAfter(typeGroup);
 			const tooltip = $(`
 			<span class="tooltip">${game.i18n.localize("FURNACE.MACROS.runAsGMTooltip")}</span>`);
 			gmDiv.hover((event) => {
-				if (event.type === "mouseenter")
-					gmDiv.append(tooltip);
-				else
-					tooltip.remove();
+				if (event.type === "mouseenter") gmDiv.append(tooltip);
+				else tooltip.remove();
 			});
 		}
 
@@ -374,15 +353,15 @@ class FurnaceMacros {
 				<pre><code class="furnace-macro-syntax-highlight"></code></pre>
 				<div class="furnace-macro-expand"><i class="fas fa-expand-alt"></i></div>
 			</div>
-			`)
+			`);
 			const code = div.find("code");
 			div.insertBefore(textarea);
 			div.prepend(textarea);
 			const refreshHighlight = this._highlightMacroCode.bind(this, form, textarea, code);
-			textarea.on('input', refreshHighlight);
-			textarea.on('scroll', (ev) => code.parent().scrollTop(textarea.scrollTop()));
-			form.find("select[name=type]").on('change', refreshHighlight);
-			div.find(".furnace-macro-expand").on('click', (ev) => div.toggleClass("fullscreen"));
+			textarea.on("input", refreshHighlight);
+			textarea.on("scroll", (ev) => code.parent().scrollTop(textarea.scrollTop()));
+			form.find("select[name=type]").on("change", refreshHighlight);
+			div.find(".furnace-macro-expand").on("click", (ev) => div.toggleClass("fullscreen"));
 			refreshHighlight();
 		}
 	}
@@ -391,18 +370,18 @@ class FurnaceMacros {
 new FurnaceMacros();
 
 Hooks.on("hotbarDrop", (hotbar, data, slot) => {
-    if (data.type !== "RollTable") return true;
-    const table = game.tables.get(data.id);
-    if (!table) return true;
-    // Make a new macro for the RollTable
-    Macro.create({
-        name: game.i18n.format("FURNACE.ROLLTABLE.macroName", {tableName: table.name}),
-        type: "script",
-        scope: "global",
-        command: `game.tables.get("${table.id}").draw();`,
-        img: "icons/svg/d20-grey.svg"
-    }).then(macro => {
-        game.user.assignHotbarMacro(macro, slot);
-    });
-    return false;
+	if (data.type !== "RollTable") return true;
+	const table = game.tables.get(data.id);
+	if (!table) return true;
+	// Make a new macro for the RollTable
+	Macro.create({
+		name: game.i18n.format("FURNACE.ROLLTABLE.macroName", { tableName: table.name }),
+		type: "script",
+		scope: "global",
+		command: `game.tables.get("${table.id}").draw();`,
+		img: "icons/svg/d20-grey.svg",
+	}).then((macro) => {
+		game.user.assignHotbarMacro(macro, slot);
+	});
+	return false;
 });
