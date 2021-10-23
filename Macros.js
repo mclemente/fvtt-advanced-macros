@@ -138,8 +138,13 @@ class FurnaceMacros {
 			if (remoteContext.characterId) context.character = game.actors.get(remoteContext.characterId) || null;
 		} else {
 			context.speaker = ChatMessage.getSpeaker();
-			context.actor = args && typeof args[0] === "object" ? args[0].actor : game.actors.get(context.speaker.actor);
-			context.token = args && typeof args[0] === "object" ? args[0].token : canvas.tokens?.get(context.speaker.token);
+			if (args && typeof args[0] === "object") {
+				context.actor = args[0].actor;
+				context.token = args[0].token;
+			} else {
+				context.actor = game.actors.get(context.speaker.actor);
+				if (canvas.scene) context.token = canvas.tokens?.get(context.speaker.token);
+			}
 			context.character = game.user.character;
 		}
 		return context;
@@ -307,7 +312,7 @@ class FurnaceMacros {
 					let [command, match] = ChatLog.parse(data.content);
 					// Special handlers for no command
 					if (command === "invalid") throw new Error(game.i18n.format("CHAT.InvalidCommand", { command: match[1] }));
-					else if (command === "none") command = data.speaker.token ? "ic" : "ooc";
+					else if (command === "none") command = data.speaker?.token ? "ic" : "ooc";
 
 					// Process message data based on the identified command type
 					const createOptions = {};
