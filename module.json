@@ -7,8 +7,8 @@
   "url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
   "flags": {},
   "version": "1.8",
-  "minimumCoreVersion": "0.8.5",
-  "compatibleCoreVersion": "0.8.6",
+  "minimumCoreVersion": "9",
+  "compatibleCoreVersion": "9",
   "scripts": [
     "libs/hljs/highlight.pack.js",
     "libs/tokenizer.min.js",
