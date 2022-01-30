@@ -27,8 +27,13 @@
       "path": "lang/en.json"
     },
     {
+      "lang": "fr",
+      "name": "Français (French)",
+      "path": "lang/fr.json"
+    },
+    {
       "lang": "cn",
-      "name": "中文",
+      "name": "中文 (Chinese)",
       "path": "lang/cn.json"
     }
   ],

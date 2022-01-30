@@ -1,0 +1,6 @@
+{
+    "FURNACE.MACROS.runAsGM": "Exécuter les macros en tant que MJ",
+    "FURNACE.MACROS.runAsGMTooltip": "La macro sera exécutée par le MJ lorsque le joueur l'exécute. Pour des raisons de sécurité, s'applique seulement aux macros créées par le MJ sans autre propriétaire ",
+    "FURNACE.MACROS.highlight.name": "Souligner les codes des macros",
+    "FURNACE.MACROS.highlight.hint": "Si activé, les codes des macros seront soulignées. Notez que cela pourrait être incompatible avec d'autres modules d'éditeur de code."
+}
