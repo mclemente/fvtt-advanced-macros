@@ -43,7 +43,7 @@
       "label": "Advanced Macros",
       "path": "packs/macros.db",
       "private": false,
-      "entity": "Macro"
+      "type": "Macro"
     }
   ],
   "system": [],
