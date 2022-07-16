@@ -147,10 +147,10 @@ class FurnaceMacros {
 	 * can be run as GM
 	 */
 	canRunAsGM() {
-		const author = game.users.get(this.data.author);
-		const permissions = duplicate(this.data.permission) || {};
+		const author = game.users.get(this.author.id);
+		const permissions = duplicate(this.permission) || {};
 		game.users.contents.forEach((user) => {
-			if (user.id === this.data.author || user.isGM) delete permissions[user.id];
+			if (user.id === this.author.id || user.isGM) delete permissions[user.id];
 		});
 		return author && author.isGM && Object.values(permissions).every((p) => p < CONST.ENTITY_PERMISSIONS.OWNER);
 	}
