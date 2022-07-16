@@ -25,15 +25,6 @@ class FurnaceMacros {
 		game.furnaceMacros = this;
 		game.macros = this;
 
-		game.settings.register("advanced-macros", "highlight", {
-			name: game.i18n.localize("FURNACE.MACROS.highlight.name"),
-			hint: game.i18n.localize("FURNACE.MACROS.highlight.hint"),
-			scope: "client",
-			config: true,
-			type: Boolean,
-			default: true,
-		});
-
 		Hooks.on("preCreateChatMessage", this.preCreateChatMessage.bind(this));
 		FurnacePatching.replaceMethod(Macro, "execute", this.executeMacro);
 		Macro.prototype.renderContent = this.renderMacro;
@@ -86,11 +77,11 @@ class FurnaceMacros {
 					requestId: message.requestId,
 					error,
 				});
-			if (!macro) return sendResponse("Cannot find macro");
-			if (!user) return sendResponse("Invalid user");
-			if (macro.data.type !== "script") return sendResponse("Invalid macro type");
-			if (!user.can("MACRO_SCRIPT")) return sendResponse(`You are not allowed to use JavaScript macros.`);
-			if (!macro.getFlag("advanced-macros", "runAsGM") || !macro.canRunAsGM) return sendResponse(`You are not authorized to run this macro as the GM.`);
+			if (!macro) return sendResponse(game.i18n.localize("FURNACE.MACROS.NoMacro"));
+			if (!user) return sendResponse(game.i18n.localize("FURNACE.MACROS.NoUser"));
+			if (macro.data.type !== "script") return sendResponse(game.i18n.localize("FURNACE.MACROS.NotScript"));
+			if (!user.can("MACRO_SCRIPT")) return sendResponse(game.i18n.localize("FURNACE.MACROS.NoMacroPermission"));
+			if (!macro.getFlag("advanced-macros", "runAsGM") || !macro.canRunAsGM) return sendResponse(game.i18n.localize("FURNACE.MACROS.NoRunAsGM"));
 
 			const context = FurnaceMacros.getTemplateContext(message.args, message.context);
 			try {
@@ -98,7 +89,7 @@ class FurnaceMacros {
 				return sendResponse(null, result);
 			} catch (err) {
 				console.error(err);
-				return sendResponse(`There was an error in your macro syntax. See the console (F12) of the GM '${game.user.name}' for details`);
+				return sendResponse(game.i18n.format("FURNACE.MACROS.ExternalMacroSyntaxError", { GM: game.user.name }));
 			}
 		} else if (message.action === "GMMacroResult") {
 			const resolve = this._requestResolvers[message.requestId];
@@ -184,7 +175,7 @@ class FurnaceMacros {
 			}
 		}
 		if (this.data.type === "script") {
-			if (!game.user.can("MACRO_SCRIPT")) return ui.notifications.warn(`You are not allowed to use JavaScript macros.`);
+			if (!game.user.can("MACRO_SCRIPT")) return ui.notifications.warn(game.i18n.localize("FURNACE.MACROS.NoMacroPermission"));
 			if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM) return game.furnaceMacros.executeMacroAsGM(this, context);
 			return this.callScriptFunction(context);
 		}
@@ -195,11 +186,11 @@ class FurnaceMacros {
 			try {
 				const content = this.renderContent(...args);
 				ui.chat.processMessage(content).catch((err) => {
-					ui.notifications.error("There was an error in your chat message syntax.");
+					ui.notifications.error(game.i18n.localize("FURNACE.MACROS.SyntaxError"));
 					console.error(err);
 				});
 			} catch (err) {
-				ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
+				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.MacroSyntaxError"));
 				console.error(err);
 			}
 		}
@@ -209,7 +200,7 @@ class FurnaceMacros {
 			try {
 				return await this.renderContent(...args);
 			} catch (err) {
-				ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
+				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.MacroSyntaxError"));
 				console.error(err);
 			}
 		}
@@ -219,7 +210,7 @@ class FurnaceMacros {
 	async executeMacroAsGM(macro, context) {
 		const activeGMs = game.users.contents.filter((u) => u.isGM && u.active);
 		if (activeGMs.length === 0) {
-			ui.notifications.error(`There are no connected GMs to run the macro ${macro.name} in the GM context.`);
+			ui.notifications.error(game.i18n.format("FURNACE.MACROS.NoConnectedGM", { macro: macro.name }));
 			return "";
 		}
 		// Elect a GM to run the Macro
@@ -232,7 +223,7 @@ class FurnaceMacros {
 			});
 			setTimeout(() => {
 				delete this._requestResolvers[requestId];
-				reject(new Error("Timed out waiting to elect a GM to execute the macro"));
+				reject(new Error(game.i18n.localize("FURNACE.MACROS.TimeoutGM")));
 			}, 5000);
 		});
 		// Execute the macro in the first elected GM's
@@ -256,7 +247,7 @@ class FurnaceMacros {
 			});
 			setTimeout(() => {
 				delete this._requestResolvers[requestId];
-				reject(new Error("Timed out waiting for the GM to execute the macro"));
+				reject(new Error(game.i18n.localize("FURNACE.MACROS.TimeoutWaitGM")));
 			}, 5000);
 		});
 		if (executeResponse.error) throw new Error(executeResponse.error);
@@ -360,7 +351,7 @@ class FurnaceMacros {
 			const canRunAsGM = obj.object.canRunAsGM;
 			const typeGroup = form.find("select[name=type]").parent(".form-group");
 			const gmDiv = $(`
-				<div class="furnace-macro-run-as-gm form-group"> 
+				<div class="form-group" title="${game.i18n.localize("FURNACE.MACROS.runAsGMTooltip")}"> 
 					<label class="form-group">
 						<span>${game.i18n.localize("FURNACE.MACROS.runAsGM")}</span>
 						<input type="checkbox" name="flags.advanced-macros.runAsGM" data-dtype="Boolean" ${runAsGM ? "checked" : ""} ${!canRunAsGM ? "disabled" : ""}/>
@@ -368,32 +359,6 @@ class FurnaceMacros {
 				</div>
 			`);
 			gmDiv.insertAfter(typeGroup);
-			const tooltip = $(`
-			<span class="tooltip">${game.i18n.localize("FURNACE.MACROS.runAsGMTooltip")}</span>`);
-			gmDiv.hover((event) => {
-				if (event.type === "mouseenter") gmDiv.append(tooltip);
-				else tooltip.remove();
-			});
-		}
-
-		if (!!game.settings.get("advanced-macros", "highlight")) {
-			// Add syntax highlighting
-			const textarea = form.find("textarea");
-			const div = $(`
-			<div class="furnace-macro-command form-group">
-				<pre><code class="furnace-macro-syntax-highlight"></code></pre>
-				<div class="furnace-macro-expand"><i class="fas fa-expand-alt"></i></div>
-			</div>
-			`);
-			const code = div.find("code");
-			div.insertBefore(textarea);
-			div.prepend(textarea);
-			const refreshHighlight = this._highlightMacroCode.bind(this, form, textarea, code);
-			textarea.on("input", refreshHighlight);
-			textarea.on("scroll", (ev) => code.parent().scrollTop(textarea.scrollTop()));
-			form.find("select[name=type]").on("change", refreshHighlight);
-			div.find(".furnace-macro-expand").on("click", (ev) => div.toggleClass("fullscreen"));
-			refreshHighlight();
 		}
 	}
 }
