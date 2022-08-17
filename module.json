@@ -17,7 +17,6 @@
   ],
   "esmodules": [],
   "styles": [
-    "Macros.css",
     "libs/hljs/styles/github-gist.css"
   ],
   "languages": [
@@ -49,9 +48,6 @@
   "system": [],
   "dependencies": [],
   "socket": true,
-  "library": true,
   "manifest": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.json",
   "download": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.zip",
-  "protected": false,
-  "coreTranslation": false
 }
