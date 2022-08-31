@@ -1,5 +1,8 @@
 {
 	"FURNACE": {
+		"ROLLTABLE": {
+			"macroName": "{document}: {name}"
+		},
 		"MACROS": {
 			"responses": {
 				"NoMacro": "Cannot find macro.",

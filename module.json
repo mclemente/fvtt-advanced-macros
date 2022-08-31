@@ -1,53 +1,43 @@
 {
-  "name": "advanced-macros",
-  "title": "Advanced Macros",
-  "description": "Use handlebars templating, recursive macro calls and call macros with arguments or directly from chat.",
-  "author": "KaKaRoTo",
-  "authors": [],
-  "url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
-  "flags": {},
-  "version": "1.8",
-  "minimumCoreVersion": "9",
-  "compatibleCoreVersion": "9",
-  "scripts": [
-    "libs/hljs/highlight.pack.js",
-    "libs/tokenizer.min.js",
-    "module/Patches.js",
-    "Macros.js"
-  ],
-  "esmodules": [],
-  "styles": [
-    "libs/hljs/styles/github-gist.css"
-  ],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    },
-    {
-      "lang": "fr",
-      "name": "Français (French)",
-      "path": "lang/fr.json"
-    },
-    {
-      "lang": "cn",
-      "name": "中文 (Chinese)",
-      "path": "lang/cn.json"
-    }
-  ],
-  "packs": [
-    {
-      "name": "macros",
-      "label": "Advanced Macros",
-      "path": "packs/macros.db",
-      "private": false,
-      "type": "Macro"
-    }
-  ],
-  "system": [],
-  "dependencies": [],
-  "socket": true,
-  "manifest": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.json",
-  "download": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.zip",
+	"id": "advanced-macros",
+	"title": "Advanced Macros",
+	"description": "Use handlebars templating, recursive macro calls and call macros with arguments or directly from chat.",
+	"url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
+	"version": "v1.15",
+	"scripts": ["libs/hljs/highlight.pack.js", "libs/tokenizer.min.js"],
+  "esmodules": ["Macros.js"],
+	"styles": ["libs/hljs/styles/github-gist.css"],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "lang/en.json"
+		},
+		{
+			"lang": "fr",
+			"name": "Français (French)",
+			"path": "lang/fr.json"
+		},
+		{
+			"lang": "cn",
+			"name": "中文 (Chinese)",
+			"path": "lang/cn.json"
+		}
+	],
+	"packs": [
+		{
+			"name": "macros",
+			"label": "Advanced Macros",
+			"path": "packs/macros.db",
+			"private": false,
+			"type": "Macro"
+		}
+	],
+	"socket": true,
+	"manifest": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.json",
+	"download": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.zip",
+	"compatibility": {
+		"minimum": "10",
+		"verified": "10.273"
+	}
 }

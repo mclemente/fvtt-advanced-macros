@@ -1,3 +1,5 @@
+import { libWrapper } from "./module/shim.js";
+
 class FurnaceMacros {
 	constructor() {
 		let helpers = {
@@ -16,9 +18,7 @@ class FurnaceMacros {
 		Hooks.on("init", this.init.bind(this));
 		Hooks.once("ready", this.ready.bind(this));
 		Hooks.on("renderMacroConfig", this.renderMacroConfig.bind(this));
-		// On 0.6.5, unknown commands throw an error which breaks posting macros from chat box
-		const parse = FurnacePatching.patchFunction(ChatLog.parse, 28, `"invalid": /^(\\/[^\\s]+)/, // Any other message starting with a slash command is invalid`, "");
-		if (parse) ChatLog.parse = parse;
+		delete ChatLog.MESSAGE_PATTERNS["invalid"];
 	}
 
 	init() {
@@ -26,10 +26,49 @@ class FurnaceMacros {
 		game.macros = this;
 
 		Hooks.on("preCreateChatMessage", this.preCreateChatMessage.bind(this));
-		FurnacePatching.replaceMethod(Macro, "execute", this.executeMacro);
+		// Macro.prototype.renderContent = this.renderMacro;
 		Macro.prototype.renderContent = this.renderMacro;
-		Macro.prototype.callScriptFunction = this.callScriptMacroFunction;
 		Object.defineProperty(Macro.prototype, "canRunAsGM", { get: this.canRunAsGM });
+		libWrapper.register(
+			"advanced-macros",
+			"Macro.prototype.canExecute",
+			function () {
+				if (!this.testUserPermission(game.user, "LIMITED")) return false;
+				if (this.type === "script") {
+					if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM) return game.furnaceMacros.executeMacroAsGM(this, context);
+					return game.user.can("MACRO_SCRIPT");
+				}
+				return true;
+			},
+			"OVERRIDE"
+		);
+		libWrapper.register(
+			"advanced-macros",
+			"Macro.prototype._executeScript",
+			function (context) {
+				// Add variables to the evaluation scope
+				const speaker = ChatMessage.implementation.getSpeaker();
+				const character = game.user.character;
+				let actor = context.actor || game.actors.get(context.speaker.actor);
+				let token = context.token || (canvas.ready ? canvas.tokens.get(context.speaker.token) : null);
+
+				// Attempt script execution
+				const asyncFunction = this.command.includes("await") ? "async" : "";
+				const body = `return (${asyncFunction} () => {
+					${this.command}
+				})()`;
+				// eslint-disable-next-line no-new-func
+				const fn = Function("{speaker, actor, token, character, args, scene}={}", body);
+				try {
+					if (asyncFunction) fn.call(this, context);
+					else return fn.call(this, context);
+				} catch (err) {
+					ui.notifications.error("There was an error in your macro syntax. See the console (F12) for details");
+				}
+			},
+			"OVERRIDE"
+		);
+		libWrapper.register("advanced-macros", "Macro.prototype.execute", this.executeMacro, "OVERRIDE");
 	}
 	ready() {
 		game.socket.on("module.advanced-macros", this._onSocketMessage.bind(this));
@@ -85,7 +124,8 @@ class FurnaceMacros {
 
 			const context = FurnaceMacros.getTemplateContext(message.args, message.context);
 			try {
-				const result = macro.callScriptFunction(context);
+				// const result = macro.callScriptFunction(context);
+				const result = macro._execute(context);
 				return sendResponse(null, result);
 			} catch (err) {
 				console.error(err);
@@ -129,9 +169,9 @@ class FurnaceMacros {
 			if (remoteContext.characterId) context.character = game.actors.get(remoteContext.characterId) || null;
 		} else {
 			context.speaker = ChatMessage.getSpeaker();
-			if (args && typeof args[0] === "object") {
-				context.actor = args[0].actor;
-				context.token = args[0].token;
+			if (args && Object.prototype.toString.call(args[0]) === "[object Object") {
+				context.actor = args[0].data.root.actor;
+				context.token = args[0].data.root.token;
 			} else {
 				context.actor = game.actors.get(context.speaker.actor);
 				if (canvas.scene) context.token = canvas.tokens?.get(context.speaker.token);
@@ -147,42 +187,34 @@ class FurnaceMacros {
 	 * can be run as GM
 	 */
 	canRunAsGM() {
-		const author = game.users.get(this.data.author);
-		const permissions = duplicate(this.data.permission) || {};
+		const author = game.users.get(this.author?.id);
+		const permissions = duplicate(this.permission) || {};
 		game.users.contents.forEach((user) => {
-			if (user.id === this.data.author || user.isGM) delete permissions[user.id];
+			if (user.id === this.author?.id || user.isGM) delete permissions[user.id];
 		});
-		return author && author.isGM && Object.values(permissions).every((p) => p < CONST.ENTITY_PERMISSIONS.OWNER);
-	}
-
-	callScriptMacroFunction(context) {
-		const asyncFunction = this.data.command.includes("await") ? "async" : "";
-		const body = `return (${asyncFunction} () => {
-			${this.data.command}
-		})()`;
-		const fn = Function("{speaker, actor, token, character, args, scene}={}", body);
-		return fn.call(this, context);
+		return author && author.isGM && Object.values(permissions).every((p) => p < CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER);
 	}
 
 	renderMacro(...args) {
 		const context = FurnaceMacros.getTemplateContext(args);
-		if (this.data.type === "chat") {
-			if (this.data.command.includes("{{")) {
-				const compiled = Handlebars.compile(this.data.command);
+		if (this.type === "chat") {
+			if (this.command.includes("{{")) {
+				const compiled = Handlebars.compile(this.command);
 				return compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
 			} else {
-				return this.data.command;
+				return this.command;
 			}
 		}
-		if (this.data.type === "script") {
+		if (this.type === "script") {
 			if (!game.user.can("MACRO_SCRIPT")) return ui.notifications.warn(game.i18n.localize("FURNACE.MACROS.NoMacroPermission"));
 			if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM) return game.furnaceMacros.executeMacroAsGM(this, context);
-			return this.callScriptFunction(context);
+			// return this.callScriptFunction(context);
+			return this._executeScript(context);
 		}
 	}
 	async executeMacro(...args) {
 		// Chat macros
-		if (this.data.type === "chat") {
+		if (this.type === "chat") {
 			try {
 				const content = this.renderContent(...args);
 				ui.chat.processMessage(content).catch((err) => {
@@ -196,7 +228,7 @@ class FurnaceMacros {
 		}
 
 		// Script macros
-		else if (this.data.type === "script") {
+		else if (this.type === "script") {
 			try {
 				return await this.renderContent(...args);
 			} catch (err) {
@@ -265,7 +297,7 @@ class FurnaceMacros {
 				const context = FurnaceMacros.getTemplateContext();
 				const compiled = Handlebars.compile(content);
 				content = compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
-				chatMessage.data.update({ content: content });
+				chatMessage.updateSource({ content: content });
 				if (content.trim().length === 0) return false;
 			}
 			if (content.trim().startsWith("<")) return true;
@@ -330,17 +362,6 @@ class FurnaceMacros {
 		return true;
 	}
 
-	_highlightMacroCode(form, textarea, code) {
-		const type = form.find("select[name=type]").val();
-		let content = textarea.val();
-		// Add an empty space if the last character is a newline because otherwise it won't let scrollTop reach
-		// so we get a one line diff between the text area and <pre> when the last line is empty.
-		if (content.substr(-1) === "\n") content += " ";
-		code.removeClass("javascript handlebars hljs").addClass(type === "script" ? "javascript" : "handlebars");
-		code.text(content);
-		hljs.highlightBlock(code[0]);
-	}
-
 	renderMacroConfig(obj, html, data) {
 		let form = html.find("form");
 		// A re-render will cause the html object to be the internal element, which is the form itself.
@@ -367,11 +388,11 @@ new FurnaceMacros();
 
 Hooks.on("hotbarDrop", (hotbar, data, slot) => {
 	if (data.type !== "RollTable") return true;
-	const table = game.tables.get(data.id);
+	const table = game.tables.get(data.uuid.split(".")[1]);
 	if (!table) return true;
 	// Make a new macro for the RollTable
 	Macro.create({
-		name: game.i18n.format("FURNACE.ROLLTABLE.macroName", { tableName: table.name }),
+		name: game.i18n.format("FURNACE.ROLLTABLE.macroName", { document: game.i18n.localize(`DOCUMENT.${data.type}`), name: table.name }),
 		type: "script",
 		scope: "global",
 		command: `game.tables.get("${table.id}").draw();`,
