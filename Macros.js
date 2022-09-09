@@ -116,20 +116,20 @@ class FurnaceMacros {
 					requestId: message.requestId,
 					error,
 				});
-			if (!macro) return sendResponse(game.i18n.localize("FURNACE.MACROS.NoMacro"));
-			if (!user) return sendResponse(game.i18n.localize("FURNACE.MACROS.NoUser"));
-			if (macro.data.type !== "script") return sendResponse(game.i18n.localize("FURNACE.MACROS.NotScript"));
-			if (!user.can("MACRO_SCRIPT")) return sendResponse(game.i18n.localize("FURNACE.MACROS.NoMacroPermission"));
-			if (!macro.getFlag("advanced-macros", "runAsGM") || !macro.canRunAsGM) return sendResponse(game.i18n.localize("FURNACE.MACROS.NoRunAsGM"));
+			if (!macro) return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NoMacro"));
+			if (!user) return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NoUser"));
+			if (macro.type !== "script") return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NotScript"));
+			if (!user.can("MACRO_SCRIPT")) return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NoMacroPermission"));
+			if (!macro.getFlag("advanced-macros", "runAsGM") || !macro.canRunAsGM) return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NoRunAsGM"));
 
 			const context = FurnaceMacros.getTemplateContext(message.args, message.context);
 			try {
 				// const result = macro.callScriptFunction(context);
-				const result = macro._execute(context);
+				const result = macro.execute(context);
 				return sendResponse(null, result);
 			} catch (err) {
 				console.error(err);
-				return sendResponse(game.i18n.format("FURNACE.MACROS.ExternalMacroSyntaxError", { GM: game.user.name }));
+				return sendResponse(game.i18n.format("FURNACE.MACROS.responses.ExternalMacroSyntaxError", { GM: game.user.name }));
 			}
 		} else if (message.action === "GMMacroResult") {
 			const resolve = this._requestResolvers[message.requestId];
@@ -206,7 +206,7 @@ class FurnaceMacros {
 			}
 		}
 		if (this.type === "script") {
-			if (!game.user.can("MACRO_SCRIPT")) return ui.notifications.warn(game.i18n.localize("FURNACE.MACROS.NoMacroPermission"));
+			if (!game.user.can("MACRO_SCRIPT")) return ui.notifications.warn(game.i18n.localize("FURNACE.MACROS.responses.NoMacroPermission"));
 			if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM) return game.furnaceMacros.executeMacroAsGM(this, context);
 			// return this.callScriptFunction(context);
 			return this._executeScript(context);
@@ -218,11 +218,11 @@ class FurnaceMacros {
 			try {
 				const content = this.renderContent(...args);
 				ui.chat.processMessage(content).catch((err) => {
-					ui.notifications.error(game.i18n.localize("FURNACE.MACROS.SyntaxError"));
+					ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.SyntaxError"));
 					console.error(err);
 				});
 			} catch (err) {
-				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.MacroSyntaxError"));
+				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.MacroSyntaxError"));
 				console.error(err);
 			}
 		}
@@ -232,7 +232,7 @@ class FurnaceMacros {
 			try {
 				return await this.renderContent(...args);
 			} catch (err) {
-				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.MacroSyntaxError"));
+				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.MacroSyntaxError"));
 				console.error(err);
 			}
 		}
@@ -242,7 +242,7 @@ class FurnaceMacros {
 	async executeMacroAsGM(macro, context) {
 		const activeGMs = game.users.contents.filter((u) => u.isGM && u.active);
 		if (activeGMs.length === 0) {
-			ui.notifications.error(game.i18n.format("FURNACE.MACROS.NoConnectedGM", { macro: macro.name }));
+			ui.notifications.error(game.i18n.format("FURNACE.MACROS.responses.NoConnectedGM", { macro: macro.name }));
 			return "";
 		}
 		// Elect a GM to run the Macro
@@ -255,7 +255,7 @@ class FurnaceMacros {
 			});
 			setTimeout(() => {
 				delete this._requestResolvers[requestId];
-				reject(new Error(game.i18n.localize("FURNACE.MACROS.TimeoutGM")));
+				reject(new Error(game.i18n.localize("FURNACE.MACROS.responses.TimeoutGM")));
 			}, 5000);
 		});
 		// Execute the macro in the first elected GM's
@@ -279,7 +279,7 @@ class FurnaceMacros {
 			});
 			setTimeout(() => {
 				delete this._requestResolvers[requestId];
-				reject(new Error(game.i18n.localize("FURNACE.MACROS.TimeoutWaitGM")));
+				reject(new Error(game.i18n.localize("FURNACE.MACROS.responses.TimeoutWaitGM")));
 			}, 5000);
 		});
 		if (executeResponse.error) throw new Error(executeResponse.error);
