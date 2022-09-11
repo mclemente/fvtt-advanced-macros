@@ -4,9 +4,8 @@
 	"description": "Use handlebars templating, recursive macro calls and call macros with arguments or directly from chat.",
 	"url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
 	"version": "v1.15",
-	"scripts": ["libs/hljs/highlight.pack.js", "libs/tokenizer.min.js"],
+	"scripts": ["libs/tokenizer.min.js"],
   "esmodules": ["Macros.js"],
-	"styles": ["libs/hljs/styles/github-gist.css"],
 	"languages": [
 		{
 			"lang": "en",
@@ -38,6 +37,6 @@
 	"download": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.zip",
 	"compatibility": {
 		"minimum": "10",
-		"verified": "10.273"
+		"verified": "10"
 	}
 }

@@ -125,7 +125,7 @@ class FurnaceMacros {
 			const context = FurnaceMacros.getTemplateContext(message.args, message.context);
 			try {
 				// const result = macro.callScriptFunction(context);
-				const result = macro.execute(context);
+				const result = macro._executeScript(context);
 				return sendResponse(null, result);
 			} catch (err) {
 				console.error(err);
