@@ -5,7 +5,7 @@
 	"url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
 	"version": "v1.15",
 	"scripts": ["libs/tokenizer.min.js"],
-  "esmodules": ["Macros.js"],
+	"esmodules": ["Macros.js"],
 	"languages": [
 		{
 			"lang": "en",
