@@ -60,8 +60,7 @@ class FurnaceMacros {
 				// eslint-disable-next-line no-new-func
 				const fn = Function("{speaker, actor, token, character, args, scene}={}", body);
 				try {
-					if (asyncFunction) return fn.call(this, context);
-					else return fn.call(this, context);
+					return fn.call(this, context);
 				} catch (err) {
 					ui.notifications.error("There was an error in your macro syntax. See the console (F12) for details");
 				}
