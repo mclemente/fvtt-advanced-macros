@@ -18,15 +18,13 @@ class FurnaceMacros {
 		Hooks.on("init", this.init.bind(this));
 		Hooks.once("ready", this.ready.bind(this));
 		Hooks.on("renderMacroConfig", this.renderMacroConfig.bind(this));
-		delete ChatLog.MESSAGE_PATTERNS["invalid"];
 	}
 
 	init() {
 		game.furnaceMacros = this;
 		game.macros = this;
 
-		Hooks.on("preCreateChatMessage", this.preCreateChatMessage.bind(this));
-		// Macro.prototype.renderContent = this.renderMacro;
+		Hooks.on("chatMessage", this.chatMessage.bind(this));
 		Macro.prototype.renderContent = this.renderMacro;
 		Object.defineProperty(Macro.prototype, "canRunAsGM", { get: this.canRunAsGM });
 		libWrapper.register(
@@ -62,7 +60,8 @@ class FurnaceMacros {
 				try {
 					return fn.call(this, context);
 				} catch (err) {
-					ui.notifications.error("There was an error in your macro syntax. See the console (F12) for details");
+					ui.notifications.error("There was an error in your macro syntax. See the console (F12) for details", { console: false });
+					console.error("Advanced Macros |", err);
 				}
 			},
 			"OVERRIDE"
@@ -127,7 +126,7 @@ class FurnaceMacros {
 				const result = macro._executeScript(context);
 				return sendResponse(null, result);
 			} catch (err) {
-				console.error(err);
+				console.error("Advanced Macros |", err);
 				return sendResponse(game.i18n.format("FURNACE.MACROS.responses.ExternalMacroSyntaxError", { GM: game.user.name }));
 			}
 		} else if (message.action === "GMMacroResult") {
@@ -217,12 +216,12 @@ class FurnaceMacros {
 			try {
 				const content = this.renderContent(...args);
 				ui.chat.processMessage(content).catch((err) => {
-					ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.SyntaxError"));
-					console.error(err);
+					ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.SyntaxError"), { console: false });
+					console.error("Advanced Macros |", err);
 				});
 			} catch (err) {
-				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.MacroSyntaxError"));
-				console.error(err);
+				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.MacroSyntaxError"), { console: false });
+				console.error("Advanced Macros |", err);
 			}
 		}
 
@@ -231,8 +230,8 @@ class FurnaceMacros {
 			try {
 				return await this.renderContent(...args);
 			} catch (err) {
-				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.MacroSyntaxError"));
-				console.error(err);
+				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.MacroSyntaxError"), { console: false });
+				console.error("Advanced Macros |", err);
 			}
 		}
 	}
@@ -285,23 +284,20 @@ class FurnaceMacros {
 		else return executeResponse.result;
 	}
 
-	preCreateChatMessage(chatMessage, data, options, userId) {
-		if (data.content === undefined || data.content.length == 0) return;
-
-		let content = data.content || "";
+	chatMessage(chatLog, message, chatData) {
 		let tokenizer = null;
 		let hasMacros = false;
-		if (!chatMessage.isRoll) {
-			if (content.includes("{{")) {
-				const context = FurnaceMacros.getTemplateContext();
-				const compiled = Handlebars.compile(content);
-				content = compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
-				chatMessage.updateSource({ content: content });
-				if (content.trim().length === 0) return false;
-			}
-			if (content.trim().startsWith("<")) return true;
-			content = content.replace(/\n/gm, "<br>");
-			content = content.split("<br>").map((line) => {
+		if (message.includes("{{")) {
+			const context = FurnaceMacros.getTemplateContext();
+			const compiled = Handlebars.compile(message);
+			message = compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
+			if (message.trim().length === 0) return false;
+			message = message;
+		}
+		if (message.trim().startsWith("<")) return true;
+		if (message.match(chatLog.constructor.MESSAGE_PATTERNS["invalid"])) {
+			message = message.replace(/\n/gm, "<br>");
+			message = message.split("<br>").map((line) => {
 				if (line.startsWith("/")) {
 					// Ensure tokenizer, but don't consider dash as a token delimiter
 					if (!tokenizer)
@@ -325,20 +321,19 @@ class FurnaceMacros {
 				return line.trim();
 			});
 
+			message = message.join("\n").trim().replace(/\n/gm, "<br>");
 			if (hasMacros) {
-				mergeObject(data, { "flags.advanced-macros.macros.template": data.content });
 				// If non-async, then still, recreate it so we can do recursive macro calls
-				data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
-				if (data.content !== undefined && data.content.length > 0) {
-					data.content = data.content.trim();
+				if (message !== undefined && message.length > 0) {
+					message = message.trim();
 
-					let [command, match] = ChatLog.parse(data.content);
-					// Special handlers for no command
-					if (command === "invalid") throw new Error(game.i18n.format("CHAT.InvalidCommand", { command: match[1] }));
-					else if (command === "none") command = data.speaker?.token ? "ic" : "ooc";
-
+					let [command, match] = ChatLog.parse(message);
 					// Process message data based on the identified command type
 					const createOptions = {};
+					const data = {
+						content: message,
+						...chatData,
+					};
 					switch (command) {
 						case "whisper":
 						case "reply":
@@ -346,17 +341,20 @@ class FurnaceMacros {
 						case "players":
 							ChatLog.prototype._processWhisperCommand(command, match, data, createOptions);
 							break;
+						case "none":
+							command = chatData.speaker?.token ? "ic" : "ooc";
 						case "ic":
 						case "emote":
 						case "ooc":
 							ChatLog.prototype._processChatCommand(command, match, data, createOptions);
 							break;
+						case "invalid":
+							throw new Error(game.i18n.format("CHAT.InvalidCommand", { command: match[1] }));
 					}
 					ChatMessage.create(data, createOptions);
 				}
 				return false;
 			}
-			data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
 		}
 		return true;
 	}
