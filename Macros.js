@@ -27,6 +27,31 @@ class FurnaceMacros {
 		Hooks.on("chatMessage", this.chatMessage.bind(this));
 		Macro.prototype.renderContent = this.renderMacro;
 		Object.defineProperty(Macro.prototype, "canRunAsGM", { get: this.canRunAsGM });
+
+		function executeScript(context) {
+			// Add variables to the evaluation scope
+			const speaker = ChatMessage.implementation.getSpeaker();
+			const character = game.user.character;
+			let actor = context.actor || game.actors.get(context.speaker.actor);
+			let token = context.token || (canvas.ready ? canvas.tokens.get(context.speaker.token) : null);
+
+			// Attempt script execution
+			const asyncFunction = this.command.includes("await") ? "async" : "";
+			const body = `return (${asyncFunction} () => {
+			${this.command}
+		})()`;
+			// eslint-disable-next-line no-new-func
+			const fn = Function("{speaker, actor, token, character, args, scene}={}", body);
+			try {
+				return fn.call(this, context);
+			} catch (err) {
+				ui.notifications.error("There was an error in your macro syntax. See the console (F12) for details", {
+					console: false,
+				});
+				console.error("Advanced Macros |", err);
+			}
+		}
+
 		libWrapper.register(
 			"advanced-macros",
 			"Macro.prototype.canExecute",
@@ -40,30 +65,11 @@ class FurnaceMacros {
 			},
 			"OVERRIDE"
 		);
+		libWrapper.register("advanced-macros", "Macro.prototype._executeScript", executeScript, "OVERRIDE");
 		libWrapper.register(
 			"advanced-macros",
 			"CONFIG.Macro.documentClass.prototype._executeScript",
-			function (context) {
-				// Add variables to the evaluation scope
-				const speaker = ChatMessage.implementation.getSpeaker();
-				const character = game.user.character;
-				let actor = context.actor || game.actors.get(context.speaker.actor);
-				let token = context.token || (canvas.ready ? canvas.tokens.get(context.speaker.token) : null);
-
-				// Attempt script execution
-				const asyncFunction = this.command.includes("await") ? "async" : "";
-				const body = `return (${asyncFunction} () => {
-					${this.command}
-				})()`;
-				// eslint-disable-next-line no-new-func
-				const fn = Function("{speaker, actor, token, character, args, scene}={}", body);
-				try {
-					return fn.call(this, context);
-				} catch (err) {
-					ui.notifications.error("There was an error in your macro syntax. See the console (F12) for details", { console: false });
-					console.error("Advanced Macros |", err);
-				}
-			},
+			executeScript,
 			"OVERRIDE"
 		);
 		libWrapper.register("advanced-macros", "Macro.prototype.execute", this.executeMacro, "OVERRIDE");
