@@ -66,13 +66,15 @@ class FurnaceMacros {
 			"OVERRIDE"
 		);
 		libWrapper.register("advanced-macros", "Macro.prototype._executeScript", executeScript, "OVERRIDE");
-		libWrapper.register(
-			"advanced-macros",
-			"CONFIG.Macro.documentClass.prototype._executeScript",
-			executeScript,
-			"OVERRIDE"
-		);
 		libWrapper.register("advanced-macros", "Macro.prototype.execute", this.executeMacro, "OVERRIDE");
+		if (game.system.id === "pf2e") {
+			libWrapper.register(
+				"advanced-macros",
+				"CONFIG.Macro.documentClass.prototype._executeScript",
+				executeScript,
+				"OVERRIDE"
+			);
+		}
 	}
 	ready() {
 		game.socket.on("module.advanced-macros", this._onSocketMessage.bind(this));
