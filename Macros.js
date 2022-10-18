@@ -42,7 +42,7 @@ class FurnaceMacros {
 		);
 		libWrapper.register(
 			"advanced-macros",
-			"Macro.prototype._executeScript",
+			"CONFIG.Macro.documentClass.prototype._executeScript",
 			function (context) {
 				// Add variables to the evaluation scope
 				const speaker = ChatMessage.implementation.getSpeaker();
