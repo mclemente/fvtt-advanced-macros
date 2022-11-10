@@ -25,6 +25,7 @@ class FurnaceMacros {
 		game.macros = this;
 
 		Hooks.on("chatMessage", this.chatMessage.bind(this));
+		Hooks.on("preCreateChatMessage", this.preCreateChatMessage.bind(this));
 		Macro.prototype.renderContent = this.renderMacro;
 		Object.defineProperty(Macro.prototype, "canRunAsGM", { get: this.canRunAsGM });
 
@@ -292,24 +293,32 @@ class FurnaceMacros {
 		else return executeResponse.result;
 	}
 
+	/**
+	 * Called when a message is created in the Chat Log.
+	 * Calls ChatMessage.create().
+	 * @param {*} chatLog
+	 * @param {*} message
+	 * @param {*} chatData
+	 * @returns
+	 */
 	chatMessage(chatLog, message, chatData) {
-		let tokenizer = null;
 		let hasMacros = false;
 		if (message.includes("{{")) {
 			const context = FurnaceMacros.getTemplateContext();
 			const compiled = Handlebars.compile(message);
 			message = compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
 			if (message.trim().length === 0) return false;
-			message = message;
 		}
 		if (message.trim().startsWith("<")) return true;
 		if (message.match(chatLog.constructor.MESSAGE_PATTERNS["invalid"])) {
 			message = message.replace(/\n/gm, "<br>");
+			let tokenizer = null;
 			message = message.split("<br>").map((line) => {
 				if (line.startsWith("/")) {
 					// Ensure tokenizer, but don't consider dash as a token delimiter
 					if (!tokenizer)
 						tokenizer = new TokenizeThis({
+							//prettier-ignore
 							shouldTokenize: ["(", ")", ",", "*", "/", "%", "+", "=", "!=", "!", "<", ">", "<=", ">=", "^"],
 						});
 					let command = null;
@@ -367,6 +376,90 @@ class FurnaceMacros {
 		return true;
 	}
 
+	/**
+	 * Called when ChatMessage.create() is called.
+	 * @param {*} chatMessage
+	 * @param {*} data
+	 * @param {*} options
+	 * @param {*} userId
+	 * @returns
+	 */
+	preCreateChatMessage(chatMessage, data, options, userId) {
+		if (data.content === undefined || data.content.length == 0) return;
+		let content = data.content || "";
+		let hasMacros = false;
+		if (!chatMessage.isRoll) {
+			if (content.includes("{{")) {
+				const context = FurnaceMacros.getTemplateContext();
+				const compiled = Handlebars.compile(content);
+				content = compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
+				chatMessage.updateSource({ content: content });
+				if (content.trim().length === 0) return false;
+			}
+			if (content.trim().startsWith("<")) return true;
+			content = content.replace(/\n/gm, "<br>");
+			let tokenizer = null;
+			content = content.split("<br>").map((line) => {
+				if (line.startsWith("/")) {
+					// Ensure tokenizer, but don't consider dash as a token delimiter
+					if (!tokenizer)
+						tokenizer = new TokenizeThis({
+							//prettier-ignore
+							shouldTokenize: ["(", ")", ",", "*", "/", "%", "+", "=", "!=", "!", "<", ">", "<=", ">=", "^"],
+						});
+					let command = null;
+					let args = [];
+					tokenizer.tokenize(line.substr(1), (token) => {
+						if (!command) command = token;
+						else args.push(token);
+					});
+					const macro = game.macros.contents.find((macro) => macro.name === command);
+					if (macro) {
+						hasMacros = true;
+						const result = macro.renderContent(...args);
+						if (typeof result !== "string") return "";
+						return result.trim();
+					}
+				}
+				return line.trim();
+			});
+
+			if (hasMacros) {
+				mergeObject(data, { "flags.advanced-macros.macros.template": data.content });
+				// If non-async, then still, recreate it so we can do recursive macro calls
+				data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
+				if (data.content !== undefined && data.content.length > 0) {
+					data.content = data.content.trim();
+
+					let [command, match] = ChatLog.parse(data.content);
+					// Special handlers for no command
+					if (command === "invalid") throw new Error(game.i18n.format("CHAT.InvalidCommand", { command: match[1] }));
+					else if (command === "none") command = data.speaker?.token ? "ic" : "ooc";
+
+					// Process message data based on the identified command type
+					const createOptions = {};
+					switch (command) {
+						case "whisper":
+						case "reply":
+						case "gm":
+						case "players":
+							ChatLog.prototype._processWhisperCommand(command, match, data, createOptions);
+							break;
+						case "ic":
+						case "emote":
+						case "ooc":
+							ChatLog.prototype._processChatCommand(command, match, data, createOptions);
+							break;
+					}
+					ChatMessage.create(data, createOptions);
+				}
+				return false;
+			}
+			data.content = content.join("\n").trim().replace(/\n/gm, "<br>");
+		}
+		return true;
+	}
+
 	renderMacroConfig(obj, html, data) {
 		let form = html.find("form");
 		// A re-render will cause the html object to be the internal element, which is the form itself.
@@ -377,7 +470,7 @@ class FurnaceMacros {
 			const canRunAsGM = obj.object.canRunAsGM;
 			const typeGroup = form.find("select[name=type]").parent(".form-group");
 			const gmDiv = $(`
-				<div class="form-group" title="${game.i18n.localize("FURNACE.MACROS.runAsGMTooltip")}"> 
+				<div class="form-group" title="${game.i18n.localize("FURNACE.MACROS.runAsGMTooltip")}">
 					<label class="form-group">
 						<span>${game.i18n.localize("FURNACE.MACROS.runAsGM")}</span>
 						<input type="checkbox" name="flags.advanced-macros.runAsGM" data-dtype="Boolean" ${runAsGM ? "checked" : ""} ${!canRunAsGM ? "disabled" : ""}/>
