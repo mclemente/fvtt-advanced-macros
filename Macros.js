@@ -59,7 +59,8 @@ class FurnaceMacros {
 			function () {
 				if (!this.testUserPermission(game.user, "LIMITED")) return false;
 				if (this.type === "script") {
-					if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM) return game.furnaceMacros.executeMacroAsGM(this, context);
+					if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM)
+						return game.furnaceMacros.executeMacroAsGM(this, context);
 					return game.user.can("MACRO_SCRIPT");
 				}
 				return true;
@@ -69,7 +70,12 @@ class FurnaceMacros {
 		libWrapper.register("advanced-macros", "Macro.prototype._executeScript", executeScript, "OVERRIDE");
 		libWrapper.register("advanced-macros", "Macro.prototype.execute", this.executeMacro, "OVERRIDE");
 		if (game.system.id === "pf2e") {
-			libWrapper.register("advanced-macros", "CONFIG.Macro.documentClass.prototype._executeScript", executeScript, "OVERRIDE");
+			libWrapper.register(
+				"advanced-macros",
+				"CONFIG.Macro.documentClass.prototype._executeScript",
+				executeScript,
+				"OVERRIDE"
+			);
 		}
 	}
 	ready() {
@@ -121,8 +127,10 @@ class FurnaceMacros {
 			if (!macro) return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NoMacro"));
 			if (!user) return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NoUser"));
 			if (macro.type !== "script") return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NotScript"));
-			if (!user.can("MACRO_SCRIPT")) return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NoMacroPermission"));
-			if (!macro.getFlag("advanced-macros", "runAsGM") || !macro.canRunAsGM) return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NoRunAsGM"));
+			if (!user.can("MACRO_SCRIPT"))
+				return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NoMacroPermission"));
+			if (!macro.getFlag("advanced-macros", "runAsGM") || !macro.canRunAsGM)
+				return sendResponse(game.i18n.localize("FURNACE.MACROS.responses.NoRunAsGM"));
 
 			const context = FurnaceMacros.getTemplateContext(message.args, message.context);
 			try {
@@ -131,7 +139,9 @@ class FurnaceMacros {
 				return sendResponse(null, result);
 			} catch (err) {
 				console.error("Advanced Macros |", err);
-				return sendResponse(game.i18n.format("FURNACE.MACROS.responses.ExternalMacroSyntaxError", { GM: game.user.name }));
+				return sendResponse(
+					game.i18n.format("FURNACE.MACROS.responses.ExternalMacroSyntaxError", { GM: game.user.name })
+				);
 			}
 		} else if (message.action === "GMMacroResult") {
 			const resolve = this._requestResolvers[message.requestId];
@@ -194,7 +204,9 @@ class FurnaceMacros {
 		game.users.contents.forEach((user) => {
 			if (user.id === this.author?.id || user.isGM) delete permissions[user.id];
 		});
-		return author && author.isGM && Object.values(permissions).every((p) => p < CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER);
+		return (
+			author && author.isGM && Object.values(permissions).every((p) => p < CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+		);
 	}
 
 	renderMacro(...args) {
@@ -208,8 +220,10 @@ class FurnaceMacros {
 			}
 		}
 		if (this.type === "script") {
-			if (!game.user.can("MACRO_SCRIPT")) return ui.notifications.warn(game.i18n.localize("FURNACE.MACROS.responses.NoMacroPermission"));
-			if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM) return game.furnaceMacros.executeMacroAsGM(this, context);
+			if (!game.user.can("MACRO_SCRIPT"))
+				return ui.notifications.warn(game.i18n.localize("FURNACE.MACROS.responses.NoMacroPermission"));
+			if (this.getFlag("advanced-macros", "runAsGM") && this.canRunAsGM && !game.user.isGM)
+				return game.furnaceMacros.executeMacroAsGM(this, context);
 			// return this.callScriptFunction(context);
 			return this._executeScript(context);
 		}
@@ -220,11 +234,15 @@ class FurnaceMacros {
 			try {
 				const content = this.renderContent(...args);
 				ui.chat.processMessage(content).catch((err) => {
-					ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.SyntaxError"), { console: false });
+					ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.SyntaxError"), {
+						console: false,
+					});
 					console.error("Advanced Macros |", err);
 				});
 			} catch (err) {
-				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.MacroSyntaxError"), { console: false });
+				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.MacroSyntaxError"), {
+					console: false,
+				});
 				console.error("Advanced Macros |", err);
 			}
 		}
@@ -234,7 +252,9 @@ class FurnaceMacros {
 			try {
 				return await this.renderContent(...args);
 			} catch (err) {
-				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.MacroSyntaxError"), { console: false });
+				ui.notifications.error(game.i18n.localize("FURNACE.MACROS.responses.MacroSyntaxError"), {
+					console: false,
+				});
 				console.error("Advanced Macros |", err);
 			}
 		}
@@ -428,7 +448,8 @@ class FurnaceMacros {
 
 					let [command, match] = ChatLog.parse(data.content);
 					// Special handlers for no command
-					if (command === "invalid") throw new Error(game.i18n.format("CHAT.InvalidCommand", { command: match[1] }));
+					if (command === "invalid")
+						throw new Error(game.i18n.format("CHAT.InvalidCommand", { command: match[1] }));
 					else if (command === "none") command = data.speaker?.token ? "ic" : "ooc";
 
 					// Process message data based on the identified command type
@@ -468,7 +489,9 @@ class FurnaceMacros {
 				<div class="form-group" title="${game.i18n.localize("FURNACE.MACROS.runAsGMTooltip")}">
 					<label class="form-group">
 						<span>${game.i18n.localize("FURNACE.MACROS.runAsGM")}</span>
-						<input type="checkbox" name="flags.advanced-macros.runAsGM" data-dtype="Boolean" ${runAsGM ? "checked" : ""} ${!canRunAsGM ? "disabled" : ""}/>
+						<input type="checkbox" name="flags.advanced-macros.runAsGM" data-dtype="Boolean" ${runAsGM ? "checked" : ""} ${
+				!canRunAsGM ? "disabled" : ""
+			}/>
 					</label>
 				</div>
 			`);
@@ -485,7 +508,10 @@ Hooks.on("hotbarDrop", (hotbar, data, slot) => {
 	if (!table) return true;
 	// Make a new macro for the RollTable
 	Macro.create({
-		name: game.i18n.format("FURNACE.ROLLTABLE.macroName", { document: game.i18n.localize(`DOCUMENT.${data.type}`), name: table.name }),
+		name: game.i18n.format("FURNACE.ROLLTABLE.macroName", {
+			document: game.i18n.localize(`DOCUMENT.${data.type}`),
+			name: table.name,
+		}),
 		type: "script",
 		scope: "global",
 		command: `game.tables.get("${table.id}").draw();`,
