@@ -15,7 +15,7 @@ class FurnaceMacros {
 
 		this._GMElectionIds = [];
 		this._requestResolvers = {};
-		Hooks.on("init", this.init.bind(this));
+		Hooks.once("init", this.init.bind(this));
 		Hooks.once("ready", this.ready.bind(this));
 		Hooks.on("renderMacroConfig", this.renderMacroConfig.bind(this));
 	}
