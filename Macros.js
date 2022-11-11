@@ -77,6 +77,9 @@ class FurnaceMacros {
 				"OVERRIDE"
 			);
 		}
+
+		libWrapper.register("advanced-macros", "TextEditor._createContentLink", this._createContentLink, "OVERRIDE");
+		libWrapper.register("advanced-macros", "TextEditor._onClickContentLink", this._onClickContentLink, "OVERRIDE");
 	}
 	ready() {
 		game.socket.on("module.advanced-macros", this._onSocketMessage.bind(this));
@@ -496,6 +499,93 @@ class FurnaceMacros {
 				</div>
 			`);
 			gmDiv.insertAfter(typeGroup);
+		}
+	}
+
+	// From Dynamic Macro Links
+	_createContentLink(match, { async = false, relativeTo } = {}) {
+		let [type, target, hash, name] = match.slice(1, 5);
+
+		// Prepare replacement data
+		const data = {
+			cls: ["content-link"],
+			icon: null,
+			dataset: {},
+			name: name,
+		};
+
+		let doc;
+		let broken = false;
+		let args = [];
+		if (type === "UUID") {
+			if (target.split(".")[0] == "Macro" && /\s/g.test(target)) {
+				args = target.split(" ");
+				target = args.shift();
+			}
+			data.dataset = { id: null, uuid: target, args };
+			if (async) doc = fromUuid(target, relativeTo);
+			else {
+				try {
+					doc = fromUuidSync(target, relativeTo);
+				} catch (err) {
+					[type, ...target] = target.split(".");
+					broken = TextEditor._createLegacyContentLink(type, target.join("."), name, data);
+				}
+			}
+		} else broken = TextEditor._createLegacyContentLink(type, target, name, data);
+
+		// Flag a link as broken
+		if (broken) {
+			data.icon = "fas fa-unlink";
+			data.cls.push("broken");
+		}
+
+		const constructAnchor = (doc) => {
+			if (doc) {
+				if (doc.documentName) {
+					const attrs = { draggable: true };
+					if (hash) attrs["data-hash"] = hash;
+					return doc.toAnchor({
+						attrs,
+						dataset: { args: data.dataset.args },
+						classes: data.cls,
+						name: data.name,
+					});
+				}
+				data.name = data.name || doc.name || target;
+				const type = game.packs.get(doc.pack)?.documentName;
+				data.dataset.type = type;
+				data.dataset.id = doc._id;
+				data.dataset.pack = doc.pack;
+				if (hash) data.dataset.hash = hash;
+				data.icon = CONFIG[type].sidebarIcon;
+			} else if (type === "UUID") {
+				// The UUID lookup failed so this is a broken link.
+				data.icon = "fas fa-unlink";
+				data.cls.push("broken");
+			}
+
+			const a = document.createElement("a");
+			a.classList.add(...data.cls);
+			a.draggable = true;
+			for (let [k, v] of Object.entries(data.dataset)) {
+				a.dataset[k] = v;
+			}
+			a.innerHTML = `<i class="${data.icon}"></i>${data.name}`;
+			return a;
+		};
+
+		if (doc instanceof Promise) return doc.then(constructAnchor);
+		return constructAnchor(doc);
+	}
+
+	async _onClickContentLink(event) {
+		event.preventDefault();
+		const doc = await fromUuid(event.currentTarget.dataset.uuid);
+		if (event.currentTarget.dataset.type !== "Macro") return doc?._onClickDocumentLink(event);
+		else {
+			const args = event.currentTarget.dataset.args.split(",") ?? [];
+			return doc?.execute(...args);
 		}
 	}
 }
