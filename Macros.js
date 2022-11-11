@@ -324,7 +324,7 @@ class FurnaceMacros {
 			message = compiled(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
 			if (message.trim().length === 0) return false;
 		}
-		if (message.trim().startsWith("<")) return true;
+		if (message.trim().startsWith("<") || message.match(chatLog.constructor.MESSAGE_PATTERNS["macro"])) return true;
 		if (message.match(chatLog.constructor.MESSAGE_PATTERNS["invalid"])) {
 			message = message.replace(/\n/gm, "<br>");
 			let tokenizer = null;
