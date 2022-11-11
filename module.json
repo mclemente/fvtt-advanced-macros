@@ -28,7 +28,7 @@
 			"name": "macros",
 			"label": "Advanced Macros",
 			"path": "packs/macros.db",
-			"private": false,
+			"private": true,
 			"type": "Macro"
 		}
 	],
