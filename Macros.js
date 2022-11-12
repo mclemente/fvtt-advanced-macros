@@ -502,7 +502,6 @@ class FurnaceMacros {
 		}
 	}
 
-	// From Dynamic Macro Links
 	_createContentLink(match, { async = false, relativeTo } = {}) {
 		let [type, target, hash, name] = match.slice(1, 5);
 
