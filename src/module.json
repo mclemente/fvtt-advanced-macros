@@ -1,0 +1,111 @@
+{
+	"id": "advanced-macros",
+	"title": "Advanced Macros",
+	"description": "Use handlebars templating, recursive macro calls and call macros with arguments or directly from chat.",
+	"version": "1.19.2",
+	"authors": [
+		{
+			"name": "mclemente"
+		},
+		{
+			"name": "p4535992",
+			"url": "https://github.com/p4535992",
+			"discord": "",
+			"twitter": "",
+			"patreon": "",
+			"github": "p4535992",
+			"ko-fi": "",
+			"reddit": "",
+			"email": ""
+		}
+	],
+	"type": "module",
+	"socket": true,
+	"includes": [
+		"./assets/**",
+		"./lang/**",
+		"./languages/**",
+		"./scripts/**",
+		"./styles/**",
+		"./templates/**",
+		"./module.json",
+		"./README.md",
+		"./icons/**",
+		"./packs/**"
+	],
+	"media": [
+		{
+			"type": "icon",
+			"location": ""
+		},
+		{
+			"type": "cover",
+			"location": ""
+		},
+		{
+			"type": "screenshot",
+			"location": ""
+		}
+	],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "languages/en.json"
+		},
+		{
+			"lang": "fr",
+			"name": "Français (French)",
+			"path": "languages/fr.json"
+		},
+		{
+			"lang": "cn",
+			"name": "中文 (Chinese)",
+			"path": "languages/cn.json"
+		}
+	],
+	"packs": [
+		{
+			"name": "macros",
+			"label": "Advanced Macros",
+			"path": "packs/macros.db",
+			"private": true,
+			"type": "Macro"
+		}
+	],
+	"socket": true,
+	"scripts": ["lib/tokenizer.min.js"],
+	"esmodules": ["main.js"],
+	"styles": [],
+	"compatibility": {
+		"minimum": 10,
+		"verified": 10,
+		"maximum": 10
+	},
+	"manifestPlusVersion": "1.2.1",
+	"url": "https://github.com/p4535992/fvtt-advanced-macros",
+	"manifest": "https://github.com/p4535992/fvtt-advanced-macros/releases/latest/download/module.json",
+	"download": "https://github.com/p4535992/fvtt-advanced-macros/releases/latest/download/module.zip",
+	"readme": "https://github.com/p4535992/fvtt-advanced-macros/blob/v1.19.2/README.md",
+	"changelog": "https://github.com/p4535992/fvtt-advanced-macros/blob/v1.19.2/CHANGELOG.md",
+	"bugs": "https://github.com/p4535992/fvtt-advanced-macros/issues",
+	"allowBugReporter": true,
+	"relationships": {
+		"systems": [],
+		"requires": [
+			{
+				"id": "lib-wrapper",
+				"type": "module",
+				"manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
+				"compatibility": {}
+			},
+			{
+				"id": "socketlib",
+				"type": "module",
+				"manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json",
+				"compatibility": {}
+			}
+		],
+		"conflicts": []
+	}
+}

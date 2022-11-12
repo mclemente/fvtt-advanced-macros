@@ -1,0 +1,6 @@
+{
+	"advanced-macros.MACROS.runAsGM": "以 GM 角色执行宏",
+	"advanced-macros.MACROS.runAsGMTooltip": "此项将使玩家执行时也以 GM 用户身份执行此宏。<br/>出于安全，仅允许 GM 创建并且没有其他用户具有拥有权限的宏应用",
+	"advanced-macros.MACROS.highlight.name": "高亮宏代码",
+	"advanced-macros.MACROS.highlight.hint": "启用后，宏代码将会被高亮处理。注意此功能可能和其他代码编辑器模组不兼容。"
+}
