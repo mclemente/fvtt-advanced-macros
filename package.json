@@ -2,7 +2,7 @@
   "name": "advanced-macros",
 	"title": "Advanced Macros",
 	"description": "Use handlebars templating, recursive macro calls and call macros with arguments or directly from chat.",
-  "version": "1.19.1",
+  "version": "1.19.3",
   "main": "main.js",
   "scripts": {
     "publish": "gulp publish --update",
