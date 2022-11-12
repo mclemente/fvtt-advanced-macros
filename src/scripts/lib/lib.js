@@ -67,7 +67,7 @@ export function dialogWarning(message, icon = "fas fa-exclamation-triangle") {
 export async function executeMacro(...args) {
 	const macro = this;
 	const user = game.user;
-	const callFromSocket = (args && args.length > 0)  ? args[args.length - 1] : false;
+	const callFromSocket = args && args.length > 0 ? args[args.length - 1] : false;
 
 	// DO NOTHING THIS CHECK AVOID SOCKET LOOP , but socketlib should manage ?
 	if (
@@ -256,7 +256,7 @@ export async function renderMacro(...args) {
 		}
 	}
 
-	const callFromSocket = (args && args.length > 0) ? args[args.length - 1] : false;
+	const callFromSocket = args && args.length > 0 ? args[args.length - 1] : false;
 
 	const contextForSocket = {
 		speaker: context.speaker,
@@ -310,7 +310,7 @@ export async function renderMacro(...args) {
 // async executeMacroAsGM(macro, context) {
 // 	const activeGMs = game.users.contents.filter((u) => u.isGM && u.active);
 // 	if (activeGMs.length === 0) {
-// 		ui.notifications.error(game.i18n.format("FURNACE.MACROS.responses.NoConnectedGM", { macro: macro.name }));
+// 		ui.notifications.error(game.i18n.format("advanced-macros.MACROS.responses.NoConnectedGM", { macro: macro.name }));
 // 		return "";
 // 	}
 // 	// Elect a GM to run the Macro
@@ -323,7 +323,7 @@ export async function renderMacro(...args) {
 // 		});
 // 		setTimeout(() => {
 // 			delete this._requestResolvers[requestId];
-// 			reject(new Error(game.i18n.localize("FURNACE.MACROS.responses.TimeoutGM")));
+// 			reject(new Error(game.i18n.localize("advanced-macros.MACROS.responses.TimeoutGM")));
 // 		}, 5000);
 // 	});
 // 	// Execute the macro in the first elected GM's
@@ -347,7 +347,7 @@ export async function renderMacro(...args) {
 // 		});
 // 		setTimeout(() => {
 // 			delete this._requestResolvers[requestId];
-// 			reject(new Error(game.i18n.localize("FURNACE.MACROS.responses.TimeoutWaitGM")));
+// 			reject(new Error(game.i18n.localize("advanced-macros.MACROS.responses.TimeoutWaitGM")));
 // 		}, 5000);
 // 	});
 // 	if (executeResponse.error) throw new Error(executeResponse.error);
@@ -368,9 +368,9 @@ export function chatMessage(chatLog, message, chatData) {
 	if (message.includes("{{")) {
 		const context = getTemplateContext();
 		const compiled = Handlebars.compile(message);
-		message = compiled(context, { 
-			allowProtoMethodsByDefault: true, 
-			allowProtoPropertiesByDefault: true 
+		message = compiled(context, {
+			allowProtoMethodsByDefault: true,
+			allowProtoPropertiesByDefault: true,
 		});
 		if (message.trim().length === 0) {
 			return false;
@@ -472,9 +472,9 @@ export function preCreateChatMessage(chatMessage, data, options, userId) {
 		if (content.includes("{{")) {
 			const context = getTemplateContext();
 			const compiled = Handlebars.compile(content);
-			content = compiled(context, { 
-				allowProtoMethodsByDefault: true, 
-				allowProtoPropertiesByDefault: true 
+			content = compiled(context, {
+				allowProtoMethodsByDefault: true,
+				allowProtoPropertiesByDefault: true,
 			});
 			chatMessage.updateSource({ content: content });
 			if (content.trim().length === 0) {
@@ -540,7 +540,7 @@ export function preCreateChatMessage(chatMessage, data, options, userId) {
 					case "whisper":
 					case "reply":
 					case "gm":
-					case "players": 
+					case "players":
 						ChatLog.prototype._processWhisperCommand(command, match, data, createOptions);
 						break;
 					case "ic":
@@ -605,7 +605,7 @@ export function renderMacroConfig(obj, html, data) {
 		// Exceute only for specific one
 		const runForSpecificUser = macro.getFlag("advanced-macros", "runForSpecificUser");
 		const options = [];
-		options.push(`<option value="">${i18n("advanced-macros.MACROS.None")}</option>`);
+		options.push(`<option value="">${i18n("advanced-macros.MACROS.none")}</option>`);
 		for (const user of game.users) {
 			if (runForSpecificUser == user.id) {
 				options.push(`<option selected="selected" value="${user.id}">${user.name}</option>`);

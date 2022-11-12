@@ -26,7 +26,8 @@
 			"highlight": {
 				"name": "Highlight Macro Codes",
 				"hint": "If enabled, macro codes will be highlighted. Note that this might be incompatible with other code editor modules."
-			}
+			},
+			"none": "None"
 		},
 		"setting": {
 			"disableDropHotbarRollTableBehavior": {

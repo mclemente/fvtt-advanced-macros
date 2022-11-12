@@ -14,7 +14,9 @@
 
 [![Translation status](https://weblate.foundryvtt-hub.com/widgets/advanced-macros/-/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/advanced-macros/)
 
-With Advanced Macros, a "Run Macro" button will appear in macro configuration windows to allow you to quickly test your macro and see its results. Do note that if you use an asynchronous macro which never resolves, you may end up with a macro in an invalid state if you end up cancelling the changes.
+With Advanced Macros, a "Run Macro", "Run foe Everyone" and "Run for specific user" button will appear in macro configuration windows to allow you to quickly test your macro and see its results. Do note that if you use an asynchronous macro which never resolves, you may end up with a macro in an invalid state if you end up cancelling the changes.
+
+![img](/wiki/advanced_macro_img.png)
 
 Check out the Macros compendium for some useful macros that showcase the advanced macros system as well as provide additional features.
 
@@ -56,7 +58,7 @@ return `${now.getHours()}:${now.getMinutes()}`;
 - **Type**: chat
 - **Content**:
 ```
-/"Move token" 0 0
+/amacro "Move token" 0 0
 /pan 1000 1000 0.5
 It's currently {{macro "current-time"}}
 ```
@@ -65,7 +67,7 @@ It's currently {{macro "current-time"}}
 - **Type**: chat
 - **Content**:
 ```
-/"Return to corner"
+/amacro "Return to corner"
 ```
 
 You can then type `/run` in the chat to execute the 'run' macro which executes 'Return to corner' which will move the token to position (0, 0), then pan the canvas to position (1000, 1000) with a zoom of 50%, then output to the chat `Token moved to (0,0)\n\nIt's currently 21:45`
