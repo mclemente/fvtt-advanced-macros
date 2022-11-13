@@ -18,6 +18,12 @@ With Advanced Macros, a "Run Macro", "Run foe Everyone" and "Run for specific us
 
 ![img](/wiki/advanced_macro_img.png)
 
+**IMPORTANT NOTE:** The check boxes are in order of "priority" , (maybe it would be better to use radios instead of checkboxes, in the future maybe find a more intuitive way to manage this...), so:
+- If you check the "Run as GM" button wins over "Run for everyone" and "Run for specific user" even if they are checked.
+- If you do not check the "Run as GM" button, but check "Run for everyone" wins on "Run for specific user" even if it is checked.
+- Finally if ne "Run as GM" and "Run for everyone" are checked and "Run for specific user" is checked the latter wins.
+- If none of the three options are checked the default macro behavior on foundry applies.
+
 Check out the Macros compendium for some useful macros that showcase the advanced macros system as well as provide additional features.
 
 In the case of chat macros, you can now use [handlebars](https://handlebarsjs.com/) templating to render your chat text using common helpers, or use it along with the `macro` helper to call other macros, like for example `{{macro "name of my macro" actor 3 "a text argument"}}` 
