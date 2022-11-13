@@ -21,7 +21,8 @@ export const initHooks = async () => {
 			if (!macro) {
 				return "";
 			}
-			const result = macro.renderContent(...args);
+			// TODO set up logic check when to callFromSocket or not
+			const result = macro.renderContent(args);
 			if (typeof result !== "string") {
 				return "";
 			}

@@ -64,10 +64,9 @@ export function dialogWarning(message, icon = "fas fa-exclamation-triangle") {
 }
 // =========================================================================================
 
-export async function executeMacro(...args) {
+export async function executeMacro(args, callFromSocket = false) {
 	const macro = this;
 	const user = game.user;
-	const callFromSocket = args && args.length > 0 ? args[args.length - 1] : false;
 
 	// DO NOTHING THIS CHECK AVOID SOCKET LOOP , but socketlib should manage ?
 	if (
@@ -94,9 +93,9 @@ export async function _executeMacroInternal(macroId, userId, args, context, call
 	if (!user) {
 		throw error(game.i18n.localize("advanced-macros.MACROS.responses.NoUser"), true);
 	}
-	if (macro.type !== "script") {
-		throw error(game.i18n.localize("advanced-macros.MACROS.responses.NotScript"), true);
-	}
+	// if (macro.type !== "script") {
+	// 	throw error(game.i18n.localize("advanced-macros.MACROS.responses.NotScript"), true);
+	// }
 	if (!user.can("MACRO_SCRIPT")) {
 		throw error(game.i18n.localize("advanced-macros.MACROS.responses.NoMacroPermission"), true);
 	}
@@ -110,8 +109,8 @@ export async function _executeMacroInternal(macroId, userId, args, context, call
 	// Chat macros
 	if (macro.type === "chat") {
 		try {
-			args.push(callFromSocket);
-			const content = macro.renderContent(...args);
+			// args.push(callFromSocket);
+			const content = macro.renderContent(args, callFromSocket);
 			ui.chat.processMessage(content).catch((err) => {
 				ui.notifications.error(game.i18n.localize("advanced-macros.MACROS.responses.SyntaxError"), {
 					console: false,
@@ -129,8 +128,8 @@ export async function _executeMacroInternal(macroId, userId, args, context, call
 	// Script macros
 	else if (macro.type === "script") {
 		try {
-			args.push(callFromSocket);
-			return await macro.renderContent(...args);
+			// args.push(callFromSocket);
+			return await macro.renderContent(args, callFromSocket);
 		} catch (err) {
 			ui.notifications.error(game.i18n.localize("advanced-macros.MACROS.responses.MacroSyntaxError"), {
 				console: false,
@@ -244,7 +243,7 @@ export function canRunAsGM(macro) {
 	return author && author.isGM && Object.values(permissions).every((p) => p < CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER);
 }
 
-export async function renderMacro(...args) {
+export async function renderMacro(args, callFromSocket = false) {
 	const macro = this;
 	const context = getTemplateContext(args);
 	if (macro.type === "chat") {
@@ -256,13 +255,11 @@ export async function renderMacro(...args) {
 		}
 	}
 
-	const callFromSocket = args && args.length > 0 ? args[args.length - 1] : false;
-
 	const contextForSocket = {
 		speaker: context.speaker,
-		characterId: context.character.id,
-		actorId: context.actor.id,
-		tokenId: context.token.id,
+		characterId: context.character?.id,
+		actorId: context.actor?.id,
+		tokenId: context.token?.id,
 	};
 
 	if (macro.type === "script") {
@@ -406,7 +403,8 @@ export function chatMessage(chatLog, message, chatData) {
 				const macro = game.macros.contents.find((macro) => macro.name === command);
 				if (macro) {
 					hasMacros = true;
-					const result = macro.renderContent(...args);
+					// TODO set up logic check when to callFromSocket or not
+					const result = macro.renderContent(args);
 					if (typeof result !== "string") {
 						return "";
 					}
@@ -509,7 +507,8 @@ export function preCreateChatMessage(chatMessage, data, options, userId) {
 				const macro = game.macros.contents.find((macro) => macro.name === command);
 				if (macro) {
 					hasMacros = true;
-					const result = macro.renderContent(...args);
+					const result = macro.renderContent(args);
+					// TODO set up logic check when to callFromSocket or not
 					if (typeof result !== "string") {
 						return "";
 					}
@@ -627,7 +626,6 @@ export function renderMacroConfig(obj, html, data) {
 	}
 }
 
-// From Dynamic Macro Links
 export function _createContentLink(match, { async = false, relativeTo } = {}) {
 	let [type, target, hash, name] = match.slice(1, 5);
 
@@ -710,6 +708,7 @@ export async function _onClickContentLink(event) {
 	if (event.currentTarget.dataset.type !== "Macro") return doc?._onClickDocumentLink(event);
 	else {
 		const args = event.currentTarget.dataset.args.split(",") ?? [];
-		return doc?.execute(...args);
+		// TODO set up logic check when to callFromSocket or not
+		return doc?.execute(args);
 	}
 }
