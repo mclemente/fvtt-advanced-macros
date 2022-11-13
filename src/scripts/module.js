@@ -55,7 +55,7 @@ export const initHooks = async () => {
 			}
 			return true;
 		},
-		"OVERRIDE"
+		"OVERRIDE",
 	);
 
 	libWrapper.register("advanced-macros", "Macro.prototype._executeScript", executeScript, "OVERRIDE");
@@ -67,7 +67,7 @@ export const initHooks = async () => {
 			"advanced-macros",
 			"CONFIG.Macro.documentClass.prototype._executeScript",
 			executeScript,
-			"OVERRIDE"
+			"OVERRIDE",
 		);
 	}
 

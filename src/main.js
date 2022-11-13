@@ -11,10 +11,10 @@
  */
 // Import JavaScript modules
 // Import TypeScript modules
-import { registerSettings } from "./scripts/settings.js";
-import { initHooks, readyHooks, setupHooks } from "./scripts/module.js";
-import { error } from "./scripts/lib/lib.js";
 import CONSTANTS from "./scripts/constants.js";
+import { error } from "./scripts/lib/lib.js";
+import { initHooks, readyHooks, setupHooks } from "./scripts/module.js";
+import { registerSettings } from "./scripts/settings.js";
 /* ------------------------------------ */
 /* Initialize module					*/
 /* ------------------------------------ */
