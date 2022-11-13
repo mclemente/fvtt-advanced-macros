@@ -1,7 +1,6 @@
 import { setApi } from "../main.js";
 import API from "./api.js";
 import CONSTANTS from "./constants.js";
-import { advancedMacroSocket, registerSocket } from "./socket.js";
 import {
 	canRunAsGM,
 	chatMessage,
@@ -13,6 +12,7 @@ import {
 	_createContentLink,
 	_onClickContentLink,
 } from "./lib/lib.js";
+import { advancedMacroSocket, registerSocket } from "./socket.js";
 
 export const initHooks = async () => {
 	let helpers = {

@@ -276,7 +276,7 @@ export async function renderMacro(...args) {
 				game.user.id,
 				args,
 				contextForSocket,
-				true
+				true,
 			);
 		} else if (macro.getFlag("advanced-macros", "runForEveryone") && canRunAsGM(macro) && !callFromSocket) {
 			return await advancedMacroSocket.executeForOthers(
@@ -285,7 +285,7 @@ export async function renderMacro(...args) {
 				game.user.id,
 				args,
 				contextForSocket,
-				true
+				true,
 			);
 		} else if (macro.getFlag("advanced-macros", "runForSpecificUser") && canRunAsGM(macro) && !callFromSocket) {
 			return await advancedMacroSocket.executeForUsers(
@@ -295,7 +295,7 @@ export async function renderMacro(...args) {
 				game.user.id,
 				args,
 				contextForSocket,
-				true
+				true,
 			);
 		} else {
 			// return macro.callScriptFunction(context);
@@ -574,10 +574,10 @@ export function renderMacroConfig(obj, html, data) {
 			<div class="form-group" title="${game.i18n.localize("advanced-macros.MACROS.runAsGMTooltip")}">
 				<label class="form-group">
 					<span>${game.i18n.localize("advanced-macros.MACROS.runAsGM")}</span>
-					<input type="checkbox" 
-						name="flags.advanced-macros.runAsGM" 
-						data-dtype="Boolean" 
-						${runAsGM ? "checked" : ""} 
+					<input type="checkbox"
+						name="flags.advanced-macros.runAsGM"
+						data-dtype="Boolean"
+						${runAsGM ? "checked" : ""}
 						${!canRunAsGMB ? "disabled" : ""}/>
 				</label>
 			</div>
@@ -591,10 +591,10 @@ export function renderMacroConfig(obj, html, data) {
 		<div class="form-group" title="${game.i18n.localize("advanced-macros.MACROS.runForEveryoneTooltip")}">
 		        <label class="form-group">
 		            <span>${game.i18n.localize("advanced-macros.MACROS.runForEveryone")}</span>
-		            <input type="checkbox" 
-						name="flags.advanced-macros.runForEveryone" 
-						data-dtype="Boolean" 
-						${runForEveryone ? "checked" : ""} 
+		            <input type="checkbox"
+						name="flags.advanced-macros.runForEveryone"
+						data-dtype="Boolean"
+						${runForEveryone ? "checked" : ""}
 						${!canRunAsGMB ? "disabled" : ""}/>
 		        </label>
 		</div>
