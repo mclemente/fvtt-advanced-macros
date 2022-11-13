@@ -48,10 +48,10 @@ export const initHooks = async () => {
 				return false;
 			}
 			if (this.type === "script") {
-				if (this.getFlag("advanced-macros", "runAsGM") && canRunAsGM(this) && !game.user.isGM) {
-					return true;
-				}
-				return game.user.can("MACRO_SCRIPT");
+				return (
+					(this.getFlag("advanced-macros", "runAsGM") && canRunAsGM(this) && !game.user.isGM) ||
+					game.user.can("MACRO_SCRIPT")
+				);
 			}
 			return true;
 		},
