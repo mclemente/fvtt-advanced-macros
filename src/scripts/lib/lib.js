@@ -80,7 +80,7 @@ export async function executeMacro(args, callFromSocket = false) {
 
 export async function _executeMacroInternal(macroId, userId, args, context, callFromSocket) {
 	//const macro = this;
-	const macro = game.macros.get(macroId);
+	const macro = game.macros.get(macroId) ?? context;
 	const user = game.users.get(userId);
 
 	if (callFromSocket) {
@@ -96,13 +96,10 @@ export async function _executeMacroInternal(macroId, userId, args, context, call
 	// if (macro.type !== "script") {
 	// 	throw error(game.i18n.localize("advanced-macros.MACROS.responses.NotScript"), true);
 	// }
-	if (!user.can("MACRO_SCRIPT")) {
-		throw error(game.i18n.localize("advanced-macros.MACROS.responses.NoMacroPermission"), true);
-	}
 	// if (!macro.getFlag("advanced-macros", "runAsGM") || !canRunAsGM(macro)) {
 	// 	throw error(game.i18n.localize("advanced-macros.MACROS.responses.NoRunAsGM"), true);
 	// }
-	if (!canRunAsGM(macro)) {
+	if (macro.getFlag(CONSTANTS.MODULE_NAME, "runAsGM") && !(game.user.isGM || canRunAsGM(macro))) {
 		throw error(game.i18n.localize("advanced-macros.MACROS.responses.NoRunAsGM"), true);
 	}
 
@@ -127,6 +124,9 @@ export async function _executeMacroInternal(macroId, userId, args, context, call
 
 	// Script macros
 	else if (macro.type === "script") {
+		if (!user.can("MACRO_SCRIPT")) {
+			throw error(game.i18n.localize("advanced-macros.MACROS.responses.NoMacroPermission"), true);
+		}
 		try {
 			// args.push(callFromSocket);
 			return await macro.renderContent(args, callFromSocket);
