@@ -23,7 +23,6 @@
 		}
 	],
 	"type": "module",
-	"socket": true,
 	"includes": [
 		"./assets/**",
 		"./lang/**",
