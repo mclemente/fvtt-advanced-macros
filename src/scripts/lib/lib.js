@@ -401,7 +401,7 @@ export function chatMessage(chatLog, message, chatData) {
 					return result.trim();
 				}
 			}
-			return line.trim();
+			return lineBase.trim();
 		});
 
 		message = message.join("\n").trim().replace(/\n/gm, "<br>");
