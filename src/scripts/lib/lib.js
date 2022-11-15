@@ -74,14 +74,19 @@ export async function executeMacro(args, callFromSocket = false) {
 		// 	macro.getFlag("advanced-macros", "runForSpecificUser")) &&
 		!callFromSocket
 	) {
-		await _executeMacroInternal(macro.id, user.id, args, macro, false);
+		await _executeMacroInternal(macro, user, args, macro, false);
 	}
 }
 
-export async function _executeMacroInternal(macroId, userId, args, context, callFromSocket) {
+export async function _executeMacroInternal(macro, user, args, context, callFromSocket) {
 	//const macro = this;
-	const macro = game.macros.get(macroId) ?? context;
-	const user = game.users.get(userId);
+	// let a = await Macro.implementation.fromDropData({ type: "Macro", uuid: `Macro.${macroId}` });
+	// const macro = game.macros.get(macroId) ?? context;
+	// const macro = await Macro.implementation.fromDropData({ type: "Macro", uuid: `Macro.${macroId}` });
+	// const user = game.users.get(userId);
+
+	if (!(macro instanceof Macro)) macro = new Macro(macro);
+	if (!(user instanceof User)) user = new User(user);
 
 	if (callFromSocket) {
 		context = getTemplateContext(args, context);
@@ -107,7 +112,7 @@ export async function _executeMacroInternal(macroId, userId, args, context, call
 	if (macro.type === "chat") {
 		try {
 			// args.push(callFromSocket);
-			const content = macro.renderContent(args, callFromSocket);
+			const content = await macro.renderContent(args, callFromSocket);
 			ui.chat.processMessage(content).catch((err) => {
 				ui.notifications.error(game.i18n.localize("advanced-macros.MACROS.responses.SyntaxError"), {
 					console: false,
@@ -129,7 +134,7 @@ export async function _executeMacroInternal(macroId, userId, args, context, call
 		}
 		try {
 			// args.push(callFromSocket);
-			return await macro.renderContent(args, callFromSocket);
+			return macro.renderContent(args, callFromSocket);
 		} catch (err) {
 			ui.notifications.error(game.i18n.localize("advanced-macros.MACROS.responses.MacroSyntaxError"), {
 				console: false,
@@ -243,7 +248,7 @@ export function canRunAsGM(macro) {
 	return author && author.isGM && Object.values(permissions).every((p) => p < CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER);
 }
 
-export async function renderMacro(args, callFromSocket = false) {
+export function renderMacro(args, callFromSocket = false) {
 	const macro = this;
 	const context = getTemplateContext(args);
 	if (macro.type === "chat") {
@@ -261,35 +266,20 @@ export async function renderMacro(args, callFromSocket = false) {
 		actorId: context.actor?.id,
 		tokenId: context.token?.id,
 	};
-
 	if (macro.type === "script") {
 		if (!game.user.can("MACRO_SCRIPT")) {
 			return ui.notifications.warn(game.i18n.localize("advanced-macros.MACROS.responses.NoMacroPermission"));
 		}
 		if (macro.getFlag("advanced-macros", "runAsGM") && canRunAsGM(macro) && !callFromSocket) {
-			return await advancedMacroSocket.executeAsGM(
-				"executeMacro",
-				macro.id,
-				game.user.id,
-				args,
-				contextForSocket,
-				true,
-			);
+			return advancedMacroSocket.executeAsGM("executeMacro", macro, game.user, args, contextForSocket, true);
 		} else if (macro.getFlag("advanced-macros", "runForEveryone") && canRunAsGM(macro) && !callFromSocket) {
-			return await advancedMacroSocket.executeForOthers(
-				"executeMacro",
-				macro.id,
-				game.user.id,
-				args,
-				contextForSocket,
-				true,
-			);
+			return advancedMacroSocket.executeForOthers("executeMacro", macro, game.user, args, contextForSocket, true);
 		} else if (macro.getFlag("advanced-macros", "runForSpecificUser") && canRunAsGM(macro) && !callFromSocket) {
-			return await advancedMacroSocket.executeForUsers(
+			return advancedMacroSocket.executeForUsers(
 				"executeMacro",
 				[macro.getFlag("advanced-macros", "runForSpecificUser")],
-				macro.id,
-				game.user.id,
+				macro,
+				game.user,
 				args,
 				contextForSocket,
 				true,
