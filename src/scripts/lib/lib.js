@@ -505,7 +505,7 @@ export function preCreateChatMessage(chatMessage, data, options, userId) {
 					return result.trim();
 				}
 			}
-			return line.trim();
+			return lineBase.trim();
 		});
 
 		if (hasMacros) {
