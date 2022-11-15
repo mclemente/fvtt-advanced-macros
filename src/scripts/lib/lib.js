@@ -112,7 +112,7 @@ export async function _executeMacroInternal(macro, user, args, context, callFrom
 	if (macro.type === "chat") {
 		try {
 			// args.push(callFromSocket);
-			const content = await macro.renderContent(args, callFromSocket);
+			const content = macro.renderContent(args, callFromSocket);
 			ui.chat.processMessage(content).catch((err) => {
 				ui.notifications.error(game.i18n.localize("advanced-macros.MACROS.responses.SyntaxError"), {
 					console: false,
