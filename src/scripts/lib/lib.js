@@ -64,18 +64,18 @@ export function dialogWarning(message, icon = "fas fa-exclamation-triangle") {
 }
 // =========================================================================================
 
-export async function executeMacro(args, callFromSocket = false) {
+export async function executeMacro(...args) {
 	const macro = this;
 	const user = game.user;
 
 	// DO NOTHING THIS CHECK AVOID SOCKET LOOP , but socketlib should manage ?
-	if (
-		// (macro.getFlag("advanced-macros", "runForEveryone") ||
-		// 	macro.getFlag("advanced-macros", "runForSpecificUser")) &&
-		!callFromSocket
-	) {
-		await _executeMacroInternal(macro, user, args, macro, false);
-	}
+	// if (
+	// (macro.getFlag("advanced-macros", "runForEveryone") ||
+	// 	macro.getFlag("advanced-macros", "runForSpecificUser")) &&
+	// 	!callFromSocket
+	// ) {
+	await _executeMacroInternal(macro, user, args, macro, false);
+	// }
 }
 
 export async function _executeMacroInternal(macro, user, args, context, callFromSocket) {
