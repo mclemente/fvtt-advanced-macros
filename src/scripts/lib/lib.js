@@ -268,14 +268,13 @@ export function renderMacro(args, callFromSocket = false) {
 	};
 	if (macro.type === "script") {
 		if (!game.user.can("MACRO_SCRIPT")) {
-			return ui.notifications.warn(game.i18n.localize("advanced-macros.MACROS.responses.NoMacroPermission"));
-		}
-		if (macro.getFlag("advanced-macros", "runAsGM") && canRunAsGM(macro) && !callFromSocket) {
-			return advancedMacroSocket.executeAsGM("executeMacro", macro, game.user, args, contextForSocket, true);
+			ui.notifications.warn(game.i18n.localize("advanced-macros.MACROS.responses.NoMacroPermission"));
+		} else if (macro.getFlag("advanced-macros", "runAsGM") && canRunAsGM(macro) && !callFromSocket) {
+			advancedMacroSocket.executeAsGM("executeMacro", macro, game.user, args, contextForSocket, true);
 		} else if (macro.getFlag("advanced-macros", "runForEveryone") && canRunAsGM(macro) && !callFromSocket) {
-			return advancedMacroSocket.executeForOthers("executeMacro", macro, game.user, args, contextForSocket, true);
+			advancedMacroSocket.executeForOthers("executeMacro", macro, game.user, args, contextForSocket, true);
 		} else if (macro.getFlag("advanced-macros", "runForSpecificUser") && canRunAsGM(macro) && !callFromSocket) {
-			return advancedMacroSocket.executeForUsers(
+			advancedMacroSocket.executeForUsers(
 				"executeMacro",
 				[macro.getFlag("advanced-macros", "runForSpecificUser")],
 				macro,
@@ -286,7 +285,7 @@ export function renderMacro(args, callFromSocket = false) {
 			);
 		} else {
 			// return macro.callScriptFunction(context);
-			return macro._executeScript(context);
+			macro._executeScript(context);
 		}
 	}
 }
