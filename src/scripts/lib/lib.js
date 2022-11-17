@@ -272,7 +272,7 @@ export function renderMacro(args, callFromSocket = false) {
 		} else if (macro.getFlag("advanced-macros", "runAsGM") && canRunAsGM(macro) && !callFromSocket) {
 			advancedMacroSocket.executeAsGM("executeMacro", macro, game.user, args, contextForSocket, true);
 		} else if (macro.getFlag("advanced-macros", "runForEveryone") && canRunAsGM(macro) && !callFromSocket) {
-			advancedMacroSocket.executeForOthers("executeMacro", macro, game.user, args, contextForSocket, true);
+			advancedMacroSocket.executeForEveryone("executeMacro", macro, game.user, args, contextForSocket, true);
 		} else if (macro.getFlag("advanced-macros", "runForSpecificUser") && canRunAsGM(macro) && !callFromSocket) {
 			advancedMacroSocket.executeForUsers(
 				"executeMacro",
