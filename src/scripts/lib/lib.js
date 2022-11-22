@@ -696,7 +696,12 @@ export async function _onClickContentLink(event) {
 	const doc = await fromUuid(event.currentTarget.dataset.uuid);
 	if (event.currentTarget.dataset.type !== "Macro") return doc?._onClickDocumentLink(event);
 	else {
-		const args = event.currentTarget.dataset.args ? event.currentTarget.dataset.args.split(",") : [];
+		if (event.currentTarget.dataset.args === "") var args = [];
+		else if (event.currentTarget.dataset.args) args = event.currentTarget.dataset.args.split(",");
+		else {
+			console.warn("Advanced Macros | Content Link has no args. Can't ensure macro will run correctly.");
+			args = [];
+		}
 		// TODO set up logic check when to callFromSocket or not
 		return doc?.execute(args);
 	}
