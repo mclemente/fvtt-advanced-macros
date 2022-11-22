@@ -696,7 +696,7 @@ export async function _onClickContentLink(event) {
 	const doc = await fromUuid(event.currentTarget.dataset.uuid);
 	if (event.currentTarget.dataset.type !== "Macro") return doc?._onClickDocumentLink(event);
 	else {
-		const args = event.currentTarget.dataset.args.split(",") ?? [];
+		const args = event.currentTarget.dataset.args ? event.currentTarget.dataset.args.split(",") : [];
 		// TODO set up logic check when to callFromSocket or not
 		return doc?.execute(args);
 	}
