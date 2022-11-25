@@ -64,6 +64,11 @@
 			"lang": "cn",
 			"name": "中文 (Chinese)",
 			"path": "languages/cn.json"
+		},
+		{
+			"lang": "pl",
+			"name": "polski",
+			"path": "languages/pl.json"
 		}
 	],
 	"packs": [
@@ -76,8 +81,12 @@
 		}
 	],
 	"socket": true,
-	"scripts": ["scripts/lib/tokenizer.min.js"],
-	"esmodules": ["main.js"],
+	"scripts": [
+		"scripts/lib/tokenizer.min.js"
+	],
+	"esmodules": [
+		"main.js"
+	],
 	"styles": [],
 	"compatibility": {
 		"minimum": 10,
