@@ -1,6 +1,5 @@
 {
 	"advanced-macros.MACROS.runAsGM": "Exécuter les macros en tant que MJ",
 	"advanced-macros.MACROS.runAsGMTooltip": "La macro sera exécutée par le MJ lorsque le joueur l'exécute. Pour des raisons de sécurité, s'applique seulement aux macros créées par le MJ sans autre propriétaire ",
-	"advanced-macros.MACROS.highlight.name": "Souligner les codes des macros",
 	"advanced-macros.MACROS.highlight.hint": "Si activé, les codes des macros seront soulignées. Notez que cela pourrait être incompatible avec d'autres modules d'éditeur de code."
 }
