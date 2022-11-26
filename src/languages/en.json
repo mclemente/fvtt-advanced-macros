@@ -24,7 +24,6 @@
 			"runForSpecificUser": "Execute macro for specific user?",
 			"runForSpecificUserTooltip": "This will cause the macro to be executed by the GM for a specific player connected.\nFor security reasons, only applies to GM-created macros with no other owners.",
 			"highlight": {
-				"name": "Highlight Macro Codes",
 				"hint": "If enabled, macro codes will be highlighted. Note that this might be incompatible with other code editor modules."
 			},
 			"none": "None"
