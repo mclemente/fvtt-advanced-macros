@@ -14,7 +14,7 @@
 				"MacroSyntaxError": "Wystąpił błąd w twojej składni makra. Zobacz konsolę (F12), aby uzyskać szczegóły.",
 				"ExternalMacroSyntaxError": "Wystąpił błąd w twojej składni makra. Zobacz konsolę (F12) GMa {GM}, aby uzyskać szczegóły.",
 				"TimeoutGM": "Za długo zajęło wybieranie GMa który uruchomi makro.",
-				"TimeoutWaitGM": "Za długo zajęło czekanie na uruchomienie makra przez GMa",
+				"TimeoutWaitGM": "Za długo zajęło czekanie na uruchomienie makra przez GMa.",
 				"NoConnectedGM": "Nie ma żadnych GMów aby uruchomić makro {macro} jako GM."
 			},
 			"runAsGM": "Uruchom Makro jako GM?",
