@@ -21,9 +21,6 @@
 			"runForEveryone": "Wszyscy Uruchamiają Makro?",
 			"runForEveryoneTooltip": "Makro zostanie uruchomione przez GMa dla wszystkich graczy. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
 			"runForSpecificUser": "Uruchom Makro dla pewnego użytkownika?",
-			"highlight": {
-				"hint": "Kiedy jest włączone, kod w makrach będzie podświetlony. Uwaga, może to być niekompatybilne z innymi modułami modyfikujące edytor kodu."
-			},
 			"none": "Nic",
 			"runAsGMTooltip": "Makro zostanie uruchomione przez GMa kiedy gracz włączy makro. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
 			"runForSpecificUserTooltip": "Makro zostanie uruchomione przez GMa tylko dla wybranego zalogowanego gracza. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców."
