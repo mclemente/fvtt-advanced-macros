@@ -14,19 +14,15 @@
 				"MacroSyntaxError": "There was an error in your macro syntax. See the console (F12) for details.",
 				"ExternalMacroSyntaxError": "There was an error in your macro syntax. See the console (F12) of the GM {GM} for details.",
 				"TimeoutGM": "Timed out waiting to elect a GM to execute the macro.",
-				"TimeoutWaitGM": "Timed out waiting for the GM to execute the macro",
+				"TimeoutWaitGM": "Timed out waiting for the GM to execute the macro.",
 				"NoConnectedGM": "There are no connected GMs to run the macro {macro} in the GM context."
 			},
-			"runAsGM": "Execute Macro As GM ?",
-			"runAsGMTooltip": "This will cause the macro to be executed by the GM user when players execute it. \nFor security reasons, only applies to GM-created macros with no other owners.",
-			"runForEveryone": "Execute Macro for everyone ?",
-			"runForEveryoneTooltip": "This will cause the macro to be executed by the GM user for every players connected. \nFor security reasons, only applies to GM-created macros with no other owners.",
-			"runForSpecificUser": "Execute Macro for specific user ?",
-			"runForSpecificUserTooltip": "This will cause the macro to be executed by the GM user for a specific player connected. \nFor security reasons, only applies to GM-created macros with no other owners.",
-			"highlight": {
-				"name": "Highlight Macro Codes",
-				"hint": "If enabled, macro codes will be highlighted. Note that this might be incompatible with other code editor modules."
-			},
+			"runAsGM": "Execute macro as GM?",
+			"runAsGMTooltip": "This will cause the macro to be executed by the GM when players execute it.\nFor security reasons, only applies to GM-created macros with no other owners.",
+			"runForEveryone": "Execute macro for everyone?",
+			"runForEveryoneTooltip": "This will cause the macro to be executed by the GM for every players connected.\nFor security reasons, only applies to GM-created macros with no other owners.",
+			"runForSpecificUser": "Execute macro for specific user?",
+			"runForSpecificUserTooltip": "This will cause the macro to be executed by the GM for a specific player connected.\nFor security reasons, only applies to GM-created macros with no other owners.",
 			"none": "None"
 		},
 		"setting": {
