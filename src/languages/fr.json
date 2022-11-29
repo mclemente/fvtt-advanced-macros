@@ -1,4 +1,43 @@
 {
-	"advanced-macros.MACROS.runAsGM": "Exécuter les macros en tant que MJ",
-	"advanced-macros.MACROS.runAsGMTooltip": "La macro sera exécutée par le MJ lorsque le joueur l'exécute. Pour des raisons de sécurité, s'applique seulement aux macros créées par le MJ sans autre propriétaire "
+	"advanced-macros.MACROS.runAsGM": "Exécuter la macro en tant que MJ ?",
+	"advanced-macros.MACROS.runAsGMTooltip": "Ainsi, la macro sera exécutée par le MJ lorsque les joueurs l'exécuteront.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
+	"advanced-macros": {
+		"ROLLTABLE": {
+			"macroName": "{document} : {nom}"
+		},
+		"MACROS": {
+			"responses": {
+				"NoMacro": "Impossible de trouver la macro.",
+				"NoUser": "Utilisateur non valide.",
+				"NotScript": "Type de macro non valide.",
+				"NoMacroPermission": "Vous n'êtes pas autorisé à utiliser des macros JavaScript.",
+				"NoRunAsGM": "Vous n'êtes pas autorisé à exécuter cette macro en tant que MJ.",
+				"SyntaxError": "Il y a eu une erreur dans la syntaxe de votre message de discussion.",
+				"MacroSyntaxError": "Il y a eu une erreur dans la syntaxe de votre macro. Consultez la console (F12) pour plus de détails.",
+				"ExternalMacroSyntaxError": "Il y a eu une erreur dans la syntaxe de votre macro. Consultez la console (F12) du MJ {GM} pour plus de détails.",
+				"TimeoutGM": "Le temps est écoulé en attendant d'élire un MJ pour exécuter la macro.",
+				"TimeoutWaitGM": "Le délai d'attente pour l'exécution de la macro par le MJ a expiré.",
+				"NoConnectedGM": "Il n'y a aucun MJ connecté pour exécuter la macro {macro} dans le contexte du MJ."
+			},
+			"runForEveryone": "Exécuter une macro pour tout le monde ?",
+			"runForEveryoneTooltip": "Ainsi, la macro sera exécutée par le MJ pour tous les joueurs connectés.\nPour des raisons de sécurité, cette option ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
+			"runForSpecificUser": "Exécuter une macro pour un utilisateur spécifique ?",
+			"runForSpecificUserTooltip": "Ainsi, la macro sera exécutée par le MJ pour un joueur spécifique connecté.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
+			"none": "Aucun"
+		},
+		"setting": {
+			"reset.name": "Réinitialiser les paramètres par défaut",
+			"reset.label": "Remettre les Réglages Par Défaut",
+			"reset.hint": "Cela rétablira tous les réglages par défaut du système du jeu actif.",
+			"debug.name": "Activer la recherche d'anomalies",
+			"debug.label": "Imprime les messages d'anomalies dans la console",
+			"debug.hint": " "
+		},
+		"dialogs": {
+			"resetsettings.title": "Réinitialiser les paramètres du module",
+			"resetsettings.content": "Êtes-vous sûr de vouloir réinitialiser tous les paramètres du module aux valeurs par défaut du système actuel ? <strong>NE PEUT PAS ÊTRE ANNULÉ !</strong>",
+			"resetsettings.confirm": "Réinitialiser les paramètres du module",
+			"resetsettings.cancel": "Annuler"
+		}
+	}
 }
