@@ -31,7 +31,11 @@
 			"reset.hint": "Cela rétablira tous les réglages par défaut du système du jeu actif.",
 			"debug.name": "Activer la recherche d'anomalies",
 			"debug.label": "Imprime les messages d'anomalies dans la console",
-			"debug.hint": " "
+			"debug.hint": " ",
+			"disableDropHotbarRollTableBehavior": {
+				"name": "Désactiver la dépose sur la barre d'outils des tables aléatoires",
+				"hint": "La fonction de création d'une macro sur la barre d'outils lors d'une dépose d'une table aléatoire peut entrer en conflit avec d'autres modules. Ce paramètre désactive cette fonction."
+			}
 		},
 		"dialogs": {
 			"resetsettings.title": "Réinitialiser les paramètres du module",
