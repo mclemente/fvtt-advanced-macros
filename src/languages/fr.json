@@ -1,6 +1,6 @@
 {
 	"advanced-macros.MACROS.runAsGM": "Exécuter la macro en tant que MJ ?",
-	"advanced-macros.MACROS.runAsGMTooltip": "Ainsi, la macro sera exécutée par le MJ lorsque les joueurs l'exécuteront.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
+	"advanced-macros.MACROS.runAsGMTooltip": "La macro sera exécutée par le MJ lorsque les joueurs l'exécuteront.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
 	"advanced-macros": {
 		"ROLLTABLE": {
 			"macroName": "{document} : {nom}"
