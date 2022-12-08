@@ -70,7 +70,7 @@ export async function executeMacro(...args) {
 
 	// DO NOTHING THIS CHECK AVOID SOCKET LOOP , but socketlib should manage ?
 	// if (
-	// (macro.getFlag("advanced-macros", "runForEveryone") ||
+	// (
 	// 	macro.getFlag("advanced-macros", "runForSpecificUser")) &&
 	// 	!callFromSocket
 	// ) {
@@ -267,13 +267,18 @@ export function renderMacro(args, callFromSocket = false) {
 		tokenId: context.token?.id,
 	};
 	if (macro.type === "script") {
+		const runFor = macro.getFlag("advanced-macros", "runForSpecificUser");
+		const runAsGM =macro.getFlag("advanced-macros", "runAsGM");
+		const canRunAsGM = canRunAsGM(macro);
 		if (!game.user.can("MACRO_SCRIPT")) {
 			ui.notifications.warn(game.i18n.localize("advanced-macros.MACROS.responses.NoMacroPermission"));
-		} else if (macro.getFlag("advanced-macros", "runAsGM") && canRunAsGM(macro) && !callFromSocket) {
+		} else if (runFor == "" &&  runAsGM && canRunAsGM && !callFromSocket) {
 			advancedMacroSocket.executeAsGM("executeMacro", macro, game.user, args, contextForSocket, true);
-		} else if (macro.getFlag("advanced-macros", "runForEveryone") && canRunAsGM(macro) && !callFromSocket) {
+		} else if (runFor == "runForEveryone" && canRunAsGM && !callFromSocket) {
 			advancedMacroSocket.executeForEveryone("executeMacro", macro, game.user, args, contextForSocket, true);
-		} else if (macro.getFlag("advanced-macros", "runForSpecificUser") && canRunAsGM(macro) && !callFromSocket) {
+		} else if (runFor == "runForEveryoneElse" && canRunAsGM && !callFromSocket) {
+			advancedMacroSocket.executeForOthers("executeMacro", macro, game.user, args, contextForSocket, true);
+		} else if (macro.getFlag("advanced-macros", "runForSpecificUser") && canRunAsGM && !callFromSocket) {
 			advancedMacroSocket.executeForUsers(
 				"executeMacro",
 				[macro.getFlag("advanced-macros", "runForSpecificUser")],
@@ -571,29 +576,42 @@ export function renderMacroConfig(obj, html, data) {
 			</div>
 		`);
 		gmDiv.insertAfter(typeGroup);
-
+		/*
 		// Execute for all other clients (ty to socketlib)
 
 		const runForEveryone = macro.getFlag("advanced-macros", "runForEveryone");
 		const everyoneDiv = $(`
 		<div class="form-group" title="${game.i18n.localize("advanced-macros.MACROS.runForEveryoneTooltip")}">
-		        <label class="form-group">
-		            <span>${game.i18n.localize("advanced-macros.MACROS.runForEveryone")}</span>
-		            <input type="checkbox"
-						name="flags.advanced-macros.runForEveryone"
-						data-dtype="Boolean"
-						${runForEveryone ? "checked" : ""}
-						${!canRunAsGMB ? "disabled" : ""}/>
-		        </label>
+			<label class="form-group">
+				<span>${game.i18n.localize("advanced-macros.MACROS.runForEveryone")}</span>
+				<input type="checkbox"
+					name="flags.advanced-macros.runForEveryone"
+					data-dtype="Boolean"
+					${runForEveryone ? "checked" : ""}
+					${!canRunAsGMB ? "disabled" : ""}/>
+			</label>
 		</div>
 		`);
 
 		everyoneDiv.insertAfter(gmDiv);
+		*/
 
 		// Exceute only for specific one
 		const runForSpecificUser = macro.getFlag("advanced-macros", "runForSpecificUser");
 		const options = [];
 		options.push(`<option value="">${i18n("advanced-macros.MACROS.none")}</option>`);
+
+		if (runForSpecificUser == "runForEveryone") {
+			options.push(`<option selected="selected" value="runForEveryone">${game.i18n.localize("advanced-macros.MACROS.runForEveryone")}</option>`);
+		} else {
+			options.push(`<option value="runForEveryone">${game.i18n.localize("advanced-macros.MACROS.runForEveryone")}</option>`);
+		}
+		if (runForSpecificUser == "runForEveryoneElse") {
+			options.push(`<option selected="selected" value="runForEveryoneElse">${game.i18n.localize("advanced-macros.MACROS.runForEveryoneElse")}</option>`);
+		} else {
+			options.push(`<option value="runForEveryoneElse">${game.i18n.localize("advanced-macros.MACROS.runForEveryoneElse")}</option>`);
+		}
+			
 		for (const user of game.users) {
 			if (runForSpecificUser == user.id) {
 				options.push(`<option selected="selected" value="${user.id}">${user.name}</option>`);
@@ -611,7 +629,7 @@ export function renderMacroConfig(obj, html, data) {
 			</div>
 		`);
 
-		specificOneDiv.insertAfter(everyoneDiv);
+		specificOneDiv.insertAfter(gmDiv);
 	}
 }
 
