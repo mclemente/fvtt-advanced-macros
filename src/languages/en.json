@@ -28,8 +28,8 @@
 		},
 		"setting": {
 			"disableDropHotbarRollTableBehavior": {
-				"name": "Disable Drop On Hotbar RollTable Behavior",
-				"hint": "By default is disabled. The function of creating a macro on the hotbar when dropping a document of type \"Rolltable\" may cause collision with other modules . This functionality can be disabled with this setting."
+				"name": "Disable Drop On Hotbar RollTable",
+				"hint": "The function of creating a macro on the hotbar when dropping a Rolltable may conflict with other modules . This setting disables this function."
 			},
 			"reset.name": "Reset settings to default",
 			"reset.label": "Reset Settings To Default",
