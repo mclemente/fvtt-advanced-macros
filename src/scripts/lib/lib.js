@@ -269,16 +269,16 @@ export function renderMacro(args, callFromSocket = false) {
 	if (macro.type === "script") {
 		const runFor = macro.getFlag("advanced-macros", "runForSpecificUser");
 		const runAsGM =macro.getFlag("advanced-macros", "runAsGM");
-		const canRunAsGM = canRunAsGM(macro);
+		const canRunAsAGM = canRunAsGM(macro);
 		if (!game.user.can("MACRO_SCRIPT")) {
 			ui.notifications.warn(game.i18n.localize("advanced-macros.MACROS.responses.NoMacroPermission"));
-		} else if (runFor == "" &&  runAsGM && canRunAsGM && !callFromSocket) {
+		} else if (runFor == "" &&  runAsGM && canRunAsAGM && !callFromSocket) {
 			advancedMacroSocket.executeAsGM("executeMacro", macro, game.user, args, contextForSocket, true);
-		} else if (runFor == "runForEveryone" && canRunAsGM && !callFromSocket) {
+		} else if (runFor == "runForEveryone" && canRunAsAGM && !callFromSocket) {
 			advancedMacroSocket.executeForEveryone("executeMacro", macro, game.user, args, contextForSocket, true);
-		} else if (runFor == "runForEveryoneElse" && canRunAsGM && !callFromSocket) {
+		} else if (runFor == "runForEveryoneElse" && canRunAsAGM && !callFromSocket) {
 			advancedMacroSocket.executeForOthers("executeMacro", macro, game.user, args, contextForSocket, true);
-		} else if (macro.getFlag("advanced-macros", "runForSpecificUser") && canRunAsGM && !callFromSocket) {
+		} else if (macro.getFlag("advanced-macros", "runForSpecificUser") && canRunAsAGM && !callFromSocket) {
 			advancedMacroSocket.executeForUsers(
 				"executeMacro",
 				[macro.getFlag("advanced-macros", "runForSpecificUser")],
