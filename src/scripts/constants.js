@@ -1,6 +1,7 @@
 const CONSTANTS = {
-	MODULE_NAME: "advanced-macros",
+	MODULE_ID: "advanced-macros",
+	MODULE_NAME: "Advanced Macros",
 	PATH: `modules/advanced-macros/`,
 };
-CONSTANTS.PATH = `modules/${CONSTANTS.MODULE_NAME}/`;
+CONSTANTS.PATH = `modules/${CONSTANTS.MODULE_ID}/`;
 export default CONSTANTS;

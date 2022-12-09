@@ -4,12 +4,11 @@ import { debug } from "./lib/lib.js";
 import { setSocket } from "../main.js";
 export let advancedMacroSocket;
 export function registerSocket() {
-	debug("Registered advancedMacroSocket");
 	if (advancedMacroSocket) {
 		return advancedMacroSocket;
 	}
 	//@ts-ignore
-	advancedMacroSocket = socketlib.registerModule(CONSTANTS.MODULE_NAME);
+	advancedMacroSocket = socketlib.registerModule(CONSTANTS.MODULE_ID);
 	advancedMacroSocket.register("executeMacro", (...args) => API.executeMacroArr(...args));
 	// advancedMacroSocket.register("GMElectionID", (...args) => API.GMElectionIDArr(...args));
 	// advancedMacroSocket.register("GMMacroResult", (...args) => API.GMMacroResultArr(...args));
