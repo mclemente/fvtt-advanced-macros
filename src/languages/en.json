@@ -5,10 +5,10 @@
 		},
 		"MACROS": {
 			"responses": {
-				"NoMacro": "Cannot find macro.",
+				"NoMacro": "Can't find macro.",
 				"NoUser": "Invalid user.",
 				"NotScript": "Invalid macro type.",
-				"NoMacroPermission": "You are not allowed to use JavaScript macros.",
+				"NoMacroPermission": "You are not allowed to use script macros.",
 				"NoRunAsGM": "You are not authorized to run this macro as the GM.",
 				"SyntaxError": "There was an error in your chat message syntax.",
 				"MacroSyntaxError": "There was an error in your macro syntax. See the console (F12) for details.",
@@ -28,21 +28,9 @@
 		},
 		"setting": {
 			"disableDropHotbarRollTableBehavior": {
-				"name": "Disable Drop On Hotbar RollTable",
-				"hint": "The function of creating a macro on the hotbar when dropping a Rolltable may conflict with other modules . This setting disables this function."
-			},
-			"reset.name": "Reset settings to default",
-			"reset.label": "Reset Settings To Default",
-			"reset.hint": "This will reset all of the settings of back to the active game system's default.",
-			"debug.name": "Enable debugging",
-			"debug.label": "Prints debug messages to the console",
-			"debug.hint": " "
-		},
-		"dialogs": {
-			"resetsettings.title": "Reset Module Settings",
-			"resetsettings.content": "Are you sure you want to reset all of the module settings to the current system's defaults? <strong>THIS CANNOT BE UNDONE!</strong>",
-			"resetsettings.confirm": "Reset Module Settings",
-			"resetsettings.cancel": "Cancel"
+				"name": "Disable Drop RollTable On Hotbar",
+				"hint": "The function of creating a macro on the hotbar when dropping a Rolltable may conflict with other modules. This setting disables this functionality."
+			}
 		}
 	}
 }
