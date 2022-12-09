@@ -268,11 +268,11 @@ export function renderMacro(args, callFromSocket = false) {
 	};
 	if (macro.type === "script") {
 		const runFor = macro.getFlag("advanced-macros", "runForSpecificUser");
-		const runAsGM =macro.getFlag("advanced-macros", "runAsGM");
+		const runAsGM = macro.getFlag("advanced-macros", "runAsGM");
 		const canRunAsAGM = canRunAsGM(macro);
 		if (!game.user.can("MACRO_SCRIPT")) {
 			ui.notifications.warn(game.i18n.localize("advanced-macros.MACROS.responses.NoMacroPermission"));
-		} else if (runFor == "" &&  runAsGM && canRunAsAGM && !callFromSocket) {
+		} else if (runFor == "" && runAsGM && canRunAsAGM && !callFromSocket) {
 			advancedMacroSocket.executeAsGM("executeMacro", macro, game.user, args, contextForSocket, true);
 		} else if (runFor == "runForEveryone" && canRunAsAGM && !callFromSocket) {
 			advancedMacroSocket.executeForEveryone("executeMacro", macro, game.user, args, contextForSocket, true);
@@ -602,16 +602,32 @@ export function renderMacroConfig(obj, html, data) {
 		options.push(`<option value="">${i18n("advanced-macros.MACROS.none")}</option>`);
 
 		if (runForSpecificUser == "runForEveryone") {
-			options.push(`<option selected="selected" value="runForEveryone">${game.i18n.localize("advanced-macros.MACROS.runForEveryone")}</option>`);
+			options.push(
+				`<option selected="selected" value="runForEveryone">${game.i18n.localize(
+					"advanced-macros.MACROS.runForEveryone",
+				)}</option>`,
+			);
 		} else {
-			options.push(`<option value="runForEveryone">${game.i18n.localize("advanced-macros.MACROS.runForEveryone")}</option>`);
+			options.push(
+				`<option value="runForEveryone">${game.i18n.localize(
+					"advanced-macros.MACROS.runForEveryone",
+				)}</option>`,
+			);
 		}
 		if (runForSpecificUser == "runForEveryoneElse") {
-			options.push(`<option selected="selected" value="runForEveryoneElse">${game.i18n.localize("advanced-macros.MACROS.runForEveryoneElse")}</option>`);
+			options.push(
+				`<option selected="selected" value="runForEveryoneElse">${game.i18n.localize(
+					"advanced-macros.MACROS.runForEveryoneElse",
+				)}</option>`,
+			);
 		} else {
-			options.push(`<option value="runForEveryoneElse">${game.i18n.localize("advanced-macros.MACROS.runForEveryoneElse")}</option>`);
+			options.push(
+				`<option value="runForEveryoneElse">${game.i18n.localize(
+					"advanced-macros.MACROS.runForEveryoneElse",
+				)}</option>`,
+			);
 		}
-			
+
 		for (const user of game.users) {
 			if (runForSpecificUser == user.id) {
 				options.push(`<option selected="selected" value="${user.id}">${user.name}</option>`);
