@@ -102,7 +102,7 @@ export async function _executeMacroInternal(macro, user, args, context, callFrom
 	// if (!macro.getFlag("advanced-macros", "runAsGM") || !canRunAsGM(macro)) {
 	// 	throw error(game.i18n.localize("advanced-macros.MACROS.responses.NoRunAsGM"), true);
 	// }
-	if (macro.getFlag(CONSTANTS.MODULE_NAME, "runAsGM") && !(game.user.isGM || canRunAsGM(macro))) {
+	if (macro.getFlag(CONSTANTS.MODULE_ID, "runAsGM") && !(game.user.isGM || canRunAsGM(macro))) {
 		throw error(game.i18n.localize("advanced-macros.MACROS.responses.NoRunAsGM"), true);
 	}
 
