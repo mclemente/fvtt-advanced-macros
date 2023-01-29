@@ -14,7 +14,7 @@
 
 [![Translation status](https://weblate.foundryvtt-hub.com/widgets/advanced-macros/-/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/advanced-macros/)
 
-With Advanced Macros, a "Run Macro", "Run foe Everyone" and "Run for specific user" button will appear in macro configuration windows to allow you to quickly test your macro and see its results. Do note that if you use an asynchronous macro which never resolves, you may end up with a macro in an invalid state if you end up cancelling the changes.
+With Advanced Macros, a "Run Macro", "Run for Everyone" and "Run for specific user" button will appear in macro configuration windows to allow you to quickly test your macro and see its results. Do note that if you use an asynchronous macro which never resolves, you may end up with a macro in an invalid state if you end up cancelling the changes.
 
 ![img](/wiki/advanced_macro_img.png)
 
