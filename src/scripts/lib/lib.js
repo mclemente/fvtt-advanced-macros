@@ -74,7 +74,7 @@ export async function executeMacro(...args) {
 	// 	macro.getFlag("advanced-macros", "runForSpecificUser")) &&
 	// 	!callFromSocket
 	// ) {
-	await _executeMacroInternal(macro, user, args, macro, false);
+	return await _executeMacroInternal(macro, user, args, macro, false);
 	// }
 }
 
@@ -290,7 +290,7 @@ export function renderMacro(args, callFromSocket = false) {
 			);
 		} else {
 			// return macro.callScriptFunction(context);
-			macro._executeScript(context);
+			return macro._executeScript(context);
 		}
 	}
 }
