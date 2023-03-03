@@ -30,6 +30,10 @@
 			"disableDropHotbarRollTableBehavior": {
 				"name": "Disable Drop RollTable On Hotbar",
 				"hint": "The function of creating a macro on the hotbar when dropping a Rolltable may conflict with other modules. This setting disables this functionality."
+			},
+			"legacySlashCommand": {
+				"name": "(Experimental) Legacy Slash Command",
+				"hint": "Ignores the need to use the /amacro command to call macros on the chat. Warning: this might cause conflict with your system or other modules."
 			}
 		}
 	}

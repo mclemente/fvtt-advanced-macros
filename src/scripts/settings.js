@@ -8,6 +8,14 @@ export const registerSettings = function () {
 		default: false,
 		type: Boolean,
 	});
+	game.settings.register(CONSTANTS.MODULE_NAME, "legacySlashCommand", {
+		name: `${CONSTANTS.MODULE_NAME}.setting.legacySlashCommand.name`,
+		hint: `${CONSTANTS.MODULE_NAME}.setting.legacySlashCommand.hint`,
+		scope: "world",
+		config: true,
+		default: false,
+		type: Boolean,
+	});
 	// game.settings.register(CONSTANTS.MODULE_NAME, "debug", {
 	// 	name: `${CONSTANTS.MODULE_NAME}.setting.debug.name`,
 	// 	hint: `${CONSTANTS.MODULE_NAME}.setting.debug.hint`,

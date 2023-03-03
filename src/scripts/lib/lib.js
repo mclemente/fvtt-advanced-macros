@@ -374,10 +374,11 @@ export function chatMessage(chatLog, message, chatData) {
 	if (message.match(chatLog.constructor.MESSAGE_PATTERNS["invalid"])) {
 		message = message.replace(/\n/gm, "<br>");
 		let tokenizer = null;
+		const legacySlashCommand = game.settings.get(CONSTANTS.MODULE_NAME, "legacySlashCommand");
 		message = message.split("<br>").map((lineBase) => {
-			if (lineBase.startsWith("/amacro")) {
+			if (lineBase.startsWith("/amacro") || legacySlashCommand) {
 				// TODO FIND A BETTER WAY
-				let line = lineBase.replace("/amacro", "/");
+				let line = lineBase.startsWith("/amacro") ? lineBase.replace("/amacro", "/") : lineBase;
 				// Ensure tokenizer, but don't consider dash as a token delimiter
 				if (!tokenizer) {
 					tokenizer = new TokenizeThis({
@@ -435,8 +436,8 @@ export function chatMessage(chatLog, message, chatData) {
 					case "ooc":
 						ChatLog.prototype._processChatCommand(command, match, data, createOptions);
 						break;
-					case "invalid":
-						throw new Error(game.i18n.format("CHAT.InvalidCommand", { command: match[1] }));
+					// case "invalid":
+					// throw new Error(game.i18n.format("CHAT.InvalidCommand", { command: match[1] }));
 				}
 				ChatMessage.create(data, createOptions);
 			}
@@ -478,10 +479,11 @@ export function preCreateChatMessage(chatMessage, data, options, userId) {
 		}
 		content = content.replace(/\n/gm, "<br>");
 		let tokenizer = null;
+		const legacySlashCommand = game.settings.get(CONSTANTS.MODULE_NAME, "legacySlashCommand");
 		content = content.split("<br>").map((lineBase) => {
-			if (lineBase.startsWith("/amacro")) {
+			if (lineBase.startsWith("/amacro") || legacySlashCommand) {
 				// TODO FIND A BETTER WAY
-				let line = lineBase.replace("/amacro", "/");
+				let line = lineBase.startsWith("/amacro") ? lineBase.replace("/amacro", "/") : lineBase;
 				// Ensure tokenizer, but don't consider dash as a token delimiter
 				if (!tokenizer) {
 					tokenizer = new TokenizeThis({
