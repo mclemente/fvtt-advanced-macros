@@ -17,18 +17,18 @@
 				"TimeoutWaitGM": "Za długo zajęło czekanie na uruchomienie makra przez GMa.",
 				"NoConnectedGM": "Nie ma żadnych GMów aby uruchomić makro {macro} jako GM."
 			},
-			"runAsGM": "Uruchom Makro jako GM?",
+			"runAsGM": "Uruchom makro jako GM?",
 			"runForEveryone": "Wszyscy Uruchamiają Makro?",
 			"runForEveryoneTooltip": "Makro zostanie uruchomione przez GMa dla wszystkich graczy. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
-			"runForSpecificUser": "Uruchom Makro dla pewnego użytkownika?",
+			"runForSpecificUser": "Uruchom Makro dla konkretnego użytkownika?",
 			"none": "Nic",
 			"runAsGMTooltip": "Makro zostanie uruchomione przez GMa kiedy gracz włączy makro. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
 			"runForSpecificUserTooltip": "Makro zostanie uruchomione przez GMa tylko dla wybranego zalogowanego gracza. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców."
 		},
 		"setting": {
 			"disableDropHotbarRollTableBehavior": {
-				"name": "Wyłączenie upuszczania tabeli na hotbar",
-				"hint": "Domyślnie ustawienie jest wyłączone. Tworzenie makra kiedy się upuszcza tabelę na hotbar może być niekompatybilne z innymi modułami. Można wyłączyć tą funkcję używając oto ustawienie."
+				"name": "Wyłączenie upuszczania tabeli na przybornik",
+				"hint": "Tworzenie makra kiedy się upuszcza tabelę na przybornik może być niekompatybilne z innymi modułami. To ustawienie wyłącza tą funkcję."
 			},
 			"reset.name": "Przywrócenie ustawień domyślnych",
 			"reset.label": "Przywrócenie Ustawień Domyślnych",
