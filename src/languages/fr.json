@@ -10,7 +10,7 @@
 				"NoMacro": "Impossible de trouver la macro.",
 				"NoUser": "Utilisateur non valide.",
 				"NotScript": "Type de macro non valide.",
-				"NoMacroPermission": "Vous n'êtes pas autorisé à utiliser des macros JavaScript.",
+				"NoMacroPermission": "Vous n'êtes pas autorisé à utiliser des macros de script.",
 				"NoRunAsGM": "Vous n'êtes pas autorisé à exécuter cette macro en tant que MJ.",
 				"SyntaxError": "Il y a eu une erreur dans la syntaxe de votre message de discussion.",
 				"MacroSyntaxError": "Il y a eu une erreur dans la syntaxe de votre macro. Consultez la console (F12) pour plus de détails.",
@@ -19,11 +19,12 @@
 				"TimeoutWaitGM": "Le délai d'attente pour l'exécution de la macro par le MJ a expiré.",
 				"NoConnectedGM": "Il n'y a aucun MJ connecté pour exécuter la macro {macro} dans le contexte du MJ."
 			},
-			"runForEveryone": "Exécuter une macro pour tout le monde ?",
+			"runForEveryone": "Tout le monde",
 			"runForEveryoneTooltip": "Ainsi, la macro sera exécutée par le MJ pour tous les joueurs connectés.\nPour des raisons de sécurité, cette option ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
 			"runForSpecificUser": "Exécuter une macro pour un utilisateur spécifique ?",
 			"runForSpecificUserTooltip": "Ainsi, la macro sera exécutée par le MJ pour un joueur spécifique connecté.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
-			"none": "Aucun"
+			"none": "Aucun",
+			"runForEveryoneElse": "Tous les autres"
 		},
 		"setting": {
 			"reset.name": "Réinitialiser les paramètres par défaut",
@@ -33,8 +34,12 @@
 			"debug.label": "Imprime les messages d'anomalies dans la console",
 			"debug.hint": " ",
 			"disableDropHotbarRollTableBehavior": {
-				"name": "Désactiver la dépose sur la barre d'outils des tables aléatoires",
-				"hint": "La fonction de création d'une macro sur la barre d'outils lors d'une dépose d'une table aléatoire peut entrer en conflit avec d'autres modules. Ce paramètre désactive cette fonction."
+				"name": "Désactiver l'affichage du tableau déroulant sur la barre d'outils",
+				"hint": "La fonction de création d'une macro dans la barre d'outils lors d'une dépose d'un tableau roulant peut entrer en conflit avec d'autres modules. Ce paramètre désactive cette fonctionnalité."
+			},
+			"legacySlashCommand": {
+				"name": "(Expérimentale) Commande Legacy Slash",
+				"hint": "Ignore la nécessité d'utiliser la commande /amacro pour appeler des macros sur le Tchat. Attention : cela peut entraîner des conflits avec votre système ou d'autres modules."
 			}
 		},
 		"dialogs": {
