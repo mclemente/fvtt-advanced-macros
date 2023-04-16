@@ -2,7 +2,7 @@
 	"id": "advanced-macros",
 	"title": "Advanced Macros",
 	"description": "Use handlebars templating, recursive macro calls and call macros with arguments or directly from chat.",
-	"version": "1.19.3",
+	"version": "1.19.4",
 	"authors": [
 		{
 			"name": "mclemente",
@@ -23,18 +23,6 @@
 		}
 	],
 	"type": "module",
-	"includes": [
-		"./assets/**",
-		"./lang/**",
-		"./languages/**",
-		"./scripts/**",
-		"./styles/**",
-		"./templates/**",
-		"./module.json",
-		"./README.md",
-		"./icons/**",
-		"./packs/**"
-	],
 	"media": [
 		{
 			"type": "icon",
@@ -86,13 +74,12 @@
 		}
 	],
 	"socket": true,
-	"scripts": ["scripts/lib/tokenizer.min.js"],
+	"scripts": ["lib/tokenizer.min.js"],
 	"esmodules": ["main.js"],
 	"styles": [],
 	"compatibility": {
-		"minimum": 10,
-		"verified": 10,
-		"maximum": 10
+		"minimum": 11,
+		"verified": 11
 	},
 	"manifestPlusVersion": "1.2.1",
 	"url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
@@ -103,21 +90,13 @@
 	"bugs": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/issues",
 	"allowBugReporter": true,
 	"relationships": {
-		"systems": [],
 		"requires": [
 			{
 				"id": "lib-wrapper",
 				"type": "module",
 				"manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
 				"compatibility": {}
-			},
-			{
-				"id": "socketlib",
-				"type": "module",
-				"manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json",
-				"compatibility": {}
 			}
-		],
-		"conflicts": []
+		]
 	}
 }

@@ -1,38 +1,16 @@
 {
 	"advanced-macros": {
-		"ROLLTABLE": {
-			"macroName": "{document}: {name}"
-		},
 		"MACROS": {
-			"responses": {
-				"NoMacro": "Can't find macro.",
-				"NoUser": "Invalid user.",
-				"NotScript": "Invalid macro type.",
-				"NoMacroPermission": "You are not allowed to use script macros.",
-				"NoRunAsGM": "You are not authorized to run this macro as the GM.",
-				"SyntaxError": "There was an error in your chat message syntax.",
-				"MacroSyntaxError": "There was an error in your macro syntax. See the console (F12) for details.",
-				"ExternalMacroSyntaxError": "There was an error in your macro syntax. See the console (F12) of the GM {GM} for details.",
-				"TimeoutGM": "Timed out waiting to elect a GM to execute the macro.",
-				"TimeoutWaitGM": "Timed out waiting for the GM to execute the macro.",
-				"NoConnectedGM": "There are no connected GMs to run the macro {macro} in the GM context."
-			},
-			"runAsGM": "Execute macro as GM?",
-			"runAsGMTooltip": "This will cause the macro to be executed by the GM when players execute it.\nFor security reasons, only applies to GM-created macros with no other owners.",
+			"runForSpecificUser": "Execute for Specific User",
+			"runForSpecificUserTooltip": "This will cause the macro to be executed by the GM for a specific player connected.\nFor security reasons, only applies to GM-created macros with no other owners.",
+			"runAsGM": "Gamemaster",
 			"runForEveryone": "Everyone",
 			"runForEveryoneElse": "Everyone else",
-			"runForEveryoneTooltip": "This will cause the macro to be executed by the GM for every players connected.\nFor security reasons, only applies to GM-created macros with no other owners.",
-			"runForSpecificUser": "Execute macro for specific user?",
-			"runForSpecificUserTooltip": "This will cause the macro to be executed by the GM for a specific player connected.\nFor security reasons, only applies to GM-created macros with no other owners.",
-			"none": "None"
+			"none": "None, run as normal"
 		},
 		"setting": {
-			"disableDropHotbarRollTableBehavior": {
-				"name": "Disable Drop RollTable On Hotbar",
-				"hint": "The function of creating a macro on the hotbar when dropping a Rolltable may conflict with other modules. This setting disables this functionality."
-			},
 			"legacySlashCommand": {
-				"name": "(Experimental) Legacy Slash Command",
+				"name": "Legacy Slash Command",
 				"hint": "Ignores the need to use the /amacro command to call macros on the chat. Warning: this might cause conflict with your system or other modules."
 			}
 		}
