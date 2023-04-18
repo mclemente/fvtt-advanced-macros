@@ -1,8 +1,8 @@
 {
 	"id": "advanced-macros",
 	"title": "Advanced Macros",
-	"description": "Use handlebars templating, recursive macro calls and call macros with arguments or directly from chat.",
-	"version": "1.19.4",
+	"description": "Call macros with arguments directly from chat and execute macros for specific users.",
+	"version": "1.20",
 	"authors": [
 		{
 			"name": "mclemente",
@@ -74,14 +74,12 @@
 		}
 	],
 	"socket": true,
-	"scripts": ["lib/tokenizer.min.js"],
 	"esmodules": ["main.js"],
 	"styles": [],
 	"compatibility": {
 		"minimum": 11,
 		"verified": 11
 	},
-	"manifestPlusVersion": "1.2.1",
 	"url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
 	"manifest": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.json",
 	"download": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.zip",

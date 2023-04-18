@@ -6,7 +6,7 @@
 			"runAsGM": "Gamemaster",
 			"runForEveryone": "Everyone",
 			"runForEveryoneElse": "Everyone else",
-			"none": "None, run as normal"
+			"none": "None"
 		},
 		"setting": {
 			"legacySlashCommand": {
