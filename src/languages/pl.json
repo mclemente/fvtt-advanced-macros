@@ -18,16 +18,17 @@
 				"NoConnectedGM": "Nie ma żadnych GMów aby uruchomić makro {macro} jako GM."
 			},
 			"runAsGM": "Uruchom makro jako GM?",
-			"runForEveryone": "Wszyscy Uruchamiają Makro?",
+			"runForEveryone": "Każdy",
 			"runForEveryoneTooltip": "Makro zostanie uruchomione przez GMa dla wszystkich graczy. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
 			"runForSpecificUser": "Uruchom Makro dla konkretnego użytkownika?",
 			"none": "Nic",
 			"runAsGMTooltip": "Makro zostanie uruchomione przez GMa kiedy gracz włączy makro. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
-			"runForSpecificUserTooltip": "Makro zostanie uruchomione przez GMa tylko dla wybranego zalogowanego gracza. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców."
+			"runForSpecificUserTooltip": "Makro zostanie uruchomione przez GMa tylko dla wybranego zalogowanego gracza. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
+			"runForEveryoneElse": "Wszyscy inni"
 		},
 		"setting": {
 			"disableDropHotbarRollTableBehavior": {
-				"name": "Wyłączenie upuszczania tabeli na przybornik",
+				"name": "Wyłączenie funkcji Drop RollTable na pasku narzędziowym",
 				"hint": "Tworzenie makra kiedy się upuszcza tabelę na przybornik może być niekompatybilne z innymi modułami. To ustawienie wyłącza tą funkcję."
 			},
 			"reset.name": "Przywrócenie ustawień domyślnych",
@@ -35,7 +36,10 @@
 			"reset.hint": "Spowoduje to przywrócenie wszystkich ustawień domyślnych dla aktywnego systemu gry.",
 			"debug.name": "Włącz debugowanie",
 			"debug.label": "Drukuje komunikaty debugowe do konsoli",
-			"debug.hint": " "
+			"debug.hint": " ",
+			"legacySlashCommand": {
+				"hint": "Ignoruje potrzebę użycia polecenia /makra do wywołania makr na czacie. Ostrzeżenie: może to spowodować konflikt z twoim systemem lub innymi modułami."
+			}
 		},
 		"dialogs": {
 			"resetsettings.title": "Resetowanie Ustawień Modułu",

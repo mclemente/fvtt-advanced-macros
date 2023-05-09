@@ -17,7 +17,7 @@ See the [Build](./wiki/Build) instructions.
 
 ## Development and Contributing
 
-Advanced Macros is a free and open source project. You can contribute to the project by making a merge request or by creating a [Github issue](https://github.com/mclemente/healthEstimate/issues).
+Advanced Macros is a free and open source project. You can contribute to the project by making a merge request or by creating a [Github issue](https://github.com/mclemente/fvtt-advanced-macros/issues).
 Translations are done on the Foundry Hub Weblate directly. Check the [Weblate](https://weblate.foundryvtt-hub.com/engage/advanced-macros/) page for contributing.
 
 <a href="https://weblate.foundryvtt-hub.com/engage/advanced-macros/">
