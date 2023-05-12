@@ -52,23 +52,28 @@ Hooks.once("init", () => {
 		"advanced-macros",
 		"ChatLog.prototype._processMacroCommand",
 		function (command, match) {
+			let [macroName, ...params] = match[2].split(" ");
+			let expandName = true;
+			const scope = {};
+
 			let macro;
 			const macroName = match[2];
 			if (Number.isNumeric(macroName)) {
 				const macroID = game.user.hotbar[macroName];
 				macro = game.macros.get(macroID);
 			}
-			let args = [];
-			if (!macro) {
-				const macroArray = match[2].split(" ");
-				let macroName = "";
-				for (const namePart of macroArray) {
-					macroName += namePart;
+			if (!macro) macro = game.macros.getName(macroName);
+
+			for (const p of params) {
+				const kv = p.split("=");
+				if (kv.length === 2) {
+					scope[kv[0]] = kv[1];
+					expandName = false;
+				} else if (macro) {
+					expandName = false;
+				} else if (expandName) {
+					macroName += ` ${p}`; // Macro names may contain spaces
 					macro = game.macros.getName(macroName);
-					if (macro) {
-						args = macroArray.slice(macroArray.indexOf(namePart) + 1);
-						break;
-					} else macroName += " ";
 				}
 			}
 			macro?.execute({ ...args });

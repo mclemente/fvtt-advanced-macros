@@ -1,5 +1,4 @@
 import { socket } from "../main.js";
-import { error } from "./utils.js";
 
 export async function executeMacro(wrapped, scope, callFromSocket) {
 	if (!this.canExecute) {
@@ -146,13 +145,20 @@ export function _createContentLink(match, { async = false, relativeTo } = {}) {
 
 	let doc;
 	let broken = false;
-	let args = [];
+	const scope = {};
 	if (type === "UUID") {
-		if (target.split(".")[0] == "Macro" && /\s/g.test(target)) {
-			args = target.split(" ");
-			target = args.shift();
+		if (target.split(".")[0] == "Macro" && /\s/g.test(match[4])) {
+			const macro = game.macros.get(target.split(".")[1]);
+			let params = match[4].replace(`${macro.name} `, "").split(" ");
+			for (const p of params) {
+				const kv = p.split("=");
+				if (kv.length === 2) {
+					scope[kv[0]] = kv[1];
+				} else scope[kv[0]] = true;
+			}
+			data.name = macro.name;
 		}
-		data.dataset = { id: null, uuid: target, args };
+		data.dataset = { id: null, uuid: target, scope };
 		if (async) doc = fromUuid(target, { relative: relativeTo });
 		else {
 			try {
@@ -177,7 +183,7 @@ export function _createContentLink(match, { async = false, relativeTo } = {}) {
 				if (hash) attrs["data-hash"] = hash;
 				return doc.toAnchor({
 					attrs,
-					dataset: { args: data.dataset.args },
+					dataset: { scope: Object.keys(data.dataset.scope), ...data.dataset.scope },
 					classes: data.cls,
 					name: data.name,
 				});
@@ -214,13 +220,16 @@ export async function _onClickContentLink(event) {
 	const doc = await fromUuid(event.currentTarget.dataset.uuid);
 	if (event.currentTarget.dataset.type !== "Macro") return doc?._onClickDocumentLink(event);
 	else {
-		if (event.currentTarget.dataset.args === "") var args = [];
-		else if (event.currentTarget.dataset.args) args = event.currentTarget.dataset.args.split(",");
-		else {
-			console.warn("Advanced Macros | Content Link has no args. Can't ensure macro will run correctly.");
-			args = [];
+		const scope = {};
+		if (event.currentTarget.dataset.scope) {
+			const params = event.currentTarget.dataset.scope.split(",");
+			for (const p of params) {
+				scope[p] =
+					event.currentTarget.dataset[p] === "true" ||
+					(event.currentTarget.dataset[p] === "false" ? false : event.currentTarget.dataset[p]);
+			}
 		}
 		// TODO set up logic check when to callFromSocket or not
-		return doc?.execute(args);
+		return doc?.execute(scope);
 	}
 }
