@@ -56,8 +56,8 @@ Hooks.once("init", () => {
 			let expandName = true;
 			const scope = {};
 
+			// Get the target macro by number or by name
 			let macro;
-			const macroName = match[2];
 			if (Number.isNumeric(macroName)) {
 				const macroID = game.user.hotbar[macroName];
 				macro = game.macros.get(macroID);
@@ -70,13 +70,23 @@ Hooks.once("init", () => {
 					scope[kv[0]] = kv[1];
 					expandName = false;
 				} else if (macro) {
+					scope[kv[0]] = true;
 					expandName = false;
 				} else if (expandName) {
 					macroName += ` ${p}`; // Macro names may contain spaces
 					macro = game.macros.getName(macroName);
 				}
 			}
-			macro?.execute({ ...args });
+			if (!macro) {
+				macroName = macroName.trimEnd(); // Eliminate trailing spaces
+				macro = game.macros.getName(macroName);
+			}
+
+			if (!macro)
+				throw new Error(`Requested Macro "${macroName}" was not found as a named macro or hotbar position`);
+
+			// Execute the Macro with provided scope
+			return macro.execute(scope);
 		},
 		"OVERRIDE",
 	);

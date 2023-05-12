@@ -9,8 +9,7 @@ export async function executeMacro(wrapped, scope, callFromSocket) {
 			return wrapped();
 		case "script":
 			const runFor = this.getFlag("advanced-macros", "runForSpecificUser");
-			if (callFromSocket || !runFor || !canRunAsGM(this)) return wrapped({ ...scope });
-
+			if (callFromSocket || !runFor || !canRunAsGM(this)) return wrapped(scope);
 			if (runFor == "GM") return socket.executeAsGM("executeMacro", this, scope);
 			else if (runFor == "runForEveryone") return socket.executeForEveryone("executeMacro", this, scope);
 			else if (runFor == "runForEveryoneElse") return socket.executeForOthers("executeMacro", this, scope);
@@ -47,38 +46,23 @@ export function canRunAsGM(macro) {
 export function chatMessage(chatLog, message, chatData) {
 	// Ignore messages starting with "<" or matching a macro pattern.
 	if (message.trim().startsWith("<") || message.match(chatLog.constructor.MESSAGE_PATTERNS["macro"])) return true;
-	// If the message contains an invalid command, try to process macros in it.
-	if (message.match(chatLog.constructor.MESSAGE_PATTERNS["invalid"])) {
-		let tokenizer = null;
-		if (message.trim().startsWith("/")) {
-			// Ensure tokenizer, but don't consider dash as a token delimiter
-			if (!tokenizer) {
-				tokenizer = new TokenizeThis({
-					//prettier-ignore
-					shouldTokenize: ["(", ")", ",", "*", "/", "%", "+", "=", "!=", "!", "<", ">", "<=", ">=", "^"],
-				});
+	// If the message contains an invalid command and starts with a "/", try to process macros in it.
+	let [command, match] = chatLog.constructor.parse(message);
+	if (command === "invalid" && message.trim().startsWith("/")) {
+		const messageArray = message.slice(1).split(" ");
+		let macroName = messageArray[0];
+		let macro = game.macros.getName(macroName);
+		messageArray.slice(1).forEach((token) => {
+			if (!macro) {
+				macroName += ` ${token}`;
+				macro = game.macros.getName(macroName);
 			}
-			let command = null;
-			let args = [];
-			tokenizer.tokenize(message.substr(1), (token) => {
-				if (!command) command = token;
-				else args.push(token);
-			});
-			let macro = game.macros.contents.find((macro) => macro.name === command);
-			if (macro) {
-				macro.execute({ ...args });
-				return false;
-			} else {
-				let newArgs = deepClone(args);
-				for (const arg of args) {
-					command += ` ${arg}`;
-					macro = game.macros.contents.find((macro) => macro.name === command);
-					newArgs.shift();
-					if (!macro) continue;
-					macro.execute({ ...newArgs });
-					return false;
-				}
-			}
+			if (macro) return;
+		});
+		if (macro) {
+			[command, match] = chatLog.constructor.parse(`/macro ${message.slice(1)}`);
+			chatLog._processMacroCommand(command, match);
+			return false;
 		}
 	}
 	return true;
