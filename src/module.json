@@ -93,7 +93,9 @@
 				"id": "lib-wrapper",
 				"type": "module",
 				"manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
-				"compatibility": {}
+				"compatibility": {
+					"verified": "1.12.11.0"
+				}
 			},
 			{
 				"id": "socketlib",
