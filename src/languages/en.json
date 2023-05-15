@@ -10,7 +10,7 @@
 		},
 		"setting": {
 			"legacySlashCommand": {
-				"name": "Legacy Slash Command",
+				"name": "Chat Slash Command",
 				"hint": "Ignores the need to use the /amacro command to call macros on the chat. Warning: this might cause conflict with your system or other modules."
 			}
 		}
