@@ -11,6 +11,9 @@ import {
 	renderMacroConfig,
 	_createContentLink,
 	_onClickContentLink,
+	error,
+	renderMacroExplicit,
+	info,
 } from "./lib/lib.js";
 import { advancedMacroSocket, registerSocket } from "./socket.js";
 
@@ -107,6 +110,19 @@ export const readyHooks = async () => {
 			});
 			return false;
 		});
+	}
+
+	if(game.user.isGM){
+		const macrosToRunAsWorldScript = game.macros.contents.filter((macro) => getProperty(macro, `flags.advanced-macros.runAsWorldScript`) === true); 
+		for(const macroWorldScript of macrosToRunAsWorldScript) {
+			try{
+				info(`Excecute world script : ` + macroWorldScript.name);
+				renderMacroExplicit(macroWorldScript);
+			}catch(err){
+				error(`Error on world script : ` + macroWorldScript.name);
+				error(err);
+			}
+		}
 	}
 };
 // ==========================================

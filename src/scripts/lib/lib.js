@@ -250,6 +250,11 @@ export function canRunAsGM(macro) {
 
 export function renderMacro(args, callFromSocket = false) {
 	const macro = this;
+	return renderMacroExplicit(macro, args, callFromSocket);
+}
+
+export function renderMacroExplicit(macro, args, callFromSocket = false) {
+	// const macro = this;
 	const context = getTemplateContext(args);
 	if (macro.type === "chat") {
 		if (macro.command.includes("{{")) {
@@ -578,25 +583,25 @@ export function renderMacroConfig(obj, html, data) {
 			</div>
 		`);
 		gmDiv.insertAfter(typeGroup);
-		/*
-		// Execute for all other clients (ty to socketlib)
+		
+		// Execute as a world script
 
-		const runForEveryone = macro.getFlag("advanced-macros", "runForEveryone");
-		const everyoneDiv = $(`
-		<div class="form-group" title="${game.i18n.localize("advanced-macros.MACROS.runForEveryoneTooltip")}">
+		const runAsWorldScript= macro.getFlag("advanced-macros", "runAsWorldScript");
+		const worldScriptDiv = $(`
+		<div class="form-group" title="${game.i18n.localize("advanced-macros.MACROS.runAsWorldScriptTooltip")}">
 			<label class="form-group">
-				<span>${game.i18n.localize("advanced-macros.MACROS.runForEveryone")}</span>
+				<span>${game.i18n.localize("advanced-macros.MACROS.runAsWorldScript")}</span>
 				<input type="checkbox"
-					name="flags.advanced-macros.runForEveryone"
+					name="flags.advanced-macros.runAsWorldScript"
 					data-dtype="Boolean"
-					${runForEveryone ? "checked" : ""}
+					${runAsWorldScript ? "checked" : ""}
 					${!canRunAsGMB ? "disabled" : ""}/>
 			</label>
 		</div>
 		`);
 
-		everyoneDiv.insertAfter(gmDiv);
-		*/
+		worldScriptDiv.insertAfter(gmDiv);
+		
 
 		// Exceute only for specific one
 		const runForSpecificUser = macro.getFlag("advanced-macros", "runForSpecificUser");
@@ -647,7 +652,7 @@ export function renderMacroConfig(obj, html, data) {
 			</div>
 		`);
 
-		specificOneDiv.insertAfter(gmDiv);
+		specificOneDiv.insertAfter(worldScriptDiv);
 	}
 }
 
