@@ -49,14 +49,16 @@ Hooks.once("init", () => {
 					return wrapped();
 				case "script":
 					const runFor = this.getFlag("advanced-macros", "runForSpecificUser");
-					if (callFromSocket || !runFor || !canRunAsGM(this)) return wrapped(scope);
-					if (runFor == "GM") return socket.executeAsGM("executeMacro", this, scope);
-					else if (runFor == "runForEveryone") return socket.executeForEveryone("executeMacro", this, scope);
-					else if (runFor == "runForEveryoneElse")
+					if (callFromSocket || !runFor || runFor === "runAsWorldScript" || !canRunAsGM(this)) {
+						return wrapped(scope);
+					} else if (runFor == "GM") {
+						return socket.executeAsGM("executeMacro", this, scope);
+					} else if (runFor == "runForEveryone") {
+						return socket.executeForEveryone("executeMacro", this, scope);
+					} else if (runFor == "runForEveryoneElse") {
 						return socket.executeForOthers("executeMacro", this, scope);
-					else if (this.getFlag("advanced-macros", "runForSpecificUser")) {
-						const users = [this.getFlag("advanced-macros", "runForSpecificUser")];
-						return socket.executeForUsers("executeMacro", users, this, scope);
+					} else if (runFor) {
+						return socket.executeForUsers("executeMacro", [runFor], this, scope);
 					}
 			}
 		},
@@ -210,9 +212,16 @@ Hooks.once("ready", () => {
 		const runForSpecificUser = macro.getFlag("advanced-macros", "runForSpecificUser");
 		const options = [
 			{ value: "", label: game.i18n.localize("advanced-macros.MACROS.none") },
-			{ value: "GM", label: game.i18n.localize("advanced-macros.MACROS.runAsGM") },
-			{ value: "runForEveryone", label: game.i18n.localize("advanced-macros.MACROS.runForEveryone") },
-			{ value: "runForEveryoneElse", label: game.i18n.localize("advanced-macros.MACROS.runForEveryoneElse") },
+			{
+				value: "GM",
+				label: game.i18n.localize("USER.RoleGamemaster"),
+				selected: runForSpecificUser === "GM",
+			},
+			...["runForEveryone", "runForEveryoneElse", "runAsWorldScript"].map((run) => ({
+				value: run,
+				label: game.i18n.localize(`advanced-macros.MACROS.${run}`),
+				selected: runForSpecificUser === run,
+			})),
 			...game.users
 				.filter((user) => !user.isGM)
 				.map((user) => ({
@@ -248,6 +257,17 @@ Hooks.once("ready", () => {
 			else specificOneDiv.show();
 		});
 	});
+	const worldScripts = game.macros.contents.filter(
+		(macro) => getProperty(macro, `flags.advanced-macros.runForSpecificUser`) === "runAsWorldScript",
+	);
+	for (const macro of worldScripts) {
+		try {
+			macro.execute();
+			console.debug(`Advanced Macros | Executed "${macro.name}" world script (ID: ${macro.id})`);
+		} catch (err) {
+			console.error(`Advanced Macros | Error executing "${macro.name}" world script (ID: ${macro.id})`, err);
+		}
+	}
 });
 
 /**
