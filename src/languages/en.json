@@ -3,7 +3,6 @@
 		"MACROS": {
 			"runForSpecificUser": "Execute for Specific User",
 			"runForSpecificUserTooltip": "This will cause the macro to be executed by the GM for a specific player connected.\nFor security reasons, only applies to GM-created macros with no other owners.",
-			"runAsGM": "Gamemaster",
 			"runForEveryone": "Everyone",
 			"runForEveryoneElse": "Everyone else",
 			"none": "None"
@@ -11,7 +10,7 @@
 		"setting": {
 			"legacySlashCommand": {
 				"name": "Chat Slash Command",
-				"hint": "Ignores the need to use the /amacro command to call macros on the chat. Warning: this might cause conflict with your system or other modules."
+				"hint": "Ignores the need to use the /macro command to call macros on the chat. Warning: this might cause conflict with your system or other modules."
 			}
 		}
 	}

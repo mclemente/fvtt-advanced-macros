@@ -8,10 +8,12 @@ Hooks.once("socketlib.ready", () => {
 	//@ts-ignore
 	socket = socketlib.registerModule("advanced-macros");
 	socket.register("executeMacro", async (...inAttributes) => {
-		if (!Array.isArray(inAttributes)) throw error("executeMacroArr: inAttributes must be of type array");
+		if (!Array.isArray(inAttributes)) {
+			throw new Error(`Advanced Macros | inAttributes must be of type Array, found type: ${typeof inAttributes}`);
+		}
 		let [macro, args] = inAttributes;
 		macro = game.macros.getName(macro.name);
-		return macro?.execute(args, true);
+		return macro?.execute(args);
 	});
 });
 
@@ -24,7 +26,6 @@ Hooks.once("init", () => {
 		default: false,
 		type: Boolean,
 	});
-
 	libWrapper.register(
 		"advanced-macros",
 		"Macro.prototype.canExecute",
@@ -36,7 +37,6 @@ Hooks.once("init", () => {
 		},
 		"OVERRIDE",
 	);
-
 	libWrapper.register(
 		"advanced-macros",
 		"Macro.prototype.execute",
@@ -201,11 +201,6 @@ Hooks.on("chatMessage", (chatLog, message, chatData) => {
 });
 
 Hooks.once("ready", () => {
-	if (!game.modules.get("lib-wrapper")?.active && game.user?.isGM) {
-		let word = "install and activate";
-		if (game.modules.get("lib-wrapper")) word = "activate";
-		throw error(`Requires the 'libWrapper' module. Please ${word} it.`);
-	}
 	Hooks.on("renderMacroConfig", (obj, html, data) => {
 		if (!game.user.isGM) return;
 		const macro = obj.object;
@@ -269,10 +264,4 @@ function canRunAsGM(macro) {
 	}
 	const highestPermissionLevel = Math.max(...Object.values(permissions));
 	return author?.isGM && highestPermissionLevel < CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER;
-}
-
-function error(error, notify = true) {
-	const errorMsg = `Advanced Macros | ${error}`;
-	if (notify) ui.notifications?.error(errorMsg);
-	return new Error(errorMsg.replace(/\s*<br>\s*/g, "\n"));
 }

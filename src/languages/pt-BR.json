@@ -1,34 +1,19 @@
 {
 	"advanced-macros": {
-		"ROLLTABLE": {
-			"macroName": "{document}: {name}"
-		},
 		"MACROS": {
-			"responses": {
-				"NoMacro": "Macro não encontrada.",
-				"NoUser": "Usuário inválido.",
-				"NotScript": "Tipo de macro inválida.",
-				"NoMacroPermission": "Você não tem permissão para usar macros de script.",
-				"NoRunAsGM": "Você não tem permissão para executar esta macro como MJ.",
-				"SyntaxError": "Houve um erro de sintaxe na sua mensagem de chat.",
-				"MacroSyntaxError": "Houve um erro de sintaxe na sua macro. Veja o console (F12) para mais detalhes.",
-				"ExternalMacroSyntaxError": "Houve um erro de sintaxe na sua macro. Veja o console (F12) do MJ {GM} para mais detalhes.",
-				"TimeoutGM": "Tempo de espera esgotado para eleger um MJ para executar a macro.",
-				"TimeoutWaitGM": "Tempo de espera esgotado para o MJ executar a macro.",
-				"NoConnectedGM": "Não existem MJs conectados para executar a macro {macro} no contexto do MJ."
-			},
-			"runAsGM": "Executar macro como MJ?",
-			"runForEveryone": "Executar macro para todos?",
-			"runForSpecificUser": "Executar macro para usuário específico?",
+			"runForSpecificUser": "Executar para usuário específico?",
 			"runForSpecificUserTooltip": "Isto fará com que a macro seja executada pelo MJ para um usuário específico conectado.\nPor questões de segurança, só se aplica a macros criadas pelo MJ sem outros donos.",
-			"runAsGMTooltip": "Isto fará com que a macro seja executada pelo MJ quando os jogadores a executarem.\nPor questões de segurança, só se aplica a macros criadas pelo MJ sem outros donos.",
-			"runForEveryoneTooltip": "Isto fará com que a macro seja executada pelo MJ para cada jogador conectado.\nPor questões de segurança, só se aplica a macros criadas pelo MJ sem outros donos.",
-			"none": "Ninguém"
+			"runAsGM": "Mestre do Jogo",
+			"runForEveryone": "Todos",
+			"runForEveryoneElse": "Todos os outros",
+			"none": "Ninguém",
+			"runAsWorldScript": "Script do Mundo",
+			"runAsWorldScriptTooltip": "Isto fará com que a macro seja executada automaticamente quando o Mundo for carregado.\nPor questões de segurança, só se aplica a macros criadas pelo MJ sem outros donos."
 		},
 		"setting": {
-			"disableDropHotbarRollTableBehavior": {
-				"name": "Desativar Drag & Drog de Tabelas de Rolagem na barra de macros",
-				"hint": "A função de criar macros quando arrastar e soltar tabelas de rolagem pode causar conflitos com outros módulos. Esta opção pode desativar esta função."
+			"legacySlashCommand": {
+				"name": "Comando de Barra (/) no Chat",
+				"hint": "Ignora a necessidade de usar o comando /macro para chamar macros no chat. Aviso: isso pode causar conflito com seu sistema ou outros módulos."
 			}
 		}
 	}
