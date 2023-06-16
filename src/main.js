@@ -174,6 +174,7 @@ Hooks.once("init", () => {
 		},
 		"OVERRIDE",
 	);
+	Macro.metadata.preserveOnImport.push("author");
 });
 
 Hooks.on("chatMessage", (chatLog, message, chatData) => {
@@ -277,7 +278,7 @@ Hooks.once("ready", () => {
  */
 function canRunAsGM(macro) {
 	const author = game.users.get(macro.author?.id);
-	const permissions = deepClone(macro.permission) || {};
+	const permissions = deepClone(macro.ownership) || {};
 
 	for (const user of game.users.contents) {
 		if (user.isGM || user.id === author?.id) delete permissions[user.id];
