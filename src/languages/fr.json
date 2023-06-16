@@ -21,10 +21,12 @@
 			},
 			"runForEveryone": "Tout le monde",
 			"runForEveryoneTooltip": "Ainsi, la macro sera exécutée par le MJ pour tous les joueurs connectés.\nPour des raisons de sécurité, cette option ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
-			"runForSpecificUser": "Exécuter une macro pour un utilisateur spécifique ?",
+			"runForSpecificUser": "Exécuter pour un utilisateur spécifique",
 			"runForSpecificUserTooltip": "Ainsi, la macro sera exécutée par le MJ pour un joueur spécifique connecté.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
 			"none": "Aucun",
-			"runForEveryoneElse": "Tous les autres"
+			"runForEveryoneElse": "Tous les autres",
+			"runAsWorldScript": "World Script",
+			"runAsWorldScriptTooltip": "La macro sera alors exécutée automatiquement pour le monde une fois qu'elle aura été chargée.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant pas d'autres propriétaires."
 		},
 		"setting": {
 			"reset.name": "Réinitialiser les paramètres par défaut",
@@ -38,8 +40,8 @@
 				"hint": "La fonction de création d'une macro dans la barre d'outils lors d'une dépose d'un tableau roulant peut entrer en conflit avec d'autres modules. Ce paramètre désactive cette fonctionnalité."
 			},
 			"legacySlashCommand": {
-				"name": "(Expérimentale) Commande Legacy Slash",
-				"hint": "Ignore la nécessité d'utiliser la commande /amacro pour appeler des macros sur le Tchat. Attention : cela peut entraîner des conflits avec votre système ou d'autres modules."
+				"name": "Commande Chat Slash",
+				"hint": "Ignore la nécessité d'utiliser la commande /macro pour appeler des macros sur le Tchat. Attention : cela peut entraîner des conflits avec votre système ou d'autres modules."
 			}
 		},
 		"dialogs": {
