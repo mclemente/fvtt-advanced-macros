@@ -12,8 +12,8 @@ Hooks.once("socketlib.ready", () => {
 			throw new Error(`Advanced Macros | inAttributes must be of type Array, found type: ${typeof inAttributes}`);
 		}
 		let [macro, args] = inAttributes;
-		macro = game.macros.getName(macro.name);
-		return macro?.execute(args);
+		macro = game.macros.get(macro.id);
+		return macro?.execute(args, true);
 	});
 });
 
