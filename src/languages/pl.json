@@ -20,11 +20,13 @@
 			"runAsGM": "Uruchom makro jako GM?",
 			"runForEveryone": "Każdy",
 			"runForEveryoneTooltip": "Makro zostanie uruchomione przez GMa dla wszystkich graczy. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
-			"runForSpecificUser": "Uruchom Makro dla konkretnego użytkownika?",
+			"runForSpecificUser": "Wykonaj dla określonego użytkownika",
 			"none": "Nic",
 			"runAsGMTooltip": "Makro zostanie uruchomione przez GMa kiedy gracz włączy makro. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
 			"runForSpecificUserTooltip": "Makro zostanie uruchomione przez GMa tylko dla wybranego zalogowanego gracza. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
-			"runForEveryoneElse": "Wszyscy inni"
+			"runForEveryoneElse": "Wszyscy inni",
+			"runAsWorldScript": "Skrypt globalny",
+			"runAsWorldScriptTooltip": "Spowoduje to automatyczne wykonanie makra na świecie po jego załadowaniu.\nZe względów bezpieczeństwa dotyczy tylko makr stworzonych przez GM bez innych właścicieli."
 		},
 		"setting": {
 			"disableDropHotbarRollTableBehavior": {
@@ -38,7 +40,8 @@
 			"debug.label": "Drukuje komunikaty debugowe do konsoli",
 			"debug.hint": " ",
 			"legacySlashCommand": {
-				"hint": "Ignoruje potrzebę użycia polecenia /makra do wywołania makr na czacie. Ostrzeżenie: może to spowodować konflikt z twoim systemem lub innymi modułami."
+				"hint": "Ignoruje potrzebę używania polecenia /macro do wywoływania makr na czacie. Ostrzeżenie: może to spowodować konflikt z systemem lub innymi modułami.",
+				"name": "Komenda ukośnika czatu"
 			}
 		},
 		"dialogs": {

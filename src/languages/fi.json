@@ -1,0 +1,18 @@
+{
+	"advanced-macros": {
+		"setting": {
+			"legacySlashCommand": {
+				"name": "Keskustelun vinoviivakomento"
+			}
+		},
+		"MACROS": {
+			"runForSpecificUser": "Suorita tietylle käyttäjälle",
+			"runForSpecificUserTooltip": "Tämä saa PJ:n suorittamaan makron tietylle pelissä olevalle pelaajalle.\nTurvallisuussyistä tämä koskee vain PJ:n luomia makroja, joilla ei ole muita omistajia.",
+			"runForEveryone": "Kaikille",
+			"runForEveryoneElse": "Kaikille muille",
+			"none": "Ei mitään",
+			"runAsWorldScript": "Maailmaskripti",
+			"runAsWorldScriptTooltip": "Tämä makro suoritetaan automaattisesti, kun maailma on ladattu.\nTurvallisuussyistä tämä koskee vain PJ:n luomia makroja, joilla ei ole muita omistajia."
+		}
+	}
+}
