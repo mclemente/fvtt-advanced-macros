@@ -35,7 +35,7 @@ Hooks.once("init", () => {
 				? game.user.can("MACRO_SCRIPT") || (canRunAsGM(this) && !game.user.isGM)
 				: true;
 		},
-		"OVERRIDE",
+		"OVERRIDE"
 	);
 	libWrapper.register(
 		"advanced-macros",
@@ -65,7 +65,7 @@ Hooks.once("init", () => {
 					}
 			}
 		},
-		"MIXED",
+		"MIXED"
 	);
 	libWrapper.register(
 		"advanced-macros",
@@ -152,7 +152,7 @@ Hooks.once("init", () => {
 			if (doc instanceof Promise) return doc.then(constructAnchor);
 			return constructAnchor(doc);
 		},
-		"OVERRIDE",
+		"OVERRIDE"
 	);
 	libWrapper.register(
 		"advanced-macros",
@@ -175,7 +175,7 @@ Hooks.once("init", () => {
 				return doc?.execute(scope);
 			}
 		},
-		"OVERRIDE",
+		"OVERRIDE"
 	);
 	Macro.metadata.preserveOnImport.push("author");
 });
@@ -262,7 +262,7 @@ Hooks.once("ready", () => {
 		});
 	});
 	const worldScripts = game.macros.contents.filter(
-		(macro) => getProperty(macro, `flags.advanced-macros.runForSpecificUser`) === "runAsWorldScript",
+		(macro) => getProperty(macro, `flags.advanced-macros.runForSpecificUser`) === "runAsWorldScript"
 	);
 	for (const macro of worldScripts) {
 		try {
