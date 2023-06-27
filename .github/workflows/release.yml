@@ -51,7 +51,7 @@ jobs:
 
             # Create a release for this specific version
             - name: Create Release
-              uses: ncipollo/release-action@1
+              uses: ncipollo/release-action@v1
               with:
                   allowUpdates: true
                   name: ${{ env.RELEASE_VERSION }}
