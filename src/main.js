@@ -11,8 +11,8 @@ Hooks.once("socketlib.ready", () => {
 		if (!Array.isArray(inAttributes)) {
 			throw new Error(`Advanced Macros | inAttributes must be of type Array, found type: ${typeof inAttributes}`);
 		}
-		let [macro, args] = inAttributes;
-		macro = game.macros.get(macro.id);
+		let [macroId, args] = inAttributes;
+		const macro = game.macros.get(macroId);
 		return macro?.execute(args, true);
 	});
 });
@@ -40,7 +40,7 @@ Hooks.once("init", () => {
 	libWrapper.register(
 		"advanced-macros",
 		"Macro.prototype.execute",
-		async function (wrapped, scope, callFromSocket) {
+		async function (wrapped, scope = {}, callFromSocket = false) {
 			if (!this.canExecute) {
 				return ui.notifications.warn(`You do not have permission to execute Macro "${this.name}".`);
 			}
@@ -52,13 +52,16 @@ Hooks.once("init", () => {
 					if (callFromSocket || !runFor || runFor === "runAsWorldScript" || !canRunAsGM(this)) {
 						return wrapped(scope);
 					} else if (runFor == "GM") {
-						return socket.executeAsGM("executeMacro", this, scope);
+						if (game.users.activeGM?.isSelf) {
+							return wrapped(scope);
+						}
+						return socket.executeAsGM("executeMacro", this.id, scope);
 					} else if (runFor == "runForEveryone") {
-						return socket.executeForEveryone("executeMacro", this, scope);
+						return socket.executeForEveryone("executeMacro", this.id, scope);
 					} else if (runFor == "runForEveryoneElse") {
-						return socket.executeForOthers("executeMacro", this, scope);
+						return socket.executeForOthers("executeMacro", this.id, scope);
 					} else if (runFor) {
-						return socket.executeForUsers("executeMacro", [runFor], this, scope);
+						return socket.executeForUsers("executeMacro", [runFor], this.id, scope);
 					}
 			}
 		},
