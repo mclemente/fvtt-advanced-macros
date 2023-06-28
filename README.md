@@ -13,7 +13,12 @@ Check out the Macros compendium for some useful macros that showcase the advance
 
 See the [Build](./wiki/Build) instructions.
 
-## [Changelog](./changelog.md)
+## [Changelog](./CHANGELOG.md)
+
+## ⚠ NOTE FOR V11
+Foundry V11 has changed a lot of things for macros, features such as **Passing arguments to script macros**, **Calling script macros with arguments through the chat**, and **Dropping Roll Tables on the macro bar** have become part of Foundry V11 itself and are no longer supported by Advanced Macros.
+
+If you have any issues with the changes, I suggest you seek help at the #macro-polo channel on Foundry's discord server.
 
 ## Development and Contributing
 
