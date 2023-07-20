@@ -74,7 +74,10 @@
 			"name": "macros",
 			"label": "Advanced Macros",
 			"path": "packs/macros.db",
-			"private": true,
+			"ownership": {
+				"PLAYER": "LIMITED",
+				"ASSISTANT": "OWNER"
+			},
 			"type": "Macro"
 		}
 	],
