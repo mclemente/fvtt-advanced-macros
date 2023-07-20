@@ -1,7 +1,5 @@
 ![GitHub release](https://img.shields.io/github/release-date/mclemente/fvtt-advanced-macros)
-![all versions](https://img.shields.io/github/downloads/mclemente/fvtt-advanced-macros/total)
-![the latest version](https://img.shields.io/github/downloads/mclemente/fvtt-advanced-macros/latest/total)
-![Forge installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fadvanced-macros)
+![the latest version](https://img.shields.io/github/downloads/mclemente/fvtt-advanced-macros/latest/module.zip)
 
 [![ko-fi](https://img.shields.io/badge/ko--fi-Support%20Me-red?style=flat-square&logo=ko-fi)](https://ko-fi.com/mclemente)
 
