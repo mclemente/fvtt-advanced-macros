@@ -2,7 +2,8 @@
 	"advanced-macros": {
 		"setting": {
 			"legacySlashCommand": {
-				"name": "Keskustelun vinoviivakomento"
+				"name": "Keskustelun vinoviivakomento",
+				"hint": "Välttää tarpeen käyttää /macro-komentoa makrojen suorittamiseen keskustelussa. Varoitus: tämä saattaa aiheuttaa ristiriitoja pelijärjestelmäsi tai muiden moduulien kanssa."
 			}
 		},
 		"MACROS": {
