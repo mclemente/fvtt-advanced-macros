@@ -1,1 +1,19 @@
-{}
+{
+	"advanced-macros": {
+		"MACROS": {
+			"none": "Nadie",
+			"runAsWorldScript": "Script de mundo",
+			"runForSpecificUser": "Ejecutar para el usuario específico",
+			"runForSpecificUserTooltip": "Esto hará que la macro sea ejecutada por el GM para un jugador concreto que esté conectado.\nPor motivos de seguridad, solo aplica a macros creadas por los GM que no tengan ningún otro propietario.",
+			"runForEveryone": "Todo el mundo",
+			"runForEveryoneElse": "Todos los demás",
+			"runAsWorldScriptTooltip": "Esto hará que la macro sea ejecutada automáticamente una vez se haya cargado el mundo.\nPor motivos de seguridad, solo aplica a macros creadas por el GM sin otro propietario."
+		},
+		"setting": {
+			"legacySlashCommand": {
+				"name": "Comando barra de chat",
+				"hint": "Ignora la necesidad de usar el comando /macro para llamar macros en el chat. Aviso: esto podría causar conflicto con tu sistema u otros módulos."
+			}
+		}
+	}
+}
