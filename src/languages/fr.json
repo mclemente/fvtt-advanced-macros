@@ -1,54 +1,54 @@
 {
-	"advanced-macros.MACROS.runAsGM": "Exécuter la macro en tant que MJ ?",
-	"advanced-macros.MACROS.runAsGMTooltip": "La macro sera exécutée par le MJ lorsque les joueurs l'exécuteront.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
-	"advanced-macros": {
-		"ROLLTABLE": {
-			"macroName": "{document} : {name}"
-		},
-		"MACROS": {
-			"responses": {
-				"NoMacro": "Impossible de trouver la macro.",
-				"NoUser": "Utilisateur non valide.",
-				"NotScript": "Type de macro non valide.",
-				"NoMacroPermission": "Vous n'êtes pas autorisé à utiliser des macros de script.",
-				"NoRunAsGM": "Vous n'êtes pas autorisé à exécuter cette macro en tant que MJ.",
-				"SyntaxError": "Il y a eu une erreur dans la syntaxe de votre message de discussion.",
-				"MacroSyntaxError": "Il y a eu une erreur dans la syntaxe de votre macro. Consultez la console (F12) pour plus de détails.",
-				"ExternalMacroSyntaxError": "Il y a eu une erreur dans la syntaxe de votre macro. Consultez la console (F12) du MJ {GM} pour plus de détails.",
-				"TimeoutGM": "Le temps est écoulé en attendant d'élire un MJ pour exécuter la macro.",
-				"TimeoutWaitGM": "Le délai d'attente pour l'exécution de la macro par le MJ a expiré.",
-				"NoConnectedGM": "Il n'y a aucun MJ connecté pour exécuter la macro {macro} dans le contexte du MJ."
-			},
-			"runForEveryone": "Tout le monde",
-			"runForEveryoneTooltip": "Ainsi, la macro sera exécutée par le MJ pour tous les joueurs connectés.\nPour des raisons de sécurité, cette option ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
-			"runForSpecificUser": "Exécuter pour un utilisateur spécifique",
-			"runForSpecificUserTooltip": "Ainsi, la macro sera exécutée par le MJ pour un joueur spécifique connecté.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
-			"none": "Aucun",
-			"runForEveryoneElse": "Tous les autres",
-			"runAsWorldScript": "World Script",
-			"runAsWorldScriptTooltip": "La macro sera alors exécutée automatiquement pour le monde une fois qu'elle aura été chargée.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant pas d'autres propriétaires."
-		},
-		"setting": {
-			"reset.name": "Réinitialiser les paramètres par défaut",
-			"reset.label": "Remettre les Réglages Par Défaut",
-			"reset.hint": "Cela rétablira tous les réglages par défaut du système du jeu actif.",
-			"debug.name": "Activer la recherche d'anomalies",
-			"debug.label": "Imprime les messages d'anomalies dans la console",
-			"debug.hint": " ",
-			"disableDropHotbarRollTableBehavior": {
-				"name": "Désactiver l'affichage du tableau déroulant sur la barre d'outils",
-				"hint": "La fonction de création d'une macro dans la barre d'outils lors d'une dépose d'un tableau roulant peut entrer en conflit avec d'autres modules. Ce paramètre désactive cette fonctionnalité."
-			},
-			"legacySlashCommand": {
-				"name": "Commande Chat Slash",
-				"hint": "Ignore la nécessité d'utiliser la commande /macro pour appeler des macros sur le Tchat. Attention : cela peut entraîner des conflits avec votre système ou d'autres modules."
-			}
-		},
-		"dialogs": {
-			"resetsettings.title": "Réinitialiser les paramètres du module",
-			"resetsettings.content": "Êtes-vous sûr de vouloir réinitialiser tous les paramètres du module aux valeurs par défaut du système actuel ? <strong>NE PEUT PAS ÊTRE ANNULÉ !</strong>",
-			"resetsettings.confirm": "Réinitialiser les paramètres du module",
-			"resetsettings.cancel": "Annuler"
-		}
-	}
+  "advanced-macros.MACROS.runAsGM": "Exécuter la macro en tant que MJ ?",
+  "advanced-macros.MACROS.runAsGMTooltip": "La macro sera exécutée par le MJ lorsque les joueurs l'exécuteront.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
+  "advanced-macros": {
+    "ROLLTABLE": {
+      "macroName": "{document} : {name}"
+    },
+    "MACROS": {
+      "responses": {
+        "NoMacro": "Impossible de trouver la macro.",
+        "NoUser": "Utilisateur non valide.",
+        "NotScript": "Type de macro non valide.",
+        "NoMacroPermission": "Vous n'êtes pas autorisé à utiliser des macros de script.",
+        "NoRunAsGM": "Vous n'êtes pas autorisé à exécuter cette macro en tant que MJ.",
+        "SyntaxError": "Il y a eu une erreur dans la syntaxe de votre message de discussion.",
+        "MacroSyntaxError": "Il y a eu une erreur dans la syntaxe de votre macro. Consultez la console (F12) pour plus de détails.",
+        "ExternalMacroSyntaxError": "Il y a eu une erreur dans la syntaxe de votre macro. Consultez la console (F12) du MJ {GM} pour plus de détails.",
+        "TimeoutGM": "Le temps est écoulé en attendant d'élire un MJ pour exécuter la macro.",
+        "TimeoutWaitGM": "Le délai d'attente pour l'exécution de la macro par le MJ a expiré.",
+        "NoConnectedGM": "Il n'y a aucun MJ connecté pour exécuter la macro {macro} dans le contexte du MJ."
+      },
+      "runForEveryone": "Tout le monde",
+      "runForEveryoneTooltip": "Ainsi, la macro sera exécutée par le MJ pour tous les joueurs connectés.\nPour des raisons de sécurité, cette option ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
+      "runForSpecificUser": "Exécuter pour un utilisateur spécifique",
+      "runForSpecificUserTooltip": "Ainsi, la macro sera exécutée par le MJ pour un joueur spécifique connecté.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
+      "none": "Aucun",
+      "runForEveryoneElse": "Tous les autres",
+      "runAsWorldScript": "World Script",
+      "runAsWorldScriptTooltip": "La macro sera alors exécutée automatiquement pour le monde une fois qu'elle aura été chargée.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant pas d'autres propriétaires."
+    },
+    "setting": {
+      "reset.name": "Réinitialiser les paramètres par défaut",
+      "reset.label": "Remettre les Réglages Par Défaut",
+      "reset.hint": "Cela rétablira tous les réglages par défaut du système du jeu actif.",
+      "debug.name": "Activer la recherche d'anomalies",
+      "debug.label": "Imprime les messages d'anomalies dans la console",
+      "debug.hint": " ",
+      "disableDropHotbarRollTableBehavior": {
+        "name": "Désactiver l'affichage du tableau déroulant sur la barre d'outils",
+        "hint": "La fonction de création d'une macro dans la barre d'outils lors d'une dépose d'un tableau roulant peut entrer en conflit avec d'autres modules. Ce paramètre désactive cette fonctionnalité."
+      },
+      "legacySlashCommand": {
+        "name": "Commande Chat Slash",
+        "hint": "Ignore la nécessité d'utiliser la commande /macro pour appeler des macros sur le Tchat. Attention : cela peut entraîner des conflits avec votre système ou d'autres modules."
+      }
+    },
+    "dialogs": {
+      "resetsettings.title": "Réinitialiser les paramètres du module",
+      "resetsettings.content": "Êtes-vous sûr de vouloir réinitialiser tous les paramètres du module aux valeurs par défaut du système actuel ? <strong>NE PEUT PAS ÊTRE ANNULÉ !</strong>",
+      "resetsettings.confirm": "Réinitialiser les paramètres du module",
+      "resetsettings.cancel": "Annuler"
+    }
+  }
 }

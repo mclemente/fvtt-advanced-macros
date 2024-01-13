@@ -1,20 +1,20 @@
 {
-	"advanced-macros": {
-		"MACROS": {
-			"runForSpecificUser": "Executar para usuário específico",
-			"runForSpecificUserTooltip": "Isto fará com que a macro seja executada pelo MJ para um usuário específico conectado.\nPor questões de segurança, só se aplica a macros criadas pelo MJ sem outros donos.",
-			"runAsGM": "Mestre do Jogo",
-			"runForEveryone": "Todos",
-			"runForEveryoneElse": "Todos os outros",
-			"none": "Ninguém",
-			"runAsWorldScript": "Script do Mundo",
-			"runAsWorldScriptTooltip": "Isto fará com que a macro seja executada automaticamente quando o Mundo for carregado.\nPor questões de segurança, só se aplica a macros criadas pelo MJ sem outros donos."
-		},
-		"setting": {
-			"legacySlashCommand": {
-				"name": "Comando de Barra (/) no Chat",
-				"hint": "Ignora a necessidade de usar o comando /macro para chamar macros no chat. Aviso: isso pode causar conflito com seu sistema ou outros módulos."
-			}
-		}
-	}
+  "advanced-macros": {
+    "MACROS": {
+      "runForSpecificUser": "Executar para usuário específico",
+      "runForSpecificUserTooltip": "Isto fará com que a macro seja executada pelo MJ para um usuário específico conectado.\nPor questões de segurança, só se aplica a macros criadas pelo MJ sem outros donos.",
+      "runAsGM": "Mestre do Jogo",
+      "runForEveryone": "Todos",
+      "runForEveryoneElse": "Todos os outros",
+      "none": "Ninguém",
+      "runAsWorldScript": "Script do Mundo",
+      "runAsWorldScriptTooltip": "Isto fará com que a macro seja executada automaticamente quando o Mundo for carregado.\nPor questões de segurança, só se aplica a macros criadas pelo MJ sem outros donos."
+    },
+    "setting": {
+      "legacySlashCommand": {
+        "name": "Comando de Barra (/) no Chat",
+        "hint": "Ignora a necessidade de usar o comando /macro para chamar macros no chat. Aviso: isso pode causar conflito com seu sistema ou outros módulos."
+      }
+    }
+  }
 }

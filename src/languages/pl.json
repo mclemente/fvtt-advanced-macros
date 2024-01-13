@@ -1,54 +1,54 @@
 {
-	"advanced-macros": {
-		"ROLLTABLE": {
-			"macroName": "{document}: {name}"
-		},
-		"MACROS": {
-			"responses": {
-				"NoMacro": "Nie można znaleźć makro.",
-				"NoUser": "Nieprawidłowy użytkownik.",
-				"NotScript": "Nieprawidłowy typ makra.",
-				"NoMacroPermission": "Nie masz uprawnień aby używać makr JavaScript.",
-				"NoRunAsGM": "Nie masz uprawnień aby użyć tego makra jako GM.",
-				"SyntaxError": "Był błąd w składni twojej wiadomości czatu.",
-				"MacroSyntaxError": "Wystąpił błąd w twojej składni makra. Zobacz konsolę (F12), aby uzyskać szczegóły.",
-				"ExternalMacroSyntaxError": "Wystąpił błąd w twojej składni makra. Zobacz konsolę (F12) GMa {GM}, aby uzyskać szczegóły.",
-				"TimeoutGM": "Za długo zajęło wybieranie GMa który uruchomi makro.",
-				"TimeoutWaitGM": "Za długo zajęło czekanie na uruchomienie makra przez GMa.",
-				"NoConnectedGM": "Nie ma żadnych GMów aby uruchomić makro {macro} jako GM."
-			},
-			"runAsGM": "Uruchom makro jako GM?",
-			"runForEveryone": "Każdy",
-			"runForEveryoneTooltip": "Makro zostanie uruchomione przez GMa dla wszystkich graczy. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
-			"runForSpecificUser": "Wykonaj dla określonego użytkownika",
-			"none": "Nic",
-			"runAsGMTooltip": "Makro zostanie uruchomione przez GMa kiedy gracz włączy makro. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
-			"runForSpecificUserTooltip": "Makro zostanie uruchomione przez GMa tylko dla wybranego zalogowanego gracza. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
-			"runForEveryoneElse": "Wszyscy inni",
-			"runAsWorldScript": "Skrypt globalny",
-			"runAsWorldScriptTooltip": "Spowoduje to automatyczne wykonanie makra na świecie po jego załadowaniu.\nZe względów bezpieczeństwa dotyczy tylko makr stworzonych przez GM bez innych właścicieli."
-		},
-		"setting": {
-			"disableDropHotbarRollTableBehavior": {
-				"name": "Wyłączenie funkcji Drop RollTable na pasku narzędziowym",
-				"hint": "Tworzenie makra kiedy się upuszcza tabelę na przybornik może być niekompatybilne z innymi modułami. To ustawienie wyłącza tą funkcję."
-			},
-			"reset.name": "Przywrócenie ustawień domyślnych",
-			"reset.label": "Przywrócenie Ustawień Domyślnych",
-			"reset.hint": "Spowoduje to przywrócenie wszystkich ustawień domyślnych dla aktywnego systemu gry.",
-			"debug.name": "Włącz debugowanie",
-			"debug.label": "Drukuje komunikaty debugowe do konsoli",
-			"debug.hint": " ",
-			"legacySlashCommand": {
-				"hint": "Ignoruje potrzebę używania polecenia /macro do wywoływania makr na czacie. Ostrzeżenie: może to spowodować konflikt z systemem lub innymi modułami.",
-				"name": "Komenda ukośnika czatu"
-			}
-		},
-		"dialogs": {
-			"resetsettings.title": "Resetowanie Ustawień Modułu",
-			"resetsettings.confirm": "Resetowanie Ustawień Modułu",
-			"resetsettings.cancel": "Anuluj",
-			"resetsettings.content": "Czy na pewno chcesz zresetować wszystkie ustawienia modułu do domyślnych ustawień bieżącego systemu? <strong>TEGO NIE DA SIĘ COFNĄĆ!</strong>"
-		}
-	}
+  "advanced-macros": {
+    "ROLLTABLE": {
+      "macroName": "{document}: {name}"
+    },
+    "MACROS": {
+      "responses": {
+        "NoMacro": "Nie można znaleźć makro.",
+        "NoUser": "Nieprawidłowy użytkownik.",
+        "NotScript": "Nieprawidłowy typ makra.",
+        "NoMacroPermission": "Nie masz uprawnień aby używać makr JavaScript.",
+        "NoRunAsGM": "Nie masz uprawnień aby użyć tego makra jako GM.",
+        "SyntaxError": "Był błąd w składni twojej wiadomości czatu.",
+        "MacroSyntaxError": "Wystąpił błąd w twojej składni makra. Zobacz konsolę (F12), aby uzyskać szczegóły.",
+        "ExternalMacroSyntaxError": "Wystąpił błąd w twojej składni makra. Zobacz konsolę (F12) GMa {GM}, aby uzyskać szczegóły.",
+        "TimeoutGM": "Za długo zajęło wybieranie GMa który uruchomi makro.",
+        "TimeoutWaitGM": "Za długo zajęło czekanie na uruchomienie makra przez GMa.",
+        "NoConnectedGM": "Nie ma żadnych GMów aby uruchomić makro {macro} jako GM."
+      },
+      "runAsGM": "Uruchom makro jako GM?",
+      "runForEveryone": "Każdy",
+      "runForEveryoneTooltip": "Makro zostanie uruchomione przez GMa dla wszystkich graczy. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
+      "runForSpecificUser": "Wykonaj dla określonego użytkownika",
+      "none": "Nic",
+      "runAsGMTooltip": "Makro zostanie uruchomione przez GMa kiedy gracz włączy makro. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
+      "runForSpecificUserTooltip": "Makro zostanie uruchomione przez GMa tylko dla wybranego zalogowanego gracza. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
+      "runForEveryoneElse": "Wszyscy inni",
+      "runAsWorldScript": "Skrypt globalny",
+      "runAsWorldScriptTooltip": "Spowoduje to automatyczne wykonanie makra na świecie po jego załadowaniu.\nZe względów bezpieczeństwa dotyczy tylko makr stworzonych przez GM bez innych właścicieli."
+    },
+    "setting": {
+      "disableDropHotbarRollTableBehavior": {
+        "name": "Wyłączenie funkcji Drop RollTable na pasku narzędziowym",
+        "hint": "Tworzenie makra kiedy się upuszcza tabelę na przybornik może być niekompatybilne z innymi modułami. To ustawienie wyłącza tą funkcję."
+      },
+      "reset.name": "Przywrócenie ustawień domyślnych",
+      "reset.label": "Przywrócenie Ustawień Domyślnych",
+      "reset.hint": "Spowoduje to przywrócenie wszystkich ustawień domyślnych dla aktywnego systemu gry.",
+      "debug.name": "Włącz debugowanie",
+      "debug.label": "Drukuje komunikaty debugowe do konsoli",
+      "debug.hint": " ",
+      "legacySlashCommand": {
+        "hint": "Ignoruje potrzebę używania polecenia /macro do wywoływania makr na czacie. Ostrzeżenie: może to spowodować konflikt z systemem lub innymi modułami.",
+        "name": "Komenda ukośnika czatu"
+      }
+    },
+    "dialogs": {
+      "resetsettings.title": "Resetowanie Ustawień Modułu",
+      "resetsettings.confirm": "Resetowanie Ustawień Modułu",
+      "resetsettings.cancel": "Anuluj",
+      "resetsettings.content": "Czy na pewno chcesz zresetować wszystkie ustawienia modułu do domyślnych ustawień bieżącego systemu? <strong>TEGO NIE DA SIĘ COFNĄĆ!</strong>"
+    }
+  }
 }

@@ -1,128 +1,144 @@
 {
-	"id": "advanced-macros",
-	"title": "Advanced Macros",
-	"description": "Call macros with arguments directly from chat and execute macros for specific users.",
-	"version": "1.20",
-	"authors": [
-		{
-			"name": "mclemente",
-			"url": "https://github.com/mclemente",
-			"discord": "mclemente#5524",
-			"github": "mclemente"
-		},
-		{
-			"name": "p4535992",
-			"url": "https://github.com/p4535992",
-			"discord": "",
-			"twitter": "",
-			"patreon": "",
-			"github": "p4535992",
-			"ko-fi": "",
-			"reddit": "",
-			"email": ""
-		}
-	],
-	"type": "module",
-	"media": [
-		{
-			"type": "icon",
-			"location": ""
-		},
-		{
-			"type": "cover",
-			"location": ""
-		},
-		{
-			"type": "screenshot",
-			"location": ""
-		}
-	],
-	"languages": [
-		{
-			"lang": "en",
-			"name": "English",
-			"path": "languages/en.json"
-		},
-		{
-			"lang": "fr",
-			"name": "Français (French)",
-			"path": "languages/fr.json"
-		},
-		{
-			"lang": "cn",
-			"name": "中文 (Chinese)",
-			"path": "languages/cn.json"
-		},
-		{
-			"lang": "pl",
-			"name": "polski",
-			"path": "languages/pl.json"
-		},
-		{
-			"lang": "pt-BR",
-			"name": "Português (Brasil)",
-			"path": "languages/pt-BR.json"
-		},
-		{
-			"lang": "fi",
-			"name": "Suomi",
-			"path": "languages/fi.json"
-		},
-		{
-			"lang": "es",
-			"name": "Español",
-			"path": "languages/es.json"
-		},
-		{
-			"lang": "de",
-			"name": "Deutsch",
-			"path": "languages/de.json"
-		}
-	],
-	"packs": [
-		{
-			"name": "macros",
-			"label": "Advanced Macros",
-			"path": "packs/macros.db",
-			"ownership": {
-				"PLAYER": "LIMITED",
-				"ASSISTANT": "OWNER"
-			},
-			"type": "Macro"
-		}
-	],
-	"socket": true,
-	"esmodules": [
-		"main.js"
-	],
-	"styles": [],
-	"compatibility": {
-		"minimum": 11,
-		"verified": 11
-	},
-	"url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
-	"manifest": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.json",
-	"download": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.zip",
-	"readme": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/blob/v1.19.3/README.md",
-	"changelog": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/blob/v1.19.3/CHANGELOG.md",
-	"bugs": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/issues",
-	"allowBugReporter": true,
-	"relationships": {
-		"requires": [
-			{
-				"id": "lib-wrapper",
-				"type": "module",
-				"manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
-				"compatibility": {
-					"verified": "1.12.11.0"
-				}
-			},
-			{
-				"id": "socketlib",
-				"type": "module",
-				"manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json",
-				"compatibility": {}
-			}
-		]
-	}
+  "id": "advanced-macros",
+  "title": "Advanced Macros",
+  "description": "Call macros with arguments directly from chat and execute macros for specific users.",
+  "version": "2.0.6",
+  "authors": [
+    {
+      "name": "mclemente",
+      "url": "https://github.com/mclemente",
+      "discord": "mclemente#5524",
+      "github": "mclemente"
+    },
+    {
+      "name": "p4535992",
+      "url": "https://github.com/p4535992",
+      "discord": "",
+      "twitter": "",
+      "patreon": "",
+      "github": "p4535992",
+      "ko-fi": "",
+      "reddit": "",
+      "email": ""
+    }
+  ],
+  "type": "module",
+  "media": [
+    {
+      "type": "icon",
+      "location": ""
+    },
+    {
+      "type": "cover",
+      "location": ""
+    },
+    {
+      "type": "screenshot",
+      "location": ""
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "languages/en.json"
+    },
+    {
+      "lang": "fr",
+      "name": "Français (French)",
+      "path": "languages/fr.json"
+    },
+    {
+      "lang": "cn",
+      "name": "中文 (Chinese)",
+      "path": "languages/cn.json"
+    },
+    {
+      "lang": "pl",
+      "name": "polski",
+      "path": "languages/pl.json"
+    },
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "languages/pt-BR.json"
+    },
+    {
+      "lang": "fi",
+      "name": "Suomi",
+      "path": "languages/fi.json"
+    },
+    {
+      "lang": "es",
+      "name": "Español",
+      "path": "languages/es.json"
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "languages/de.json"
+    }
+  ],
+  "packs": [
+    {
+      "name": "macros",
+      "label": "Advanced Macros",
+      "path": "packs/macros.db",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
+      },
+      "type": "Macro"
+    }
+  ],
+  "socket": true,
+  "esmodules": ["module.js"],
+  "styles": [],
+  "compatibility": {
+    "minimum": 11,
+    "verified": 11
+  },
+  "url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
+  "manifest": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/download/v2.0.6/module.json",
+  "download": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/download/v2.0.6/module.zip",
+  "readme": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/blob/master/README.md",
+  "changelog": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/blob/master/CHANGELOG.md",
+  "bugs": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/issues",
+  "allowBugReporter": true,
+  "relationships": {
+    "requires": [
+      {
+        "id": "lib-wrapper",
+        "type": "module",
+        "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
+        "compatibility": {
+          "verified": "1.12.11.0"
+        }
+      },
+      {
+        "id": "socketlib",
+        "type": "module",
+        "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json",
+        "compatibility": {}
+      }
+    ],
+    "recommends": [
+      {
+        "id": "improved-macro-editor",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "sidebar-macros",
+        "type": "module",
+        "compatibility": {}
+      }
+    ],
+    "conflicts": [
+      {
+        "id": "socketmacros",
+        "reason": "Module with literally the same feature, but much less powerful it's advisable to removed this."
+      }
+    ]
+  }
 }

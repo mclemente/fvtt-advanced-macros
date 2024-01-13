@@ -1,3 +1,12 @@
+### v2.0.6
+
+- Replaced gulp with vite and commonjs
+- Add check box "Run as GM" for better clarity
+- Add check box "Run as World script" for better clarity
+- Add check box for "Run as a personal macro", to help player to run macro on the referenced actor
+- Add some style to the form for better clarity
+- Update module.jon with conflicts and recommended modules
+
 ### v2.0.2
 - Fixed an issue where macros weren't being found when running them through sockets (#71).
 - When the Active GM runs a macro marked as "Run As GM" it is now ran immediately instead of being sent to themselves.

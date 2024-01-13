@@ -116,6 +116,7 @@ out
 
 # Foundry
 foundry.js
-/.vscode
 /dist
 /package
+/.vite-cache
+/package-lock.json

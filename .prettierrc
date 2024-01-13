@@ -1,8 +1,18 @@
 {
-	"printWidth": 120,
-	"tabWidth": 4,
-	"useTabs": true,
-	"semi": true,
-	"trailingComma": "all",
-	"arrowParens": "always"
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": false,
+    "trailingComma": "es5",
+    "semi": true,
+    "printWidth": 120,
+    "bracketSpacing": true,
+    "overrides": [
+        {
+            "files": ["*.scss", "*.css"],
+            "options": {
+                "requirePragma": false,
+                "parser": "scss"
+            }
+        }
+    ]
 }

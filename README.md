@@ -7,6 +7,15 @@
 
 Check out the Macros compendium for some useful macros that showcase the advanced macros system as well as provide additional features.
 
+### Features
+
+- 💣 Defines whether a Macro can run as a GM. For security reasons, only macros authored by the GM, and not editable by users can be run as GM
+- 🌍 Defines whether a Macro can run as a World Script
+- 👤 Defines whether a Macro can run as for the specific user 
+- 👪 Defines whether a Macro can run as for everyone
+- 👥 Defines whether a Macro can run as for everyone else
+- 🕵 Defines whether a Macro can run as a personal macro
+
 # Build
 
 See the [Build](./wiki/Build) instructions.
