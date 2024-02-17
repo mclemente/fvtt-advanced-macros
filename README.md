@@ -7,6 +7,11 @@
 
 Check out the Macros compendium for some useful macros that showcase the advanced macros system as well as provide additional features.
 
+## Suggested Modules
+If you're interested in macro editing, you should consider these modules:
+- Macro Creation Tweaks
+- Macro Editor (still working on V11)
+
 # Build
 
 See the [Build](./wiki/Build) instructions.
