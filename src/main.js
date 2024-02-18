@@ -245,7 +245,8 @@ Hooks.once("ready", () => {
 		const specificOneDiv = $(`
 			<div class="form-group"
 				${macro.type === "chat" ? 'style="display: none"' : ""}
-				title="${game.i18n.localize("advanced-macros.MACROS.runForSpecificUserTooltip")}">
+				data-tooltip="${game.i18n.localize("advanced-macros.MACROS.runForSpecificUserTooltip")}"
+				data-tooltip-direction="UP">
 				<label>${game.i18n.localize("advanced-macros.MACROS.runForSpecificUser")}</label>
 				<select name="flags.advanced-macros.runForSpecificUser" ${canRunAsGM(macro) ? "" : "disabled"}>
 					${optionElements}
