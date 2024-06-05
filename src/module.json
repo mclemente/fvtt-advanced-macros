@@ -9,20 +9,8 @@
 			"url": "https://github.com/mclemente",
 			"discord": "mclemente#5524",
 			"github": "mclemente"
-		},
-		{
-			"name": "p4535992",
-			"url": "https://github.com/p4535992",
-			"discord": "",
-			"twitter": "",
-			"patreon": "",
-			"github": "p4535992",
-			"ko-fi": "",
-			"reddit": "",
-			"email": ""
 		}
 	],
-	"type": "module",
 	"media": [
 		{
 			"type": "icon",
@@ -92,13 +80,10 @@
 		}
 	],
 	"socket": true,
-	"esmodules": [
-		"main.js"
-	],
-	"styles": [],
+	"esmodules": ["main.js"],
 	"compatibility": {
 		"minimum": 11,
-		"verified": 11
+		"verified": 12
 	},
 	"url": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros",
 	"manifest": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/releases/latest/download/module.json",
@@ -106,7 +91,6 @@
 	"readme": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/blob/v1.19.3/README.md",
 	"changelog": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/blob/v1.19.3/CHANGELOG.md",
 	"bugs": "https://github.com/League-of-Foundry-Developers/fvtt-advanced-macros/issues",
-	"allowBugReporter": true,
 	"relationships": {
 		"requires": [
 			{
