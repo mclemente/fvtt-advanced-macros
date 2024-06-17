@@ -20,7 +20,7 @@ Hooks.once("init", () => {
 	class AdvancedMacro extends CONFIG.Macro.documentClass {
 		static metadata = Object.freeze(mergeObject(super.metadata, {
 			preserveOnImport: ["_id", "sort", "ownership", "author"]
-		  }, {inplace: false}));
+		}, {inplace: false}));
 
 		canUserExecute(user) {
 			if (!this.testUserPermission(user, "LIMITED")) return false;
@@ -91,7 +91,7 @@ Hooks.once("init", () => {
 					...data.dataset.scope
 				} });
 				data.name = data.name || doc.name || target;
-      			const type = game.packs.get(doc.pack)?.documentName;
+				const type = game.packs.get(doc.pack)?.documentName;
 				Object.assign(data.dataset, {type, id: doc._id, pack: doc.pack});
 				if (hash) data.dataset.hash = hash;
 				data.icon = CONFIG[type].sidebarIcon;
