@@ -1,4 +1,4 @@
-gulpfile.js
+gulpfile.mjs
 .eslintrc.js
 .prettierrc.js
 dist
