@@ -174,7 +174,6 @@ module.exports = {
 	},
 
 	globals: {
-		fromUuidSync: false,
 		socketlib: false
 	},
 
