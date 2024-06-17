@@ -16,13 +16,6 @@ If you're interested in macro editing, you should consider these modules:
 
 See the [Build](./wiki/Build) instructions.
 
-## [Changelog](./CHANGELOG.md)
-
-## ⚠ NOTE FOR V11
-Foundry V11 has changed a lot of things for macros, features such as **Passing arguments to script macros**, **Calling script macros with arguments through the chat**, and **Dropping Roll Tables on the macro bar** have become part of Foundry V11 itself and are no longer supported by Advanced Macros.
-
-If you have any issues with the changes, I suggest you seek help at the #macro-polo channel on Foundry's discord server.
-
 ## Development and Contributing
 
 Advanced Macros is a free and open source project. You can contribute to the project by making a merge request or by creating a [Github issue](https://github.com/mclemente/fvtt-advanced-macros/issues).
