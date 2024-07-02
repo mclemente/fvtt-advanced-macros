@@ -12,7 +12,7 @@
 			"runForEveryone": "Kaikille",
 			"runForEveryoneElse": "Kaikille muille",
 			"none": "Ei mitään",
-			"runAsWorldScript": "Maailmaskripti",
+			"WorldScript": "Maailmaskripti",
 			"runAsWorldScriptTooltip": "Tämä makro suoritetaan automaattisesti, kun maailma on ladattu.\nTurvallisuussyistä tämä koskee vain PJ:n luomia makroja, joilla ei ole muita omistajia."
 		}
 	}

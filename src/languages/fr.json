@@ -25,7 +25,6 @@
 			"runForSpecificUserTooltip": "Ainsi, la macro sera exécutée par le MJ pour un joueur spécifique connecté.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant aucun autre propriétaire.",
 			"none": "Aucun",
 			"runForEveryoneElse": "Tous les autres",
-			"runAsWorldScript": "World Script",
 			"runAsWorldScriptTooltip": "La macro sera alors exécutée automatiquement pour le monde une fois qu'elle aura été chargée.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant pas d'autres propriétaires."
 		},
 		"setting": {

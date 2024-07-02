@@ -3,11 +3,11 @@
 		"MACROS": {
 			"runForSpecificUser": "Executar para usuário específico",
 			"runForSpecificUserTooltip": "Isto fará com que a macro seja executada pelo MJ para um usuário específico conectado.\nPor questões de segurança, só se aplica a macros criadas pelo MJ sem outros donos.",
-			"runAsGM": "Mestre do Jogo",
 			"runForEveryone": "Todos",
 			"runForEveryoneElse": "Todos os outros",
 			"none": "Ninguém",
-			"runAsWorldScript": "Script do Mundo",
+			"WorldScript": "Script do Mundo",
+			"runAsGM": "Como {gm}",
 			"runAsWorldScriptTooltip": "Isto fará com que a macro seja executada automaticamente quando o Mundo for carregado.\nPor questões de segurança, só se aplica a macros criadas pelo MJ sem outros donos."
 		},
 		"setting": {

@@ -2,7 +2,7 @@
 	"advanced-macros": {
 		"MACROS": {
 			"none": "Nadie",
-			"runAsWorldScript": "Script de mundo",
+			"WorldScript": "Script de mundo",
 			"runForSpecificUser": "Ejecutar para el usuario específico",
 			"runForSpecificUserTooltip": "Esto hará que la macro sea ejecutada por el GM para un jugador concreto que esté conectado.\nPor motivos de seguridad, solo aplica a macros creadas por los GM que no tengan ningún otro propietario.",
 			"runForEveryone": "Todo el mundo",

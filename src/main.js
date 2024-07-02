@@ -167,64 +167,9 @@ Hooks.on("chatMessage", (chatLog, message, chatData) => {
 	return true;
 });
 
-Hooks.once("ready", () => {
-	Hooks.on("renderMacroConfig", (obj, html, data) => {
-		if (!game.user.isGM) return;
-		const macro = obj.object;
-		// A re-render will cause the html object to be the internal element, which is the form itself.
-		const form = html.find("form").length === 0 ? html : html.find("form");
-		const typeGroup = form.find("select[name=type]").parent(".form-group");
-		const runForSpecificUser = macro.getFlag("advanced-macros", "runForSpecificUser");
-		const options = [
-			{ value: "", label: game.i18n.localize("advanced-macros.MACROS.none") },
-			{
-				value: "GM",
-				label: game.i18n.localize("USER.RoleGamemaster"),
-				selected: runForSpecificUser === "GM",
-			},
-			...["runForEveryone", "runForEveryoneElse", "runAsWorldScript"].map((run) => ({
-				value: run,
-				label: game.i18n.localize(`advanced-macros.MACROS.${run}`),
-				selected: runForSpecificUser === run,
-			})),
-			...game.users
-				.filter((user) => !user.isGM)
-				.map((user) => ({
-					value: user.id,
-					label: user.name,
-					selected: runForSpecificUser === user.id,
-				})),
-		]; // filter out null values
-
-		const optionElements = options
-			.map((option) => {
-				const selectedAttr = option.selected ? 'selected="selected"' : "";
-				return `<option value="${option.value}" ${selectedAttr}>${option.label}</option>`;
-			})
-			.join("");
-
-		const specificOneDiv = $(`
-			<div class="form-group"
-				${macro.type === "chat" ? 'style="display: none"' : ""}
-				data-tooltip="${game.i18n.localize("advanced-macros.MACROS.runForSpecificUserTooltip")}"
-				data-tooltip-direction="UP">
-				<label>${game.i18n.localize("advanced-macros.MACROS.runForSpecificUser")}</label>
-				<select name="flags.advanced-macros.runForSpecificUser" ${canRunAsGM(macro) ? "" : "disabled"}>
-					${optionElements}
-				</select>
-			</div>
-		`);
-
-		specificOneDiv.insertAfter(typeGroup);
-
-		const typeSelect = form.find("select[name=type]");
-		typeSelect.on("change", (event) => {
-			if (event.target.value === "chat") specificOneDiv.hide();
-			else specificOneDiv.show();
-		});
-	});
+function runWorldScripts(key) {
 	const worldScripts = game.macros.contents.filter(
-		(macro) => macro.getFlag("advanced-macros", "runForSpecificUser") === "runAsWorldScript"
+		(macro) => macro.getFlag("advanced-macros", "runForSpecificUser") === key
 	);
 	for (const macro of worldScripts) {
 		try {
@@ -234,6 +179,72 @@ Hooks.once("ready", () => {
 			console.error(`Advanced Macros | Error executing "${macro.name}" world script (ID: ${macro.id})`, err);
 		}
 	}
+}
+
+Hooks.once("setup", () => runWorldScripts("runAsWorldScriptSetup"));
+
+Hooks.once("ready", () => {
+	Hooks.on("renderMacroConfig", (obj, html, data) => {
+		if (!game.user.isGM) return;
+		const macro = obj.object;
+		// A re-render will cause the html object to be the internal element, which is the form itself.
+		const form = html.find("form").length === 0 ? html : html.find("form");
+		const typeGroup = form.find("select[name=type]").parent(".form-group");
+		const runForSpecificUser = macro.getFlag("advanced-macros", "runForSpecificUser");
+		const options = [
+			{
+				value: "GM",
+				label: game.i18n.localize("USER.RoleGamemaster"),
+				selected: runForSpecificUser === "GM",
+			},
+			...["runForEveryone", "runForEveryoneElse"].map((run) => ({
+				value: run,
+				label: game.i18n.localize(`advanced-macros.MACROS.${run}`),
+				selected: runForSpecificUser === run,
+				group: "DOCUMENT.Users"
+			})),
+			...["runAsWorldScriptSetup", "runAsWorldScript"].map((run) => ({
+				value: run,
+				label: game.i18n.localize(`advanced-macros.MACROS.${run}`),
+				selected: runForSpecificUser === run,
+				group: "advanced-macros.MACROS.WorldScript"
+			})),
+			...game.users.players
+				.map((user) => ({
+					value: user.id,
+					label: user.name,
+					selected: runForSpecificUser === user.id,
+					group: "PLAYERS.Title",
+				})),
+		];
+
+		const selected = options.find((option) => option.selected)?.value ?? "";
+		const select = foundry.applications.fields.createSelectInput({
+			name: "flags.advanced-macros.runForSpecificUser",
+			options,
+			value: selected,
+			blank: "",
+			labelAttr: "label",
+			localize: true,
+			disabled: !canRunAsGM(macro)
+		});
+
+		const specificOneDiv = $(`
+			<div class="form-group" ${macro.type === "chat" ? 'style="display: none"' : ""}>
+				<label>${game.i18n.localize("advanced-macros.MACROS.runForSpecificUser")}</label>
+				${select.outerHTML}
+			</div>
+		`);
+
+		specificOneDiv.insertAfter(typeGroup);
+
+		const typeSelect = form.find("select[name='type']");
+		typeSelect.on("change", (event) => {
+			if (event.target.value === "chat") specificOneDiv.hide();
+			else specificOneDiv.show();
+		});
+	});
+	runWorldScripts("runAsWorldScript");
 });
 
 /**

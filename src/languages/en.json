@@ -2,12 +2,11 @@
 	"advanced-macros": {
 		"MACROS": {
 			"runForSpecificUser": "Execute for Specific User",
-			"runForSpecificUserTooltip": "This will cause the macro to be executed by the GM for a specific player connected.\nFor security reasons, only applies to GM-created macros with no other owners.",
 			"runForEveryone": "Everyone",
 			"runForEveryoneElse": "Everyone else",
-			"none": "None",
-			"runAsWorldScript": "World Script",
-			"runAsWorldScriptTooltip": "This will cause the macro to be executed automatically be the world once it's loaded.\nFor security reasons, only applies to GM-created macros with no other owners."
+			"WorldScript": "World Script",
+			"runAsWorldScript": "Ready Hook",
+			"runAsWorldScriptSetup": "Setup Hook"
 		},
 		"setting": {
 			"legacySlashCommand": {
