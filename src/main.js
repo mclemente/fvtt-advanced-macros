@@ -218,11 +218,10 @@ Hooks.once("ready", () => {
 				})),
 		];
 
-		const selected = options.find((option) => option.selected)?.value ?? "";
 		const select = foundry.applications.fields.createSelectInput({
 			name: "flags.advanced-macros.runForSpecificUser",
 			options,
-			value: selected,
+			value: runForSpecificUser,
 			blank: "",
 			labelAttr: "label",
 			localize: true,
