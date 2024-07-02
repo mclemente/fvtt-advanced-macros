@@ -190,30 +190,25 @@ Hooks.once("ready", () => {
 		// A re-render will cause the html object to be the internal element, which is the form itself.
 		const form = html.find("form").length === 0 ? html : html.find("form");
 		const typeGroup = form.find("select[name=type]").parent(".form-group");
-		const runForSpecificUser = macro.getFlag("advanced-macros", "runForSpecificUser");
 		const options = [
 			{
 				value: "GM",
-				label: game.i18n.localize("USER.RoleGamemaster"),
-				selected: runForSpecificUser === "GM",
+				label: game.i18n.localize("USER.RoleGamemaster")
 			},
 			...["runForEveryone", "runForEveryoneElse"].map((run) => ({
 				value: run,
 				label: game.i18n.localize(`advanced-macros.MACROS.${run}`),
-				selected: runForSpecificUser === run,
 				group: "DOCUMENT.Users"
 			})),
 			...["runAsWorldScriptSetup", "runAsWorldScript"].map((run) => ({
 				value: run,
 				label: game.i18n.localize(`advanced-macros.MACROS.${run}`),
-				selected: runForSpecificUser === run,
 				group: "advanced-macros.MACROS.WorldScript"
 			})),
 			...game.users.players
 				.map((user) => ({
 					value: user.id,
 					label: user.name,
-					selected: runForSpecificUser === user.id,
 					group: "PLAYERS.Title",
 				})),
 		];
@@ -221,7 +216,7 @@ Hooks.once("ready", () => {
 		const select = foundry.applications.fields.createSelectInput({
 			name: "flags.advanced-macros.runForSpecificUser",
 			options,
-			value: runForSpecificUser,
+			value: macro.getFlag("advanced-macros", "runForSpecificUser"),
 			blank: "",
 			labelAttr: "label",
 			localize: true,
