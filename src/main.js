@@ -18,7 +18,7 @@ Hooks.once("socketlib.ready", () => {
 
 Hooks.once("init", () => {
 	class AdvancedMacro extends CONFIG.Macro.documentClass {
-		static metadata = Object.freeze(mergeObject(super.metadata, {
+		static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
 			preserveOnImport: ["_id", "sort", "ownership", "author"]
 		}, {inplace: false}));
 
@@ -243,7 +243,7 @@ Hooks.once("ready", () => {
  */
 function canRunAsGM(macro) {
 	const author = game.users.get(macro.author?.id);
-	const permissions = deepClone(macro.ownership) || {};
+	const permissions = foundry.utils.deepClone(macro.ownership) || {};
 
 	for (const user of game.users.contents) {
 		if (user.isGM || user.id === author?.id) delete permissions[user.id];
