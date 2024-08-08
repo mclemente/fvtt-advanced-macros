@@ -36,7 +36,7 @@ Hooks.once("init", () => {
 					return super.execute(scope);
 				case "script": {
 					const runFor = this.getFlag("advanced-macros", "runForSpecificUser");
-					if (callFromSocket || !runFor || runFor === "runAsWorldScript" || !canRunAsGM(this)) {
+					if (callFromSocket || !runFor || runFor === "runAsWorldScript" || runFor === "runAsWorldScriptSetup" || !canRunAsGM(this)) {
 						return super.execute(scope);
 					} else if (runFor === "GM") {
 						if (game.users.activeGM?.isSelf) return super.execute(scope);
