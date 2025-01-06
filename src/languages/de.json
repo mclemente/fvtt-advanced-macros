@@ -6,11 +6,13 @@
 			"runForEveryoneElse": "Alle anderen",
 			"none": "Keine/r",
 			"runAsWorldScriptTooltip": "Dadurch wird das Makro automatisch in der Welt ausgeführt, sobald sie geladen ist.\nAus Sicherheitsgründen gilt dies nur für Makros, die vom SL erstellt wurden und keine anderen Besitzer haben.",
-			"runForSpecificUserTooltip": "Dies bewirkt, dass das Makro vom SL für einen bestimmten Spieler ausgeführt wird, der online ist.\nAus Sicherheitsgründen gilt dies nur für Makros, die vom SL erstellt wurden und keine anderen Besitzer haben."
+			"runForSpecificUserTooltip": "Dies bewirkt, dass das Makro vom SL für einen bestimmten Spieler ausgeführt wird, der online ist.\nAus Sicherheitsgründen gilt dies nur für Makros, die vom SL erstellt wurden und keine anderen Besitzer haben.",
+			"runAsWorldScript": "Welt-Script"
 		},
 		"setting": {
 			"legacySlashCommand": {
-				"hint": "Ignoriert die Notwendigkeit, den Befehl /macro zu verwenden, um Makros im Chat aufzurufen. Warnung: Dies kann zu Konflikten mit Ihrem System oder anderen Modulen führen."
+				"hint": "Ignoriert die Notwendigkeit, den Befehl /macro zu verwenden, um Makros im Chat aufzurufen. Warnung: Dies kann zu Konflikten mit Ihrem System oder anderen Modulen führen.",
+				"name": "Chat-Slash-Kommando"
 			}
 		}
 	}
