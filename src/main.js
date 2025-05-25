@@ -6,7 +6,7 @@ Hooks.once("init", () => {
 
 		canUserExecute(user) {
 			if (!this.testUserPermission(user, "LIMITED")) return false;
-			return this.type === "script" ? user.can("MACRO_SCRIPT") || (canRunAsGM(this) && !user.isGM) : true;
+			return this.type === "script" ? user.can("MACRO_SCRIPT") || (this.canRunAsGM && !user.isGM) : true;
 		}
 
 		/**
@@ -35,18 +35,18 @@ Hooks.once("init", () => {
 				case "script": {
 					const queryData = { macro: this.id, scope };
 					const runFor = this.getFlag("advanced-macros", "runForSpecificUser");
+					const runQuery = (user) => user.query("advanced-macros.executeMacro", queryData, { timeout: 30000 });
 					if (callFromSocket || !runFor || runFor === "runAsWorldScript" || runFor === "runAsWorldScriptSetup" || !this.canRunAsGM) {
 						return super.execute(scope);
 					} else if (runFor === "GM") {
 						if (game.users.activeGM?.isSelf) return super.execute(scope);
-						return game.users.activeGM.query("advanced-macros.executeMacro", queryData, { timeout: 30000 });
+						return runQuery(game.users.activeGM);
 					} else if (runFor === "runForEveryone") {
-						return game.users.forEach((u) => u.query("advanced-macros.executeMacro", queryData, { timeout: 30000 }));
+						return game.users.filter((u) => u.active).forEach(runQuery);
 					} else if (runFor === "runForEveryoneElse") {
-						return game.users.filter((u) => u.id !== game.user.id)
-							.forEach((u) => u.query("advanced-macros.executeMacro", queryData, { timeout: 30000 }));
+						return game.users.filter((u) => u.active && u.id !== game.user.id).forEach(runQuery);
 					} else if (runFor) {
-						return game.users.find((u) => u.id === runFor).query("advanced-macros.executeMacro", queryData, { timeout: 30000 });
+						return runQuery(game.users.find((u) => u.id === runFor));
 					}
 				}
 			}
