@@ -67,16 +67,8 @@
 	"socket": true,
 	"esmodules": ["main.js"],
 	"compatibility": {
-		"minimum": 12,
-		"verified": 12
-	},
-	"relationships": {
-		"requires": [
-			{
-				"id": "socketlib",
-				"type": "module"
-			}
-		]
+		"minimum": 13,
+		"verified": 13
 	},
 	"url": "This is auto replaced",
 	"version": "This is auto replaced",

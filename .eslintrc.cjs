@@ -174,7 +174,7 @@ module.exports = {
 	},
 
 	globals: {
-		socketlib: false
+		TextEditor: false
 	},
 
 	overrides: [
