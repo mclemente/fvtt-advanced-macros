@@ -26,7 +26,9 @@
 			"runForSpecificUserTooltip": "Makro zostanie uruchomione przez GMa tylko dla wybranego zalogowanego gracza. \nDla bezpieczeństwa, tylko dotyczy makra stworzone przez GMa i nie posiadające innych twórców.",
 			"runForEveryoneElse": "Wszyscy inni",
 			"WorldScript": "Skrypt globalny",
-			"runAsWorldScriptTooltip": "Spowoduje to automatyczne wykonanie makra na świecie po jego załadowaniu.\nZe względów bezpieczeństwa dotyczy tylko makr stworzonych przez GM bez innych właścicieli."
+			"runAsWorldScriptTooltip": "Spowoduje to automatyczne wykonanie makra na świecie po jego załadowaniu.\nZe względów bezpieczeństwa dotyczy tylko makr stworzonych przez GM bez innych właścicieli.",
+			"runAsWorldScript": "Gotowy hak",
+			"runAsWorldScriptSetup": "Ustawienia haka"
 		},
 		"setting": {
 			"disableDropHotbarRollTableBehavior": {
