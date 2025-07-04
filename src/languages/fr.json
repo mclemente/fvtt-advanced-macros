@@ -26,7 +26,7 @@
 			"none": "Aucun",
 			"runForEveryoneElse": "Tous les autres",
 			"runAsWorldScriptTooltip": "La macro sera alors exécutée automatiquement pour le monde une fois qu'elle aura été chargée.\nPour des raisons de sécurité, ne s'applique qu'aux macros créées par le MJ et n'ayant pas d'autres propriétaires.",
-			"WorldScript": "Scripts du monde"
+			"WorldScript": "Script du monde"
 		},
 		"setting": {
 			"reset.name": "Réinitialiser les paramètres par défaut",
