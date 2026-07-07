@@ -69,15 +69,13 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("chatMessage", (chatLog, message, chatData) => {
-	// Ignore messages starting with "<".
-	if (message.trim().startsWith("<")) return true;
-	// `parse` returns [command, match, handler]. If the message is already an explicit
-	// "/macro" command (or any other recognized command), let core handle it as-is.
+	if (message.startsWith("<p>")) message = message.replace(/<p>|<\/p>/g, "");
 	let [command, match, handler] = chatLog.constructor.parse(message);
-	if (command !== "invalid") return true;
-	if (!game.settings.get("advanced-macros", "legacySlashCommand")) return true;
+	// Ignore messages starting with <" or matching a macro pattern.
+	if (message.trim().startsWith("<") || command === "macro") return true;
 	// If the message contains an invalid command and starts with a "/", try to process macros in it.
-	if (message.trim().startsWith("/")) {
+	if (!game.settings.get("advanced-macros", "legacySlashCommand")) return true;
+	if (command === "invalid" && message.trim().startsWith("/")) {
 		const messageArray = message.slice(1).split(" ");
 		let macroName = messageArray[0];
 		let macro = game.macros.getName(macroName);
@@ -90,7 +88,7 @@ Hooks.on("chatMessage", (chatLog, message, chatData) => {
 		}
 		if (macro) {
 			[command, match, handler] = chatLog.constructor.parse(`/macro ${message.slice(1)}`);
-			handler.call(chatLog, command, match, chatData, {});
+			handler.call(chatLog, command, match);
 			return false;
 		}
 	}
