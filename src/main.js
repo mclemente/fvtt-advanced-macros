@@ -70,7 +70,7 @@ Hooks.once("init", () => {
 
 Hooks.on("chatMessage", (chatLog, message, chatData) => {
 	if (message.startsWith("<p>")) message = message.replace(/<p>|<\/p>/g, "");
-	let [command, match, handler] = chatLog.constructor.parse(message);
+	const [command] = chatLog.constructor.parse(message);
 	// Ignore messages starting with <" or matching a macro pattern.
 	if (message.trim().startsWith("<") || command === "macro") return true;
 	// If the message contains an invalid command and starts with a "/", try to process macros in it.
@@ -87,7 +87,7 @@ Hooks.on("chatMessage", (chatLog, message, chatData) => {
 			if (macro) break;
 		}
 		if (macro) {
-			[command, match, handler] = chatLog.constructor.parse(`/macro ${message.slice(1)}`);
+			const [command, match, handler] = chatLog.constructor.parse(`/macro ${message.slice(1)}`);
 			handler.call(chatLog, command, match);
 			return false;
 		}
