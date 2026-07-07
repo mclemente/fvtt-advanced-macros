@@ -69,12 +69,15 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("chatMessage", (chatLog, message, chatData) => {
-	// Ignore messages starting with "<" or matching a macro pattern.
-	if (message.trim().startsWith("<") || message.match(chatLog.constructor.MESSAGE_PATTERNS.macro)) return true;
-	if (!game.settings.get("advanced-macros", "legacySlashCommand")) return;
+	// Ignore messages starting with "<".
+	if (message.trim().startsWith("<")) return true;
+	// `parse` returns [command, match, handler]. If the message is already an explicit
+	// "/macro" command (or any other recognized command), let core handle it as-is.
+	let [command, match, handler] = chatLog.constructor.parse(message);
+	if (command !== "invalid") return true;
+	if (!game.settings.get("advanced-macros", "legacySlashCommand")) return true;
 	// If the message contains an invalid command and starts with a "/", try to process macros in it.
-	let [command, match] = chatLog.constructor.parse(message);
-	if (command === "invalid" && message.trim().startsWith("/")) {
+	if (message.trim().startsWith("/")) {
 		const messageArray = message.slice(1).split(" ");
 		let macroName = messageArray[0];
 		let macro = game.macros.getName(macroName);
@@ -86,8 +89,8 @@ Hooks.on("chatMessage", (chatLog, message, chatData) => {
 			if (macro) break;
 		}
 		if (macro) {
-			[command, match] = chatLog.constructor.parse(`/macro ${message.slice(1)}`);
-			chatLog._processMacroCommand(command, match);
+			[command, match, handler] = chatLog.constructor.parse(`/macro ${message.slice(1)}`);
+			handler.call(chatLog, command, match, chatData, {});
 			return false;
 		}
 	}
@@ -150,18 +153,18 @@ Hooks.once("ready", () => {
 			disabled: !macro.canRunAsGM
 		});
 
-		const specificOneDiv = $(`
-			<div class="form-group" ${macro.type === "chat" ? 'style="display: none"' : ""}>
-				<label>${game.i18n.localize("advanced-macros.MACROS.runForSpecificUser")}</label>
-				<div class="form-fields">${select.outerHTML}</div>
-			</div>
-		`);
+		const specificOneDiv = document.createElement("div");
+		specificOneDiv.classList.add("form-group");
+		if (macro.type === "chat") specificOneDiv.style.display = "none";
+		specificOneDiv.innerHTML = `
+			<label>${game.i18n.localize("advanced-macros.MACROS.runForSpecificUser")}</label>
+			<div class="form-fields">${select.outerHTML}</div>
+		`;
 
-		specificOneDiv.insertAfter(typeGroup);
+		typeGroup.after(specificOneDiv);
 
 		typeSelect.addEventListener("change", (event) => {
-			if (event.target.value === "chat") specificOneDiv.hide();
-			else specificOneDiv.show();
+			specificOneDiv.style.display = event.target.value === "chat" ? "none" : "";
 		});
 	});
 	runWorldScripts("runAsWorldScript");

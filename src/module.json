@@ -68,7 +68,7 @@
 	"esmodules": ["main.js"],
 	"compatibility": {
 		"minimum": 13,
-		"verified": 13
+		"verified": 14
 	},
 	"url": "This is auto replaced",
 	"version": "This is auto replaced",
