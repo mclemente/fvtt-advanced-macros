@@ -2,7 +2,7 @@ Hooks.once("init", () => {
 	class AdvancedMacro extends CONFIG.Macro.documentClass {
 		static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
 			preserveOnImport: ["_id", "sort", "ownership", "author"]
-		}, {inplace: false}));
+		}, { inplace: false }));
 
 		canUserExecute(user) {
 			if (!this.testUserPermission(user, "LIMITED")) return false;
@@ -103,7 +103,7 @@ function runWorldScripts(key) {
 		try {
 			macro.execute();
 			console.debug(`Advanced Macros | Executed "${macro.name}" world script (ID: ${macro.id})`);
-		} catch(err) {
+		} catch (err) {
 			console.error(`Advanced Macros | Error executing "${macro.name}" world script (ID: ${macro.id})`, err);
 		}
 	}

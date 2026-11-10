@@ -128,7 +128,7 @@ module.exports = {
 		"comma-spacing": "warn",
 		"dot-notation": "warn",
 		"key-spacing": "warn",
-		"keyword-spacing": ["warn", { overrides: { catch: { before: true, after: false } } }],
+		"keyword-spacing": ["warn"],
 		"max-len": [
 			"warn",
 			{
