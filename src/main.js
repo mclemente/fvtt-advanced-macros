@@ -102,9 +102,9 @@ function runWorldScripts(key) {
 	for (const macro of worldScripts) {
 		try {
 			macro.execute();
-			console.debug(`Advanced Macros | Executed "${macro.name}" world script (ID: ${macro.id})`);
+			console.debug(`Advanced Macros | Executed "${macro.name}" world script(ID: ${macro.id})`);
 		} catch (err) {
-			console.error(`Advanced Macros | Error executing "${macro.name}" world script (ID: ${macro.id})`, err);
+			console.error(`Advanced Macros | Error executing "${macro.name}" world script(ID: ${macro.id})`, err);
 		}
 	}
 }
