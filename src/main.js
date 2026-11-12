@@ -61,39 +61,28 @@ Hooks.once("init", () => {
 		config: true,
 		default: false,
 		type: Boolean,
+		onChange: (value) => {
+			if (value) Hooks.on("chatMessage", chatMessageHook);
+			else Hooks.off("chatMessage", chatMessageHook);
+		}
 	});
+	if (game.settings.get("advanced-macros", "legacySlashCommand")) {
+		Hooks.on("chatMessage", chatMessageHook);
+	}
 	CONFIG.queries["advanced-macros.executeMacro"] = (queryData) => {
 		const { macro, scope } = queryData;
 		return game.macros.get(macro)?.execute(scope, true);
 	};
 });
 
-Hooks.on("chatMessage", (chatLog, message, chatData) => {
-	if (message.startsWith("<p>")) message = message.replace(/<p>|<\/p>/g, "");
-	const [command] = chatLog.constructor.parse(message);
-	// Ignore messages starting with <" or matching a macro pattern.
-	if (message.trim().startsWith("<") || command === "macro") return true;
-	// If the message contains an invalid command and starts with a "/", try to process macros in it.
-	if (!game.settings.get("advanced-macros", "legacySlashCommand")) return true;
-	if (command === "invalid" && message.trim().startsWith("/")) {
-		const messageArray = message.slice(1).split(" ");
-		let macroName = messageArray[0];
-		let macro = game.macros.getName(macroName);
-		for (const token of messageArray.slice(1)) {
-			if (!macro) {
-				macroName += ` ${token}`;
-				macro = game.macros.getName(macroName);
-			}
-			if (macro) break;
-		}
-		if (macro) {
-			const [command, match, handler] = chatLog.constructor.parse(`/macro ${message.slice(1)}`);
-			handler.call(chatLog, command, match);
-			return false;
-		}
+function chatMessageHook(chatLog, message, chatData) {
+	let [command, match, handler] = chatLog.constructor.parse(message);
+	if (command === "invalid" && match[0].startsWith("/")) {
+		[command, match, handler] = chatLog.constructor.parse(`/macro ${match[0].slice(1)}`);
 	}
+	if (command === "macro") return handler.call(chatLog, command, match, chatData);
 	return true;
-});
+}
 
 function runWorldScripts(key) {
 	const worldScripts = game.macros.contents.filter(
