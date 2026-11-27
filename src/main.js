@@ -4,42 +4,25 @@ Hooks.once("init", () => {
 			preserveOnImport: ["_id", "sort", "ownership", "author"]
 		}, { inplace: false }));
 
-		canUserExecute(user) {
-			if (!this.testUserPermission(user, "LIMITED")) return false;
-			return this.type === "script" ? user.can("MACRO_SCRIPT") || (this.canRunAsGM && !user.isGM) : true;
-		}
-
-		/**
-		 * Defines whether a Macro can run as a GM.
-		 * For security reasons, only macros authored by the GM, and not editable by users
-		 * can be run as GM
-		 */
-		get canRunAsGM() {
-			const author = game.users.get(this.author?.id);
-			const permissions = foundry.utils.deepClone(this.ownership) || {};
-
-			for (const user of game.users.contents) {
-				if (user.isGM || user.id === author?.id) delete permissions[user.id];
-			}
-			const highestPermissionLevel = Math.max(...Object.values(permissions));
-			return author?.isGM && highestPermissionLevel < CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER;
-		}
-
-		async execute(scope = {}, callFromSocket = false) {
+		async execute(scope = {}, { promptApproval = false, callFromSocket = false } = {}) {
 			if (!this.canExecute) {
-				return ui.notifications.warn(`You do not have permission to execute Macro "${this.name}".`);
+				if ((this.type === "script") && !this.isApproved) {
+					ui.notifications.warn("MACRO.APPROVAL.Required", { format: { name: this.name } });
+					if (promptApproval && game.user.isGM) this.sheet.render({ force: true });
+				} else ui.notifications.warn(`You do not have permission to execute Macro "${this.name}".`);
+				return;
 			}
 			switch (this.type) {
 				case "chat":
-					return super.execute(scope);
+					return super.execute(scope, { promptApproval });
 				case "script": {
-					const queryData = { macro: this.id, scope };
+					const queryData = { macro: this.id, scope, promptApproval };
 					const runFor = this.getFlag("advanced-macros", "runForSpecificUser");
 					const runQuery = (user) => user.query("advanced-macros.executeMacro", queryData, { timeout: 30000 });
-					if (callFromSocket || !runFor || runFor === "runAsWorldScript" || runFor === "runAsWorldScriptSetup" || !this.canRunAsGM) {
-						return super.execute(scope);
+					if (callFromSocket || !runFor || runFor === "runAsWorldScript" || runFor === "runAsWorldScriptSetup") {
+						return super.execute(scope, { promptApproval });
 					} else if (runFor === "GM") {
-						if (game.users.activeGM?.isSelf) return super.execute(scope);
+						if (game.users.activeGM?.isSelf) return super.execute(scope, { promptApproval });
 						return runQuery(game.users.activeGM);
 					} else if (runFor === "runForEveryone") {
 						return game.users.filter((u) => u.active).forEach(runQuery);
@@ -70,8 +53,8 @@ Hooks.once("init", () => {
 		Hooks.on("chatMessage", chatMessageHook);
 	}
 	CONFIG.queries["advanced-macros.executeMacro"] = (queryData) => {
-		const { macro, scope } = queryData;
-		return game.macros.get(macro)?.execute(scope, true);
+		const { macro, scope, promptApproval } = queryData;
+		return game.macros.get(macro)?.execute(scope, { promptApproval, callFromSocket: true });
 	};
 });
 
@@ -102,8 +85,8 @@ Hooks.once("setup", () => runWorldScripts("runAsWorldScriptSetup"));
 
 Hooks.once("ready", () => {
 	Hooks.on("renderMacroConfig", (obj, html, data) => {
-		if (!game.user.isGM) return;
 		const macro = obj.document;
+		if (!game.user.isGM || !macro.isApproved) return;
 		// A re-render will cause the html object to be the internal element, which is the form itself.
 		const typeSelect = html.querySelector("select[name=type]");
 		const typeGroup = typeSelect.closest(".form-group");
@@ -137,15 +120,17 @@ Hooks.once("ready", () => {
 			blank: "",
 			labelAttr: "label",
 			localize: true,
-			disabled: !macro.canRunAsGM
+			disabled: !macro.isApproved
 		});
 
 		const specificOneDiv = document.createElement("div");
 		specificOneDiv.classList.add("form-group");
 		if (macro.type === "chat") specificOneDiv.style.display = "none";
 		specificOneDiv.innerHTML = `
+		<div class="form-fields">
 			<label>${game.i18n.localize("advanced-macros.MACROS.runForSpecificUser")}</label>
 			<div class="form-fields">${select.outerHTML}</div>
+		</div>
 		`;
 
 		typeGroup.after(specificOneDiv);

@@ -67,7 +67,7 @@
 	"socket": true,
 	"esmodules": ["main.js"],
 	"compatibility": {
-		"minimum": 14,
+		"minimum": 14.371,
 		"verified": 14
 	},
 	"url": "This is auto replaced",
