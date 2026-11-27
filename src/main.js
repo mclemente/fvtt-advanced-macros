@@ -29,7 +29,7 @@ Hooks.once("init", () => {
 					const queryData = { macro: this.id, scope, promptApproval };
 					const runFor = this.getFlag("advanced-macros", "runForSpecificUser");
 					const runQuery = (user) => user.query("advanced-macros.executeMacro", queryData, { timeout: 30000 });
-					if (callFromSocket || !runFor || runFor === "runAsWorldScript" || runFor === "runAsWorldScriptSetup") {
+					if (callFromSocket || !runFor || runFor === "runAsWorldScript" || runFor === "runAsWorldScriptSetup" || !this.canRunAsGM) {
 						return super.execute(scope, { promptApproval });
 					} else if (runFor === "GM") {
 						if (game.users.activeGM?.isSelf) return super.execute(scope, { promptApproval });
