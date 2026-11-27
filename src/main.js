@@ -1,8 +1,18 @@
 Hooks.once("init", () => {
 	class AdvancedMacro extends CONFIG.Macro.documentClass {
-		static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-			preserveOnImport: ["_id", "sort", "ownership", "author"]
-		}, { inplace: false }));
+		/**
+		 * Defines whether a Macro can run as a GM.
+		 * For security reasons, only macros authored by the GM, and not editable by users
+		 * can be run as GM
+		 */
+		get canRunAsGM() {
+			const { author } = this._source;
+			const { OWNER } = CONST.DOCUMENT_OWNERSHIP_LEVELS;
+			for (const [user, ownership] of Object.entries(this.ownership)) {
+				if (!game.users.get(user)?.isGM && ownership >= OWNER) return false;
+			}
+			return game.users.get(author)?.isGM;
+		}
 
 		async execute(scope = {}, { promptApproval = false, callFromSocket = false } = {}) {
 			if (!this.canExecute) {
@@ -120,7 +130,7 @@ Hooks.once("ready", () => {
 			blank: "",
 			labelAttr: "label",
 			localize: true,
-			disabled: !macro.isApproved
+			disabled: !macro.canRunAsGM
 		});
 
 		const specificOneDiv = document.createElement("div");
